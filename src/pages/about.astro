@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="About"
+  description="Learn more about this blog and what we write about - web development, JavaScript, modern frameworks, and technology insights."
+>
+  <div class="about-page">
+    <article class="about-content">
+      <h1>About Me</h1>
+
+      <p>
+        Welcome! I'm a passionate developer who loves to share knowledge and experiences
+        through writing. This blog is my personal space to document my journey, share
+        insights, and connect with like-minded individuals.
+      </p>
+
+      <h2>What I Write About</h2>
+      <ul>
+        <li>Web Development</li>
+        <li>JavaScript and TypeScript</li>
+        <li>Modern frameworks and tools</li>
+        <li>Best practices and design patterns</li>
+        <li>Personal projects and experiments</li>
+      </ul>
+
+      <h2>Connect</h2>
+      <p>
+        Thanks for visiting! This blog is a space to share knowledge, experiences, and
+        insights about web development and technology. Feel free to explore the articles
+        and learn something new.
+      </p>
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .about-page {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .about-content {
+    background: white;
+    padding: 3rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .about-content h1 {
+    font-size: 2.5rem;
+    color: #1a1a1a;
+    margin-bottom: 1.5rem;
+  }
+
+  .about-content h2 {
+    font-size: 1.8rem;
+    color: #1a1a1a;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .about-content p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #666;
+    margin-bottom: 1.5rem;
+  }
+
+  .about-content ul {
+    margin-left: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .about-content li {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #666;
+    margin-bottom: 0.5rem;
+  }
+</style>
