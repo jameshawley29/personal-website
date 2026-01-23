@@ -100,7 +100,6 @@ This site is optimized for Vercel deployment and will work out of the box:
 4. Click "Deploy" - that's it!
 
 The site includes:
-- Automatic sitemap generation
 - SEO-optimized meta tags
 - Security headers configured
 - Proper caching for static assets
@@ -112,10 +111,6 @@ This site can also be deployed to:
 - GitHub Pages
 - Cloudflare Pages
 - Any static hosting service
-
-### Environment Variables
-
-You can optionally set `SITE_URL` in your deployment environment to customize the canonical URL. By default, it will use your Vercel deployment URL.
 
 ## Learn More
 

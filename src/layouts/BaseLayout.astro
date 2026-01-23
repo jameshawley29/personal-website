@@ -4,9 +4,9 @@ interface Props {
   description?: string;
 }
 
-const { title, description = "A modern blog built with Astro - sharing insights on web development, programming, and technology" } = Astro.props;
+const { title = "Astro Blog", description = "A modern blog built with Astro - sharing insights on web development, programming, and technology" } = Astro.props;
 const siteName = "Astro Blog";
-const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
+const fullTitle = title && title.includes(siteName) ? title : `${title} | ${siteName}`;
 const siteUrl = Astro.site?.toString() || '';
 const canonicalURL = new URL(Astro.url.pathname, siteUrl);
 ---

@@ -4,12 +4,31 @@ import BaseLayout from './BaseLayout.astro';
 interface Props {
   title: string;
   description: string;
-  pubDate: Date;
+  pubDate: Date | string;
   author?: string;
 }
 
 const { title, description, pubDate, author = "Anonymous" } = Astro.props;
-const formattedDate = new Date(pubDate).toLocaleDateString('en-US', {
+
+// Handle date - could be Date object, string, or from frontmatter
+let dateObject: Date;
+if (!pubDate) {
+  // Fallback to current date if no date provided
+  dateObject = new Date();
+} else if (pubDate instanceof Date) {
+  dateObject = pubDate;
+} else {
+  // Convert string to date
+  dateObject = new Date(pubDate);
+}
+
+// Validate the date
+if (isNaN(dateObject.getTime())) {
+  console.error('Invalid date:', pubDate);
+  dateObject = new Date(); // Fallback to current date
+}
+
+const formattedDate = dateObject.toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',
   day: 'numeric'
@@ -21,7 +40,7 @@ const formattedDate = new Date(pubDate).toLocaleDateString('en-US', {
     <header class="post-header">
       <h1>{title}</h1>
       <div class="post-meta">
-        <time datetime={pubDate.toISOString()}>{formattedDate}</time>
+        <time datetime={dateObject.toISOString()}>{formattedDate}</time>
         <span class="separator">•</span>
         <span class="author">By {author}</span>
       </div>
