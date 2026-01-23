@@ -2,7 +2,10 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="About - My Blog">
+<BaseLayout
+  title="About"
+  description="Learn more about this blog and what we write about - web development, JavaScript, modern frameworks, and technology insights."
+>
   <div class="about-page">
     <article class="about-content">
       <h1>About Me</h1>
@@ -22,17 +25,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <li>Personal projects and experiments</li>
       </ul>
 
-      <h2>Get in Touch</h2>
+      <h2>Connect</h2>
       <p>
-        Feel free to reach out if you have any questions, suggestions, or just want to
-        connect. I'm always happy to chat about technology and development!
+        Thanks for visiting! This blog is a space to share knowledge, experiences, and
+        insights about web development and technology. Feel free to explore the articles
+        and learn something new.
       </p>
-
-      <div class="contact-links">
-        <a href="mailto:hello@example.com" class="contact-button">Email Me</a>
-        <a href="https://github.com" class="contact-button">GitHub</a>
-        <a href="https://twitter.com" class="contact-button">Twitter</a>
-      </div>
     </article>
   </div>
 </BaseLayout>
@@ -80,26 +78,5 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     line-height: 1.8;
     color: #666;
     margin-bottom: 0.5rem;
-  }
-
-  .contact-links {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
-  }
-
-  .contact-button {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    background: #6366f1;
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-    font-weight: 500;
-    transition: background 0.3s;
-  }
-
-  .contact-button:hover {
-    background: #4f46e5;
   }
 </style>

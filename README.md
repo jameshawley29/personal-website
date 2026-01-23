@@ -90,12 +90,32 @@ author: 'Your Name'
 
 ## Deployment
 
-This site can be deployed to any static hosting service:
+This site is optimized for Vercel deployment and will work out of the box:
 
+### Deploy to Vercel
+
+1. Push your code to GitHub
+2. Import your repository in Vercel
+3. Vercel will automatically detect Astro and configure the build settings
+4. Click "Deploy" - that's it!
+
+The site includes:
+- Automatic sitemap generation
+- SEO-optimized meta tags
+- Security headers configured
+- Proper caching for static assets
+
+### Other Hosting Options
+
+This site can also be deployed to:
 - Netlify
-- Vercel
 - GitHub Pages
 - Cloudflare Pages
+- Any static hosting service
+
+### Environment Variables
+
+You can optionally set `SITE_URL` in your deployment environment to customize the canonical URL. By default, it will use your Vercel deployment URL.
 
 ## Learn More
 
