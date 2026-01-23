@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BlogCard from '../components/BlogCard.astro';
+
+const allPosts = await Astro.glob('./blog/*.md');
+const sortedPosts = allPosts.sort((a, b) =>
+  new Date(b.frontmatter.pubDate).valueOf() - new Date(a.frontmatter.pubDate).valueOf()
+);
+const recentPosts = sortedPosts.slice(0, 3);
+---
+
+<BaseLayout title="Home - My Blog">
+  <section class="hero">
+    <h1>Welcome to My Blog</h1>
+    <p class="hero-description">
+      A place where I share my thoughts, experiences, and knowledge about web development,
+      technology, and more.
+    </p>
+  </section>
+
+  <section class="recent-posts">
+    <h2>Recent Posts</h2>
+    <div class="posts-grid">
+      {recentPosts.map((post) => (
+        <BlogCard
+          title={post.frontmatter.title}
+          description={post.frontmatter.description}
+          pubDate={new Date(post.frontmatter.pubDate)}
+          url={post.url || ''}
+        />
+      ))}
+    </div>
+    <div class="view-all">
+      <a href="/blog" class="button">View All Posts →</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 12px;
+    margin-bottom: 3rem;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .hero-description {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    opacity: 0.95;
+  }
+
+  .recent-posts h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .view-all {
+    text-align: center;
+  }
+
+  .button {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    background: #6366f1;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background 0.3s;
+  }
+
+  .button:hover {
+    background: #4f46e5;
+  }
+</style>

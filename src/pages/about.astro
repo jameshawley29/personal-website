@@ -1,0 +1,105 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About - My Blog">
+  <div class="about-page">
+    <article class="about-content">
+      <h1>About Me</h1>
+
+      <p>
+        Welcome! I'm a passionate developer who loves to share knowledge and experiences
+        through writing. This blog is my personal space to document my journey, share
+        insights, and connect with like-minded individuals.
+      </p>
+
+      <h2>What I Write About</h2>
+      <ul>
+        <li>Web Development</li>
+        <li>JavaScript and TypeScript</li>
+        <li>Modern frameworks and tools</li>
+        <li>Best practices and design patterns</li>
+        <li>Personal projects and experiments</li>
+      </ul>
+
+      <h2>Get in Touch</h2>
+      <p>
+        Feel free to reach out if you have any questions, suggestions, or just want to
+        connect. I'm always happy to chat about technology and development!
+      </p>
+
+      <div class="contact-links">
+        <a href="mailto:hello@example.com" class="contact-button">Email Me</a>
+        <a href="https://github.com" class="contact-button">GitHub</a>
+        <a href="https://twitter.com" class="contact-button">Twitter</a>
+      </div>
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .about-page {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .about-content {
+    background: white;
+    padding: 3rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .about-content h1 {
+    font-size: 2.5rem;
+    color: #1a1a1a;
+    margin-bottom: 1.5rem;
+  }
+
+  .about-content h2 {
+    font-size: 1.8rem;
+    color: #1a1a1a;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .about-content p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #666;
+    margin-bottom: 1.5rem;
+  }
+
+  .about-content ul {
+    margin-left: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .about-content li {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #666;
+    margin-bottom: 0.5rem;
+  }
+
+  .contact-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .contact-button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: #6366f1;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background 0.3s;
+  }
+
+  .contact-button:hover {
+    background: #4f46e5;
+  }
+</style>
