@@ -4,8 +4,8 @@ interface Props {
   description?: string;
 }
 
-const { title = "The Journal", description = "Thoughtful writing on web development, programming, and technology" } = Astro.props;
-const siteName = "The Journal";
+const { title = "James Hawley", description = "Writing on technology, economics, and ideas" } = Astro.props;
+const siteName = "James Hawley";
 const fullTitle = title && title.includes(siteName) ? title : `${title} | ${siteName}`;
 const siteUrl = Astro.site?.toString() || '';
 const canonicalURL = new URL(Astro.url.pathname, siteUrl);
@@ -43,8 +43,16 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
       <nav>
         <a href="/" class="logo">{siteName}</a>
         <div class="nav-links">
-          <a href="/">Home</a>
-          <a href="/blog">Articles</a>
+          <div class="nav-dropdown">
+            <span class="nav-dropdown-trigger">Writing</span>
+            <div class="nav-dropdown-menu">
+              <a href="/tech">Technology</a>
+              <a href="/economics">Economics</a>
+              <a href="/books">Book Reviews</a>
+              <a href="/projects">Projects</a>
+              <a href="/thoughts">Thoughts</a>
+            </div>
+          </div>
           <a href="/about">About</a>
         </div>
       </nav>
@@ -54,13 +62,38 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
     </main>
     <footer>
       <div class="footer-content">
-        <p class="copyright">&copy; {new Date().getFullYear()} {siteName}</p>
+        <div class="footer-links">
+          <a href="/tech">Tech</a>
+          <span class="footer-divider"></span>
+          <a href="/economics">Economics</a>
+          <span class="footer-divider"></span>
+          <a href="/books">Books</a>
+          <span class="footer-divider"></span>
+          <a href="/projects">Projects</a>
+          <span class="footer-divider"></span>
+          <a href="/thoughts">Thoughts</a>
+        </div>
+        <p class="copyright">&copy; {new Date().getFullYear()} {siteName}. CS & Economics at UVA.</p>
       </div>
     </footer>
   </body>
 </html>
 
 <style is:global>
+  :root {
+    --uva-blue: #232D4B;
+    --uva-blue-light: #3a4a6b;
+    --uva-orange: #E57200;
+    --uva-orange-muted: #c96500;
+    --text-primary: #1a1a1a;
+    --text-secondary: #4a4a4a;
+    --text-muted: #6b6b6b;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f8f7;
+    --border-light: #e5e5e5;
+    --border-medium: #d0d0d0;
+  }
+
   * {
     margin: 0;
     padding: 0;
@@ -70,19 +103,23 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     line-height: 1.7;
-    color: #1a1a1a;
-    background-color: #fff;
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
     font-size: 17px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   header {
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 2px solid var(--uva-blue);
+    background: var(--bg-primary);
+    position: sticky;
+    top: 0;
+    z-index: 100;
   }
 
   nav {
-    max-width: 740px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 1.25rem 1.5rem;
     display: flex;
@@ -92,56 +129,151 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
 
   .logo {
     font-family: Georgia, 'Times New Roman', serif;
-    font-size: 1.375rem;
+    font-size: 1.5rem;
     font-weight: 700;
-    color: #1a1a1a;
+    color: var(--uva-blue);
     text-decoration: none;
     letter-spacing: -0.02em;
   }
 
   .logo:hover {
-    color: #1a1a1a;
+    color: var(--uva-blue-light);
   }
 
   .nav-links {
     display: flex;
-    gap: 2rem;
+    gap: 2.5rem;
+    align-items: center;
   }
 
-  .nav-links a {
-    color: #666;
+  .nav-links > a {
+    color: var(--text-secondary);
     text-decoration: none;
     font-size: 0.9375rem;
     letter-spacing: 0.01em;
     transition: color 0.15s ease;
+    font-weight: 500;
   }
 
-  .nav-links a:hover {
-    color: #1a1a1a;
+  .nav-links > a:hover {
+    color: var(--uva-blue);
+  }
+
+  .nav-dropdown {
+    position: relative;
+  }
+
+  .nav-dropdown-trigger {
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+    letter-spacing: 0.01em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.15s ease;
+  }
+
+  .nav-dropdown-trigger::after {
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid currentColor;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  .nav-dropdown:hover .nav-dropdown-trigger {
+    color: var(--uva-blue);
+  }
+
+  .nav-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 0.5rem 0;
+    min-width: 160px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease, visibility 0.15s ease;
+    margin-top: 0.5rem;
+  }
+
+  .nav-dropdown:hover .nav-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav-dropdown-menu a {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .nav-dropdown-menu a:hover {
+    background: var(--bg-secondary);
+    color: var(--uva-blue);
   }
 
   main {
-    max-width: 740px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 3rem 1.5rem;
-    min-height: calc(100vh - 180px);
+    min-height: calc(100vh - 200px);
   }
 
   footer {
-    border-top: 1px solid #e5e5e5;
+    border-top: 2px solid var(--uva-blue);
+    background: var(--bg-secondary);
     margin-top: 4rem;
   }
 
   .footer-content {
-    max-width: 740px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 2rem 1.5rem;
     text-align: center;
   }
 
-  .copyright {
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
     font-size: 0.875rem;
-    color: #999;
+    transition: color 0.15s ease;
+  }
+
+  .footer-links a:hover {
+    color: var(--uva-blue);
+  }
+
+  .footer-divider {
+    width: 3px;
+    height: 3px;
+    background: var(--border-medium);
+    border-radius: 50%;
+  }
+
+  .copyright {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -149,7 +281,7 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
     font-weight: 700;
     line-height: 1.25;
     letter-spacing: -0.02em;
-    color: #1a1a1a;
+    color: var(--text-primary);
     margin-bottom: 1rem;
   }
 
@@ -158,17 +290,44 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
   }
 
   a {
-    color: #1a1a1a;
+    color: var(--uva-blue);
     text-decoration: underline;
     text-underline-offset: 2px;
   }
 
   a:hover {
-    text-decoration: none;
+    color: var(--uva-blue-light);
   }
 
   ::selection {
-    background: #1a1a1a;
+    background: var(--uva-blue);
     color: #fff;
+  }
+
+  .category-tag {
+    display: inline-block;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    background: var(--bg-secondary);
+    color: var(--uva-blue);
+    border: 1px solid var(--border-light);
+    text-decoration: none;
+  }
+
+  .category-tag:hover {
+    background: var(--uva-blue);
+    color: white;
+    border-color: var(--uva-blue);
+  }
+
+  .accent-bar {
+    width: 40px;
+    height: 3px;
+    background: var(--uva-orange);
+    margin-bottom: 1.5rem;
   }
 </style>

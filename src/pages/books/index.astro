@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+
+const allPosts = await Astro.glob('./*.md');
+const sortedPosts = allPosts.sort((a, b) =>
+  new Date(b.frontmatter.pubDate).valueOf() - new Date(a.frontmatter.pubDate).valueOf()
+);
+---
+
+<BaseLayout
+  title="Book Reviews"
+  description="Reviews and reflections on books about technology, economics, and ideas."
+>
+  <section class="category-page">
+    <header class="category-header">
+      <div class="accent-bar"></div>
+      <h1>Book Reviews</h1>
+      <p class="category-description">
+        Reviews and reflections on books that have shaped my thinking about technology, economics, business, and ideas.
+      </p>
+    </header>
+
+    <div class="articles">
+      {sortedPosts.length > 0 ? (
+        sortedPosts.map((post) => (
+          <BlogCard
+            title={post.frontmatter.title}
+            description={post.frontmatter.description}
+            pubDate={new Date(post.frontmatter.pubDate)}
+            url={post.url || ''}
+            category="books"
+          />
+        ))
+      ) : (
+        <p class="no-posts">No reviews yet. Check back soon.</p>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .category-page {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .category-header {
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border-light);
+    margin-bottom: 2rem;
+  }
+
+  .category-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    letter-spacing: -0.03em;
+  }
+
+  .category-description {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 0;
+  }
+
+  .no-posts {
+    color: var(--text-muted);
+    font-style: italic;
+  }
+</style>
