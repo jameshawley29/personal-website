@@ -6,9 +6,20 @@ interface Props {
   description: string;
   pubDate: Date | string;
   author?: string;
+  category?: 'tech' | 'economics' | 'books' | 'projects' | 'thoughts';
 }
 
-const { title, description, pubDate, author = "Anonymous" } = Astro.props;
+const { title, description, pubDate, author = "James Hawley", category } = Astro.props;
+
+const categoryMap = {
+  tech: { label: 'Technology', href: '/tech' },
+  economics: { label: 'Economics', href: '/economics' },
+  books: { label: 'Book Review', href: '/books' },
+  projects: { label: 'Project', href: '/projects' },
+  thoughts: { label: 'Thoughts', href: '/thoughts' }
+};
+
+const categoryInfo = category ? categoryMap[category] : null;
 
 let dateObject: Date;
 if (!pubDate) {
@@ -34,7 +45,12 @@ const formattedDate = dateObject.toLocaleDateString('en-US', {
 <BaseLayout title={title} description={description}>
   <article class="article">
     <header class="article-header">
-      <time datetime={dateObject.toISOString()}>{formattedDate}</time>
+      <div class="article-meta">
+        {categoryInfo && (
+          <a href={categoryInfo.href} class="category-tag">{categoryInfo.label}</a>
+        )}
+        <time datetime={dateObject.toISOString()}>{formattedDate}</time>
+      </div>
       <h1>{title}</h1>
       <p class="byline">By {author}</p>
     </header>
@@ -42,7 +58,7 @@ const formattedDate = dateObject.toLocaleDateString('en-US', {
       <slot />
     </div>
     <footer class="article-footer">
-      <a href="/blog" class="back-link">&larr; All articles</a>
+      <a href={categoryInfo?.href || '/'} class="back-link">&larr; {categoryInfo ? `All ${categoryInfo.label}` : 'Home'}</a>
     </footer>
   </article>
 </BaseLayout>
@@ -56,14 +72,19 @@ const formattedDate = dateObject.toLocaleDateString('en-US', {
   .article-header {
     margin-bottom: 2.5rem;
     padding-bottom: 2rem;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .article-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
   }
 
   .article-header time {
-    display: block;
     font-size: 0.875rem;
-    color: #666;
-    margin-bottom: 0.75rem;
+    color: var(--text-muted);
     letter-spacing: 0.02em;
     text-transform: uppercase;
   }
@@ -77,7 +98,7 @@ const formattedDate = dateObject.toLocaleDateString('en-US', {
 
   .byline {
     font-size: 1rem;
-    color: #666;
+    color: var(--text-muted);
     margin-bottom: 0;
   }
 
@@ -106,13 +127,13 @@ const formattedDate = dateObject.toLocaleDateString('en-US', {
   .article-content :global(code) {
     font-family: 'SF Mono', Menlo, Monaco, 'Courier New', monospace;
     font-size: 0.9em;
-    background: #f5f5f5;
+    background: var(--bg-secondary);
     padding: 0.15rem 0.35rem;
     border-radius: 3px;
   }
 
   .article-content :global(pre) {
-    background: #1a1a1a;
+    background: var(--uva-blue);
     padding: 1.25rem 1.5rem;
     border-radius: 4px;
     overflow-x: auto;
@@ -138,11 +159,11 @@ const formattedDate = dateObject.toLocaleDateString('en-US', {
   }
 
   .article-content :global(blockquote) {
-    border-left: 3px solid #1a1a1a;
+    border-left: 3px solid var(--uva-orange);
     padding-left: 1.25rem;
     margin: 1.75rem 0;
     font-style: italic;
-    color: #444;
+    color: var(--text-secondary);
   }
 
   .article-content :global(blockquote p) {
@@ -157,24 +178,24 @@ const formattedDate = dateObject.toLocaleDateString('en-US', {
 
   .article-content :global(hr) {
     border: none;
-    border-top: 1px solid #e5e5e5;
+    border-top: 1px solid var(--border-light);
     margin: 2.5rem 0;
   }
 
   .article-footer {
     margin-top: 3rem;
     padding-top: 2rem;
-    border-top: 1px solid #e5e5e5;
+    border-top: 1px solid var(--border-light);
   }
 
   .back-link {
     font-size: 0.9375rem;
-    color: #666;
+    color: var(--text-muted);
     text-decoration: none;
     transition: color 0.15s ease;
   }
 
   .back-link:hover {
-    color: #1a1a1a;
+    color: var(--uva-blue);
   }
 </style>
