@@ -11,19 +11,18 @@ const recentPosts = sortedPosts.slice(0, 3);
 
 <BaseLayout
   title="Home"
-  description="Explore articles about web development, programming, and technology. Learn about modern frameworks, best practices, and developer insights."
+  description="Thoughtful writing on web development, programming, and technology."
 >
-  <section class="hero">
-    <h1>Welcome to Astro Blog</h1>
-    <p class="hero-description">
-      Explore insights on web development, modern JavaScript frameworks, and best practices.
-      Start your journey to becoming a better developer.
+  <section class="intro">
+    <h1>The Journal</h1>
+    <p class="tagline">
+      Thoughtful writing on web development, modern frameworks, and the craft of building for the web.
     </p>
   </section>
 
-  <section class="recent-posts">
-    <h2>Recent Posts</h2>
-    <div class="posts-grid">
+  <section class="latest">
+    <h2>Latest</h2>
+    <div class="articles">
       {recentPosts.map((post) => (
         <BlogCard
           title={post.frontmatter.title}
@@ -33,63 +32,59 @@ const recentPosts = sortedPosts.slice(0, 3);
         />
       ))}
     </div>
-    <div class="view-all">
-      <a href="/blog" class="button">View All Posts →</a>
+    <div class="all-articles">
+      <a href="/blog">View all articles &rarr;</a>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  .hero {
-    text-align: center;
-    padding: 4rem 2rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border-radius: 12px;
+  .intro {
+    padding-bottom: 3rem;
+    border-bottom: 1px solid #e5e5e5;
     margin-bottom: 3rem;
   }
 
-  .hero h1 {
+  .intro h1 {
     font-size: 3rem;
     margin-bottom: 1rem;
+    letter-spacing: -0.03em;
   }
 
-  .hero-description {
-    font-size: 1.2rem;
-    max-width: 600px;
-    margin: 0 auto;
-    opacity: 0.95;
+  .tagline {
+    font-size: 1.25rem;
+    color: #666;
+    line-height: 1.5;
+    max-width: 540px;
+    margin-bottom: 0;
   }
 
-  .recent-posts h2 {
-    font-size: 2rem;
+  .latest h2 {
+    font-size: 0.8125rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #999;
+    margin-bottom: 1.5rem;
+  }
+
+  .articles {
     margin-bottom: 2rem;
-    text-align: center;
   }
 
-  .posts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-bottom: 2rem;
+  .all-articles {
+    padding-top: 1rem;
   }
 
-  .view-all {
-    text-align: center;
-  }
-
-  .button {
-    display: inline-block;
-    padding: 0.75rem 2rem;
-    background: #6366f1;
-    color: white;
+  .all-articles a {
+    font-size: 0.9375rem;
+    color: #666;
     text-decoration: none;
-    border-radius: 6px;
-    font-weight: 500;
-    transition: background 0.3s;
+    transition: color 0.15s ease;
   }
 
-  .button:hover {
-    background: #4f46e5;
+  .all-articles a:hover {
+    color: #1a1a1a;
   }
 </style>

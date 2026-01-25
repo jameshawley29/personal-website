@@ -4,79 +4,76 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <BaseLayout
   title="About"
-  description="Learn more about this blog and what we write about - web development, JavaScript, modern frameworks, and technology insights."
+  description="Learn more about this journal and what we write about - web development, JavaScript, modern frameworks, and technology."
 >
-  <div class="about-page">
-    <article class="about-content">
-      <h1>About Me</h1>
+  <article class="about">
+    <header class="about-header">
+      <h1>About</h1>
+    </header>
 
+    <div class="about-content">
       <p>
-        Welcome! I'm a passionate developer who loves to share knowledge and experiences
-        through writing. This blog is my personal space to document my journey, share
-        insights, and connect with like-minded individuals.
+        Welcome. I'm a developer who believes in the power of clear writing and thoughtful
+        documentation. This journal is a space to share knowledge, explore ideas, and connect
+        with others who care about building things well.
       </p>
 
-      <h2>What I Write About</h2>
-      <ul>
-        <li>Web Development</li>
-        <li>JavaScript and TypeScript</li>
-        <li>Modern frameworks and tools</li>
-        <li>Best practices and design patterns</li>
-        <li>Personal projects and experiments</li>
-      </ul>
+      <h2>Topics</h2>
+      <p>
+        Here you'll find writing on web development, JavaScript and TypeScript, modern frameworks
+        and tooling, software design patterns, and occasional explorations of projects and experiments.
+      </p>
+
+      <h2>Philosophy</h2>
+      <p>
+        Good writing clarifies thinking. Whether documenting a technical solution or exploring
+        a new concept, the goal is always clarity and usefulness. No fluff, just substance.
+      </p>
 
       <h2>Connect</h2>
       <p>
-        Thanks for visiting! This blog is a space to share knowledge, experiences, and
-        insights about web development and technology. Feel free to explore the articles
-        and learn something new.
+        Thank you for reading. Feel free to explore the articles and reach out if something resonates.
       </p>
-    </article>
-  </div>
+    </div>
+  </article>
 </BaseLayout>
 
 <style>
-  .about-page {
-    max-width: 800px;
+  .about {
+    max-width: 680px;
     margin: 0 auto;
   }
 
-  .about-content {
-    background: white;
-    padding: 3rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  .about-header {
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 2.5rem;
   }
 
-  .about-content h1 {
+  .about-header h1 {
     font-size: 2.5rem;
-    color: #1a1a1a;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0;
+    letter-spacing: -0.03em;
   }
 
-  .about-content h2 {
-    font-size: 1.8rem;
-    color: #1a1a1a;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
+  .about-content {
+    font-size: 1.125rem;
+    line-height: 1.8;
   }
 
   .about-content p {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: #666;
-    margin-bottom: 1.5rem;
+    color: #333;
+    margin-bottom: 1.75rem;
   }
 
-  .about-content ul {
-    margin-left: 2rem;
-    margin-bottom: 1.5rem;
+  .about-content h2 {
+    font-size: 1.375rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    letter-spacing: -0.01em;
   }
 
-  .about-content li {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: #666;
-    margin-bottom: 0.5rem;
+  .about-content h2:first-of-type {
+    margin-top: 0;
   }
 </style>

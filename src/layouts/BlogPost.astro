@@ -10,22 +10,18 @@ interface Props {
 
 const { title, description, pubDate, author = "Anonymous" } = Astro.props;
 
-// Handle date - could be Date object, string, or from frontmatter
 let dateObject: Date;
 if (!pubDate) {
-  // Fallback to current date if no date provided
   dateObject = new Date();
 } else if (pubDate instanceof Date) {
   dateObject = pubDate;
 } else {
-  // Convert string to date
   dateObject = new Date(pubDate);
 }
 
-// Validate the date
 if (isNaN(dateObject.getTime())) {
   console.error('Invalid date:', pubDate);
-  dateObject = new Date(); // Fallback to current date
+  dateObject = new Date();
 }
 
 const formattedDate = dateObject.toLocaleDateString('en-US', {
@@ -36,134 +32,149 @@ const formattedDate = dateObject.toLocaleDateString('en-US', {
 ---
 
 <BaseLayout title={title} description={description}>
-  <article class="blog-post">
-    <header class="post-header">
+  <article class="article">
+    <header class="article-header">
+      <time datetime={dateObject.toISOString()}>{formattedDate}</time>
       <h1>{title}</h1>
-      <div class="post-meta">
-        <time datetime={dateObject.toISOString()}>{formattedDate}</time>
-        <span class="separator">•</span>
-        <span class="author">By {author}</span>
-      </div>
+      <p class="byline">By {author}</p>
     </header>
-    <div class="post-content">
+    <div class="article-content">
       <slot />
     </div>
-    <footer class="post-footer">
-      <a href="/blog" class="back-link">← Back to Blog</a>
+    <footer class="article-footer">
+      <a href="/blog" class="back-link">&larr; All articles</a>
     </footer>
   </article>
 </BaseLayout>
 
 <style>
-  .blog-post {
-    background: white;
-    padding: 3rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    max-width: 800px;
+  .article {
+    max-width: 680px;
     margin: 0 auto;
   }
 
-  .post-header {
-    margin-bottom: 2rem;
+  .article-header {
+    margin-bottom: 2.5rem;
     padding-bottom: 2rem;
-    border-bottom: 2px solid #f0f0f0;
+    border-bottom: 1px solid #e5e5e5;
   }
 
-  .post-header h1 {
-    font-size: 2.5rem;
-    color: #1a1a1a;
-    margin-bottom: 1rem;
-  }
-
-  .post-meta {
+  .article-header time {
+    display: block;
+    font-size: 0.875rem;
     color: #666;
-    font-size: 0.95rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
   }
 
-  .separator {
-    color: #ccc;
+  .article-header h1 {
+    font-size: 2.5rem;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+    letter-spacing: -0.03em;
   }
 
-  .post-content {
-    font-size: 1.1rem;
+  .byline {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 0;
+  }
+
+  .article-content {
+    font-size: 1.125rem;
     line-height: 1.8;
   }
 
-  .post-content :global(h2) {
-    font-size: 1.8rem;
-    margin-top: 2rem;
+  .article-content :global(h2) {
+    font-size: 1.625rem;
+    margin-top: 2.5rem;
     margin-bottom: 1rem;
-    color: #1a1a1a;
+    letter-spacing: -0.02em;
   }
 
-  .post-content :global(h3) {
-    font-size: 1.4rem;
-    margin-top: 1.5rem;
+  .article-content :global(h3) {
+    font-size: 1.25rem;
+    margin-top: 2rem;
     margin-bottom: 0.75rem;
-    color: #1a1a1a;
   }
 
-  .post-content :global(p) {
+  .article-content :global(p) {
     margin-bottom: 1.5rem;
   }
 
-  .post-content :global(code) {
-    background: #f5f5f5;
-    padding: 0.2rem 0.4rem;
-    border-radius: 3px;
+  .article-content :global(code) {
+    font-family: 'SF Mono', Menlo, Monaco, 'Courier New', monospace;
     font-size: 0.9em;
-    font-family: 'Courier New', monospace;
+    background: #f5f5f5;
+    padding: 0.15rem 0.35rem;
+    border-radius: 3px;
   }
 
-  .post-content :global(pre) {
-    background: #1e1e1e;
-    padding: 1rem;
-    border-radius: 5px;
+  .article-content :global(pre) {
+    background: #1a1a1a;
+    padding: 1.25rem 1.5rem;
+    border-radius: 4px;
     overflow-x: auto;
-    margin: 1.5rem 0;
+    margin: 1.75rem 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
   }
 
-  .post-content :global(pre code) {
+  .article-content :global(pre code) {
     background: transparent;
     padding: 0;
-    color: #fff;
+    color: #e5e5e5;
   }
 
-  .post-content :global(ul), .post-content :global(ol) {
-    margin-left: 2rem;
+  .article-content :global(ul),
+  .article-content :global(ol) {
+    margin-left: 1.5rem;
     margin-bottom: 1.5rem;
   }
 
-  .post-content :global(li) {
+  .article-content :global(li) {
     margin-bottom: 0.5rem;
   }
 
-  .post-content :global(blockquote) {
-    border-left: 4px solid #6366f1;
-    padding-left: 1rem;
-    margin: 1.5rem 0;
-    color: #666;
+  .article-content :global(blockquote) {
+    border-left: 3px solid #1a1a1a;
+    padding-left: 1.25rem;
+    margin: 1.75rem 0;
     font-style: italic;
+    color: #444;
   }
 
-  .post-footer {
+  .article-content :global(blockquote p) {
+    margin-bottom: 0;
+  }
+
+  .article-content :global(img) {
+    max-width: 100%;
+    height: auto;
+    margin: 2rem 0;
+  }
+
+  .article-content :global(hr) {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 2.5rem 0;
+  }
+
+  .article-footer {
     margin-top: 3rem;
     padding-top: 2rem;
-    border-top: 2px solid #f0f0f0;
+    border-top: 1px solid #e5e5e5;
   }
 
   .back-link {
-    color: #6366f1;
+    font-size: 0.9375rem;
+    color: #666;
     text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s;
+    transition: color 0.15s ease;
   }
 
   .back-link:hover {
-    color: #4f46e5;
+    color: #1a1a1a;
   }
 </style>
