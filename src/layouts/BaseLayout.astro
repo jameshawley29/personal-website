@@ -115,7 +115,8 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
     background: var(--bg-primary);
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 1000;
+    isolation: isolate;
   }
 
   nav {
@@ -229,12 +230,17 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
     margin: 0 auto;
     padding: 3rem 1.5rem;
     min-height: calc(100vh - 200px);
+    position: relative;
+    z-index: 1;
+    background: var(--bg-primary);
   }
 
   footer {
     border-top: 2px solid var(--uva-blue);
     background: var(--bg-secondary);
     margin-top: 4rem;
+    position: relative;
+    z-index: 1;
   }
 
   .footer-content {
