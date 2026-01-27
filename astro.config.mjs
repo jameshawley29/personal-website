@@ -8,5 +8,8 @@ export default defineConfig({
       theme: 'dracula',
       wrap: true
     }
+  },
+  experimental: {
+    viewTransitions: true
   }
 });

@@ -1,22 +1,28 @@
 ---
-import BaseLayout from './BaseLayout.astro';
+import BaseLayout from "./BaseLayout.astro";
 
 interface Props {
   title: string;
   description: string;
   pubDate: Date | string;
   author?: string;
-  category?: 'tech' | 'economics' | 'books' | 'projects' | 'thoughts';
+  category?: "tech" | "economics" | "books" | "projects" | "thoughts";
 }
 
-const { title, description, pubDate, author = "James Hawley", category } = Astro.props;
+const {
+  title,
+  description,
+  pubDate,
+  author = "James Hawley",
+  category,
+} = Astro.props;
 
 const categoryMap = {
-  tech: { label: 'Technology', href: '/tech' },
-  economics: { label: 'Economics', href: '/economics' },
-  books: { label: 'Book Review', href: '/books' },
-  projects: { label: 'Project', href: '/projects' },
-  thoughts: { label: 'Thoughts', href: '/thoughts' }
+  tech: { label: "Technology", href: "/tech" },
+  economics: { label: "Economics", href: "/economics" },
+  books: { label: "Book Review", href: "/books" },
+  projects: { label: "Project", href: "/projects" },
+  thoughts: { label: "Thoughts", href: "/thoughts" },
 };
 
 const categoryInfo = category ? categoryMap[category] : null;
@@ -31,14 +37,14 @@ if (!pubDate) {
 }
 
 if (isNaN(dateObject.getTime())) {
-  console.error('Invalid date:', pubDate);
+  console.error("Invalid date:", pubDate);
   dateObject = new Date();
 }
 
-const formattedDate = dateObject.toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric'
+const formattedDate = dateObject.toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
 });
 ---
 
@@ -46,9 +52,13 @@ const formattedDate = dateObject.toLocaleDateString('en-US', {
   <article class="article">
     <header class="article-header">
       <div class="article-meta">
-        {categoryInfo && (
-          <a href={categoryInfo.href} class="category-tag">{categoryInfo.label}</a>
-        )}
+        {
+          categoryInfo && (
+            <a href={categoryInfo.href} class="category-tag">
+              {categoryInfo.label}
+            </a>
+          )
+        }
         <time datetime={dateObject.toISOString()}>{formattedDate}</time>
       </div>
       <h1>{title}</h1>
@@ -58,7 +68,9 @@ const formattedDate = dateObject.toLocaleDateString('en-US', {
       <slot />
     </div>
     <footer class="article-footer">
-      <a href={categoryInfo?.href || '/'} class="back-link">&larr; {categoryInfo ? `All ${categoryInfo.label}` : 'Home'}</a>
+      <a href={categoryInfo?.href || "/"} class="back-link"
+        >&larr; {categoryInfo ? `All ${categoryInfo.label}` : "Home"}</a
+      >
     </footer>
   </article>
 </BaseLayout>
@@ -90,96 +102,144 @@ const formattedDate = dateObject.toLocaleDateString('en-US', {
   }
 
   .article-header h1 {
-    font-size: 2.5rem;
+    font-size: clamp(2rem, 5vw, 2.75rem);
     line-height: 1.15;
     margin-bottom: 1rem;
     letter-spacing: -0.03em;
+    font-weight: 700;
+    color: var(--text-primary);
   }
 
   .byline {
     font-size: 1rem;
     color: var(--text-muted);
     margin-bottom: 0;
+    font-style: italic;
   }
 
   .article-content {
-    font-size: 1.125rem;
+    font-size: clamp(1.0625rem, 1.5vw, 1.125rem);
     line-height: 1.8;
+    color: var(--text-primary);
   }
 
   .article-content :global(h2) {
-    font-size: 1.625rem;
-    margin-top: 2.5rem;
-    margin-bottom: 1rem;
+    font-size: clamp(1.5rem, 3vw, 1.875rem);
+    margin-top: 3rem;
+    margin-bottom: 1.25rem;
     letter-spacing: -0.02em;
+    font-weight: 700;
+    color: var(--text-primary);
+    position: relative;
+  }
+
+  .article-content :global(h2::before) {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -0.5rem;
+    width: 40px;
+    height: 3px;
+    background: var(--uva-orange);
   }
 
   .article-content :global(h3) {
-    font-size: 1.25rem;
-    margin-top: 2rem;
-    margin-bottom: 0.75rem;
+    font-size: clamp(1.125rem, 2.5vw, 1.375rem);
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
   }
 
   .article-content :global(p) {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.75rem;
   }
 
   .article-content :global(code) {
-    font-family: 'SF Mono', Menlo, Monaco, 'Courier New', monospace;
+    font-family: "SF Mono", Menlo, Monaco, "Courier New", monospace;
     font-size: 0.9em;
     background: var(--bg-secondary);
-    padding: 0.15rem 0.35rem;
-    border-radius: 3px;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    color: var(--text-primary);
+    border: 1px solid var(--border-light);
   }
 
   .article-content :global(pre) {
     background: var(--uva-blue);
-    padding: 1.25rem 1.5rem;
-    border-radius: 4px;
+    padding: 1.5rem;
+    border-radius: 8px;
     overflow-x: auto;
-    margin: 1.75rem 0;
+    margin: 2rem 0;
     font-size: 0.9rem;
     line-height: 1.6;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
   .article-content :global(pre code) {
     background: transparent;
     padding: 0;
     color: #e5e5e5;
+    border: none;
   }
 
   .article-content :global(ul),
   .article-content :global(ol) {
     margin-left: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    padding-left: 0.5rem;
   }
 
   .article-content :global(li) {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.75;
+  }
+
+  .article-content :global(li::marker) {
+    color: var(--uva-orange);
   }
 
   .article-content :global(blockquote) {
-    border-left: 3px solid var(--uva-orange);
-    padding-left: 1.25rem;
-    margin: 1.75rem 0;
+    border-left: 4px solid var(--uva-orange);
+    padding: 1rem 1.5rem;
+    margin: 2.5rem 0;
     font-style: italic;
     color: var(--text-secondary);
+    background: var(--bg-secondary);
+    border-radius: 0 4px 4px 0;
+    font-size: 1.0625rem;
   }
 
   .article-content :global(blockquote p) {
     margin-bottom: 0;
   }
 
+  .article-content :global(a) {
+    color: var(--uva-blue);
+    text-decoration: underline;
+    text-decoration-color: var(--uva-orange);
+    text-underline-offset: 3px;
+    transition: all 0.2s ease;
+  }
+
+  .article-content :global(a:hover) {
+    color: var(--uva-orange);
+    text-decoration-color: var(--uva-blue);
+  }
+
   .article-content :global(img) {
     max-width: 100%;
     height: auto;
-    margin: 2rem 0;
+    margin: 2.5rem 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 
   .article-content :global(hr) {
     border: none;
-    border-top: 1px solid var(--border-light);
-    margin: 2.5rem 0;
+    border-top: 2px solid var(--border-light);
+    margin: 3rem 0;
+    opacity: 0.6;
   }
 
   .article-footer {
@@ -197,5 +257,47 @@ const formattedDate = dateObject.toLocaleDateString('en-US', {
 
   .back-link:hover {
     color: var(--uva-blue);
+  }
+
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .article {
+      max-width: 100%;
+    }
+
+    .article-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+    }
+
+    .article-header h1 {
+      font-size: 1.75rem;
+    }
+
+    .article-content {
+      font-size: 1.0625rem;
+    }
+
+    .article-content :global(h2) {
+      font-size: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .article-content :global(h3) {
+      font-size: 1.25rem;
+      margin-top: 1.75rem;
+    }
+
+    .article-content :global(pre) {
+      padding: 1rem;
+      margin: 1.5rem -0.5rem;
+      border-radius: 0;
+      font-size: 0.85rem;
+    }
+
+    .article-content :global(blockquote) {
+      padding: 0.75rem 1rem;
+      margin: 2rem -0.5rem;
+    }
   }
 </style>
