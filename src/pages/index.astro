@@ -4,41 +4,50 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <BaseLayout
   title="James Hawley"
-  description="Personal writing on technology, economics, and ideas. CS & Economics at UVA."
+  description="Student at University of Virginia studying Computer Science and Economics. Writing on technology, economics, and monetary policy."
 >
   <section class="intro">
     <p class="lead">
-      I'm <strong>James Hawley</strong>, a Computer Science and Economics student at the
-      <strong>University of Virginia</strong>.
+      I'm <strong>James Hawley</strong>, a student at the University of Virginia studying Computer Science and Economics.
     </p>
     <p>
-      I write about technology, economics, and the ideas that sit at their intersection.
-      I'm particularly interested in monetary policy, software engineering, and how
-      technology reshapes markets.
+      I'm interested in technology, economics, monetary policy, and software engineering. I write about the ideas that sit at these intersections.
     </p>
     <p>
-      Currently based in Charlottesville, Virginia.
+      Based in Charlottesville, Virginia.
     </p>
   </section>
 
-  <section class="contact-links">
+  <div class="contact-links">
     <a href="mailto:jameshawley@email.virginia.edu">Email</a>
     <span class="divider">/</span>
     <a href="https://www.linkedin.com/in/james-m-hawley/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
     <span class="divider">/</span>
     <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
-  </section>
+  </div>
 </BaseLayout>
 
 <style>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   .intro {
-    max-width: 600px;
-    margin-bottom: 2.5rem;
+    max-width: 540px;
+    margin-bottom: 2rem;
+    animation: fadeIn 0.6s ease-out forwards;
   }
 
   .intro .lead {
-    font-size: 1.35rem;
-    line-height: 1.6;
+    font-size: 1.3rem;
+    line-height: 1.65;
     margin-bottom: 1.25rem;
     color: var(--text-primary);
   }
@@ -48,37 +57,52 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   .intro p {
-    font-size: 1.125rem;
-    line-height: 1.7;
+    font-size: 1.05rem;
+    line-height: 1.75;
     color: var(--text-secondary);
-    margin-bottom: 1rem;
+    margin-bottom: 0.875rem;
+  }
+
+  .intro p:last-child {
+    margin-bottom: 0;
   }
 
   .contact-links {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    flex-wrap: wrap;
+    gap: 0.625rem;
+    animation: fadeIn 0.6s ease-out 0.15s forwards;
+    opacity: 0;
   }
 
   .contact-links a {
     color: var(--text-secondary);
     text-decoration: none;
-    font-size: 1rem;
-    transition: color 0.15s ease;
+    font-size: 0.9375rem;
+    transition: color 0.2s ease;
   }
 
   .contact-links a:hover {
-    color: var(--uva-blue);
+    color: var(--blue-primary);
   }
 
   .contact-links .divider {
     color: var(--text-muted);
+    font-size: 0.875rem;
+    user-select: none;
   }
 
   @media (max-width: 600px) {
     .intro .lead {
-      font-size: 1.2rem;
+      font-size: 1.15rem;
+    }
+
+    .intro p {
+      font-size: 1rem;
+    }
+
+    .contact-links {
+      flex-wrap: wrap;
     }
   }
 </style>

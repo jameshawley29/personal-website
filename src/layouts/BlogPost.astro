@@ -43,159 +43,315 @@ const formattedDate = dateObject.toLocaleDateString('en-US', {
 ---
 
 <BaseLayout title={title} description={description}>
-  <article class="article">
+  <article class="blog-article">
     <header class="article-header">
-      <div class="article-meta">
+      <div class="header-meta">
         {categoryInfo && (
-          <a href={categoryInfo.href} class="category-tag">{categoryInfo.label}</a>
+          <a href={categoryInfo.href} class="category-label">{categoryInfo.label}</a>
         )}
         <time datetime={dateObject.toISOString()}>{formattedDate}</time>
       </div>
-      <h1>{title}</h1>
-      <p class="byline">By {author}</p>
+      <h1 class="article-title">{title}</h1>
+      <p class="article-author">By {author}</p>
     </header>
-    <div class="article-content">
+
+    <div class="article-body">
       <slot />
     </div>
+
     <footer class="article-footer">
-      <a href={categoryInfo?.href || '/'} class="back-link">&larr; {categoryInfo ? `All ${categoryInfo.label}` : 'Home'}</a>
+      <a href={categoryInfo?.href || '/'} class="back-link">
+        <span class="back-arrow">&larr;</span>
+        <span class="back-text">{categoryInfo ? `Back to ${categoryInfo.label}` : 'Back to Home'}</span>
+      </a>
     </footer>
   </article>
 </BaseLayout>
 
 <style>
-  .article {
+  .blog-article {
     max-width: 680px;
     margin: 0 auto;
+    animation: fadeIn 0.5s ease-out;
   }
 
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Header Styles */
   .article-header {
-    margin-bottom: 2.5rem;
+    margin-bottom: 3rem;
     padding-bottom: 2rem;
     border-bottom: 1px solid var(--border-light);
   }
 
-  .article-meta {
+  .header-meta {
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
   }
 
-  .article-header time {
-    font-size: 0.875rem;
-    color: var(--text-muted);
-    letter-spacing: 0.02em;
+  .category-label {
+    font-size: 0.6875rem;
+    font-weight: 600;
     text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.3rem 0.6rem;
+    border-radius: 3px;
+    background: var(--bg-secondary);
+    color: var(--blue-primary);
+    border: 1px solid var(--border-light);
+    text-decoration: none;
+    transition: all 0.2s ease;
   }
 
-  .article-header h1 {
-    font-size: 2.5rem;
-    line-height: 1.15;
-    margin-bottom: 1rem;
-    letter-spacing: -0.03em;
+  .category-label:hover {
+    background: var(--blue-primary);
+    color: white;
+    border-color: var(--blue-primary);
   }
 
-  .byline {
-    font-size: 1rem;
+  .header-meta time {
+    font-size: 0.75rem;
     color: var(--text-muted);
-    margin-bottom: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
-  .article-content {
+  .article-title {
+    font-size: 2.375rem;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
+  }
+
+  .article-author {
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  /* Content Body Styles */
+  .article-body {
     font-size: 1.125rem;
     line-height: 1.8;
+    color: var(--text-primary);
   }
 
-  .article-content :global(h2) {
-    font-size: 1.625rem;
-    margin-top: 2.5rem;
-    margin-bottom: 1rem;
-    letter-spacing: -0.02em;
-  }
-
-  .article-content :global(h3) {
-    font-size: 1.25rem;
-    margin-top: 2rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .article-content :global(p) {
+  .article-body :global(p) {
     margin-bottom: 1.5rem;
   }
 
-  .article-content :global(code) {
-    font-family: 'SF Mono', Menlo, Monaco, 'Courier New', monospace;
-    font-size: 0.9em;
-    background: var(--bg-secondary);
-    padding: 0.15rem 0.35rem;
-    border-radius: 3px;
+  .article-body :global(h2) {
+    font-size: 1.5rem;
+    margin-top: 2.75rem;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
   }
 
-  .article-content :global(pre) {
-    background: var(--uva-blue);
-    padding: 1.25rem 1.5rem;
+  .article-body :global(h3) {
+    font-size: 1.25rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+  }
+
+  .article-body :global(h4) {
+    font-size: 1.1rem;
+    margin-top: 1.75rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+  }
+
+  /* Links in content */
+  .article-body :global(a) {
+    color: var(--blue-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.15s ease;
+  }
+
+  .article-body :global(a:hover) {
+    color: var(--orange-accent);
+  }
+
+  /* Code styling */
+  .article-body :global(code) {
+    font-family: 'SF Mono', Menlo, Monaco, 'Courier New', monospace;
+    font-size: 0.875em;
+    background: var(--bg-secondary);
+    padding: 0.2rem 0.4rem;
     border-radius: 4px;
+    border: 1px solid var(--border-light);
+  }
+
+  .article-body :global(pre) {
+    background: #0e1a26;
+    padding: 1.5rem;
+    border-radius: 8px;
     overflow-x: auto;
-    margin: 1.75rem 0;
-    font-size: 0.9rem;
+    margin: 2rem 0;
+    font-size: 0.875rem;
     line-height: 1.6;
   }
 
-  .article-content :global(pre code) {
+  .article-body :global(pre code) {
     background: transparent;
     padding: 0;
-    color: #e5e5e5;
+    border: none;
+    border-radius: 0;
+    color: #e8e8e8;
+    font-size: 1em;
   }
 
-  .article-content :global(ul),
-  .article-content :global(ol) {
+  /* Lists */
+  .article-body :global(ul),
+  .article-body :global(ol) {
     margin-left: 1.5rem;
     margin-bottom: 1.5rem;
   }
 
-  .article-content :global(li) {
-    margin-bottom: 0.5rem;
+  .article-body :global(li) {
+    margin-bottom: 0.6rem;
+    padding-left: 0.25rem;
   }
 
-  .article-content :global(blockquote) {
-    border-left: 3px solid var(--uva-orange);
-    padding-left: 1.25rem;
-    margin: 1.75rem 0;
+  .article-body :global(li::marker) {
+    color: var(--text-muted);
+  }
+
+  /* Blockquotes */
+  .article-body :global(blockquote) {
+    border-left: 3px solid var(--orange-accent);
+    padding: 0.5rem 0 0.5rem 1.5rem;
+    margin: 2rem 0;
+    background: transparent;
+  }
+
+  .article-body :global(blockquote p) {
     font-style: italic;
     color: var(--text-secondary);
-  }
-
-  .article-content :global(blockquote p) {
     margin-bottom: 0;
   }
 
-  .article-content :global(img) {
+  .article-body :global(blockquote p:not(:last-child)) {
+    margin-bottom: 1rem;
+  }
+
+  /* Images */
+  .article-body :global(img) {
     max-width: 100%;
     height: auto;
+    border-radius: 6px;
     margin: 2rem 0;
   }
 
-  .article-content :global(hr) {
+  /* Horizontal rules */
+  .article-body :global(hr) {
     border: none;
-    border-top: 1px solid var(--border-light);
-    margin: 2.5rem 0;
+    height: 1px;
+    background: var(--border-light);
+    margin: 3rem 0;
   }
 
+  /* Tables */
+  .article-body :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    font-size: 0.95rem;
+  }
+
+  .article-body :global(th),
+  .article-body :global(td) {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .article-body :global(th) {
+    font-weight: 600;
+    background: var(--bg-secondary);
+  }
+
+  /* Strong and emphasis */
+  .article-body :global(strong) {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .article-body :global(em) {
+    font-style: italic;
+  }
+
+  /* Footer Styles */
   .article-footer {
-    margin-top: 3rem;
+    margin-top: 4rem;
     padding-top: 2rem;
     border-top: 1px solid var(--border-light);
   }
 
   .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     font-size: 0.9375rem;
     color: var(--text-muted);
     text-decoration: none;
-    transition: color 0.15s ease;
+    transition: color 0.2s ease;
   }
 
   .back-link:hover {
-    color: var(--uva-blue);
+    color: var(--blue-primary);
+  }
+
+  .back-arrow {
+    display: inline-block;
+    transition: transform 0.2s ease;
+  }
+
+  .back-link:hover .back-arrow {
+    transform: translateX(-4px);
+  }
+
+  .back-text {
+    transition: color 0.2s ease;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    .article-title {
+      font-size: 1.875rem;
+    }
+
+    .article-body {
+      font-size: 1.0625rem;
+    }
+
+    .article-body :global(h2) {
+      font-size: 1.375rem;
+    }
+
+    .article-body :global(h3) {
+      font-size: 1.125rem;
+    }
+
+    .article-body :global(pre) {
+      padding: 1.25rem;
+      margin: 1.5rem -1rem;
+      border-radius: 0;
+    }
   }
 </style>

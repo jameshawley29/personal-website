@@ -8,179 +8,203 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 >
   <article class="about">
     <header class="about-header">
-      <div class="accent-bar"></div>
-      <h1>About Me</h1>
+      <h1>About</h1>
     </header>
 
-    <div class="about-content">
+    <section class="intro">
       <p class="lead">
-        I'm James, a Computer Science and Economics double major at the University of Virginia.
-        I'm fascinated by the intersection of technology and markets, and I use this space to
-        explore ideas, document projects, and share what I'm learning.
+        I'm James, a Computer Science and Economics double major at the
+        University of Virginia. I write about technology, economics, and ideas.
       </p>
+      <p>
+        This site is where I explore the intersection of technology and markets,
+        document my projects, and share what I'm learning along the way.
+      </p>
+    </section>
 
+    <section class="topics">
       <h2>What I Write About</h2>
-      <p>
-        My writing spans several areas that reflect my academic and personal interests:
-      </p>
-      <ul>
-        <li><strong>Technology:</strong> Software engineering practices, programming languages, and thoughts on the tech industry. As a CS major, I'm always exploring new frameworks, tools, and methodologies.</li>
-        <li><strong>Economics:</strong> Market dynamics, policy analysis, and economic theory. I'm particularly interested in how technology is reshaping traditional economic models.</li>
-        <li><strong>Book Reviews:</strong> I read widely across technology, economics, business, and philosophy. Here I share what I've learned and why certain books matter.</li>
-        <li><strong>Projects:</strong> Technical write-ups of things I build, from concept to deployment. I believe in learning by doing and documenting the process.</li>
-        <li><strong>Thoughts:</strong> Essays and responses to articles, ideas, and events that catch my attention.</li>
+      <ul class="topic-list">
+        <li><span class="topic-name">Technology</span> Software, programming languages, and the tech industry</li>
+        <li><span class="topic-name">Economics</span> Markets, policy, and how technology reshapes economic models</li>
+        <li><span class="topic-name">Books</span> Reviews and notes on what I'm reading</li>
+        <li><span class="topic-name">Projects</span> Technical write-ups from concept to deployment</li>
       </ul>
+    </section>
 
-      <h2>Why I Write</h2>
-      <p>
-        Writing is thinking. When I write about something, I'm forced to understand it deeply enough
-        to explain it clearly. This space serves multiple purposes: it's a way to solidify my own
-        learning, share knowledge with others, and build a record of my intellectual journey.
-      </p>
-      <p>
-        I also believe that demonstrating your thinking publicly is valuable. Whether you're an
-        employer, collaborator, or fellow student, my writing here should give you a sense of
-        how I approach problems and what I care about.
-      </p>
-
+    <section class="background">
       <h2>Background</h2>
       <p>
-        At UVA, I'm pursuing both Computer Science and Economics because I believe the most
-        interesting problems sit at the intersection of disciplines. Technology is reshaping
-        every aspect of the economy, and understanding both the technical and economic
-        dimensions gives a more complete picture.
+        I'm pursuing both Computer Science and Economics at UVA because I believe
+        the most interesting problems exist at the intersection of disciplines.
+        Technology is reshaping every aspect of the economy, and understanding
+        both dimensions gives a more complete picture.
       </p>
       <p>
-        Outside of academics, I enjoy reading (always have a stack of books going), building
-        side projects, and thinking about where technology is headed.
+        Outside of academics, I enjoy reading, building side projects, and
+        thinking about where technology is headed.
       </p>
+    </section>
 
+    <section class="contact">
       <h2>Get in Touch</h2>
       <p>
-        If something I've written resonates with you, or if you'd like to discuss opportunities,
-        I'd love to hear from you. The best way to reach me is through email or LinkedIn.
+        If something I've written resonates with you, or if you'd like to
+        discuss opportunities, I'd love to hear from you.
       </p>
-
       <div class="contact-links">
-        <a href="mailto:jameshawley@email.virginia.edu" class="contact-link">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-            <polyline points="22,6 12,13 2,6"></polyline>
-          </svg>
+        <a href="mailto:jameshawley@email.virginia.edu" class="contact-pill">
           Email
         </a>
-        <a href="https://www.linkedin.com/in/james-m-hawley/" target="_blank" rel="noopener noreferrer" class="contact-link">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-            <rect x="2" y="9" width="4" height="12"></rect>
-            <circle cx="4" cy="4" r="2"></circle>
-          </svg>
+        <a href="https://www.linkedin.com/in/james-m-hawley/" target="_blank" rel="noopener noreferrer" class="contact-pill">
           LinkedIn
         </a>
-        <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" class="contact-link">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-            <polyline points="14 2 14 8 20 8"></polyline>
-            <line x1="16" y1="13" x2="8" y2="13"></line>
-            <line x1="16" y1="17" x2="8" y2="17"></line>
-            <polyline points="10 9 9 9 8 9"></polyline>
-          </svg>
+        <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" class="contact-pill">
           Resume
         </a>
       </div>
-    </div>
+    </section>
   </article>
 </BaseLayout>
 
 <style>
   .about {
-    max-width: 680px;
+    max-width: 640px;
     margin: 0 auto;
+    animation: fadeIn 0.6s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .about-header {
-    padding-bottom: 2rem;
-    border-bottom: 1px solid var(--border-light);
-    margin-bottom: 2.5rem;
+    margin-bottom: 3rem;
   }
 
   .about-header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0;
+    font-size: 2.25rem;
+    font-weight: 700;
     letter-spacing: -0.03em;
+    margin: 0;
   }
 
-  .about-content {
+  section {
+    margin-bottom: 3rem;
+  }
+
+  section:last-child {
+    margin-bottom: 0;
+  }
+
+  h2 {
     font-size: 1.125rem;
-    line-height: 1.8;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  .intro p,
+  .background p,
+  .contact > p {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+  }
+
+  .intro p:last-child,
+  .background p:last-child {
+    margin-bottom: 0;
   }
 
   .lead {
     font-size: 1.25rem;
-    color: var(--text-secondary);
-    margin-bottom: 2rem;
     line-height: 1.7;
-  }
-
-  .about-content p {
-    color: var(--text-secondary);
-    margin-bottom: 1.5rem;
-  }
-
-  .about-content h2 {
-    font-size: 1.375rem;
-    margin-top: 2.5rem;
-    margin-bottom: 1rem;
-    letter-spacing: -0.01em;
     color: var(--text-primary);
+    margin-bottom: 1.25rem;
   }
 
-  .about-content h2:first-of-type {
-    margin-top: 0;
+  .topic-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
   }
 
-  .about-content ul {
-    margin-left: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .about-content li {
-    margin-bottom: 0.75rem;
+  .topic-list li {
+    font-size: 1rem;
+    line-height: 1.7;
     color: var(--text-secondary);
+    padding: 0.5rem 0;
   }
 
-  .about-content li strong {
+  .topic-name {
+    font-weight: 600;
     color: var(--text-primary);
+    margin-right: 0.5rem;
+  }
+
+  .topic-name::after {
+    content: ' —';
+    color: var(--text-muted);
+    font-weight: 400;
   }
 
   .contact-links {
     display: flex;
-    gap: 1rem;
+    gap: 0.75rem;
     flex-wrap: wrap;
     margin-top: 1.5rem;
   }
 
-  .contact-link {
+  .contact-pill {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.25rem;
+    padding: 0.625rem 1.25rem;
     background: var(--bg-secondary);
-    border: 1px solid var(--border-light);
-    border-radius: 6px;
     color: var(--text-secondary);
     text-decoration: none;
     font-size: 0.9375rem;
     font-weight: 500;
-    transition: all 0.15s ease;
+    border-radius: 100px;
+    transition: all 0.2s ease;
   }
 
-  .contact-link:hover {
-    border-color: var(--uva-blue);
-    color: var(--uva-blue);
+  .contact-pill:hover {
+    background: var(--blue-primary);
+    color: white;
+    transform: translateY(-2px);
   }
 
-  .contact-link svg {
-    flex-shrink: 0;
+  @media (max-width: 640px) {
+    .about-header h1 {
+      font-size: 1.875rem;
+    }
+
+    .lead {
+      font-size: 1.125rem;
+    }
+
+    section {
+      margin-bottom: 2.5rem;
+    }
+
+    .contact-links {
+      gap: 0.5rem;
+    }
+
+    .contact-pill {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
   }
 </style>
