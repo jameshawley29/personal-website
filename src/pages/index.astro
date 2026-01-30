@@ -4,34 +4,88 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <BaseLayout
   title="James Hawley"
-  description="Student at University of Virginia studying Computer Science and Economics. Writing on technology, economics, and monetary policy."
+  description="CS & Economics at UVA. Former Lockheed Martin. Writing on technology, economics, and monetary policy."
 >
-  <section class="intro">
-    <p class="lead">
-      I'm <strong>James Hawley</strong>, a student at the University of Virginia studying Computer Science and Economics.
-    </p>
-    <p>
-      I'm interested in technology, economics, monetary policy, and software engineering. I write about the ideas that sit at these intersections.
-    </p>
-    <p>
-      Based in Charlottesville, Virginia.
-    </p>
-  </section>
+  <section class="hero">
+    <div class="hero-content">
+      <div class="greeting">
+        <span class="wave">👋</span>
+        <span class="greeting-text">Hey, I'm</span>
+      </div>
+      <h1 class="name">James Hawley</h1>
+      <p class="tagline">
+        Computer Science & Economics at the <span class="highlight">University of Virginia</span>
+      </p>
+    </div>
 
-  <div class="contact-links">
-    <a href="mailto:jameshawley@email.virginia.edu">Email</a>
-    <span class="divider">/</span>
-    <a href="https://www.linkedin.com/in/james-m-hawley/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-    <span class="divider">/</span>
-    <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
-  </div>
+    <div class="bio">
+      <p>
+        Previously spent three years at <strong>Lockheed Martin</strong> before returning to school.
+        I write about technology, economics, monetary policy, and the ideas that sit at their intersections.
+      </p>
+      <p class="location">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+        Orlando, Florida
+      </p>
+    </div>
+
+    <nav class="contact-links">
+      <a href="mailto:jameshawley@email.virginia.edu" class="contact-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+          <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+        <span>Email</span>
+      </a>
+      <a href="https://www.linkedin.com/in/james-m-hawley/" target="_blank" rel="noopener noreferrer" class="contact-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+          <rect x="2" y="9" width="4" height="12"></rect>
+          <circle cx="4" cy="4" r="2"></circle>
+        </svg>
+        <span>LinkedIn</span>
+      </a>
+      <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" class="contact-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+        </svg>
+        <span>Resume</span>
+      </a>
+      <a href="/writing" class="contact-link cta">
+        <span>Read my writing</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14"></path>
+          <path d="m12 5 7 7-7 7"></path>
+        </svg>
+      </a>
+    </nav>
+  </section>
 </BaseLayout>
 
 <style>
-  @keyframes fadeIn {
+  .hero {
+    min-height: calc(100vh - 300px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 600px;
+  }
+
+  .hero-content {
+    margin-bottom: 2rem;
+    animation: slideUp 0.6s ease-out;
+  }
+
+  @keyframes slideUp {
     from {
       opacity: 0;
-      transform: translateY(8px);
+      transform: translateY(20px);
     }
     to {
       opacity: 1;
@@ -39,70 +93,190 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     }
   }
 
-  .intro {
-    max-width: 540px;
-    margin-bottom: 2rem;
-    animation: fadeIn 0.6s ease-out forwards;
+  .greeting {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
   }
 
-  .intro .lead {
-    font-size: 1.3rem;
-    line-height: 1.65;
-    margin-bottom: 1.25rem;
+  .wave {
+    font-size: 1.5rem;
+    display: inline-block;
+    animation: wave 2.5s ease-in-out infinite;
+    transform-origin: 70% 70%;
+  }
+
+  @keyframes wave {
+    0%, 100% { transform: rotate(0deg); }
+    10% { transform: rotate(14deg); }
+    20% { transform: rotate(-8deg); }
+    30% { transform: rotate(14deg); }
+    40% { transform: rotate(-4deg); }
+    50%, 100% { transform: rotate(0deg); }
+  }
+
+  .greeting-text {
+    font-size: 1rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  .name {
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
     color: var(--text-primary);
+    background: linear-gradient(135deg, var(--blue-primary) 0%, var(--blue-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
-  .intro .lead strong {
+  .tagline {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .highlight {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .bio {
+    margin-bottom: 2.5rem;
+    animation: slideUp 0.6s ease-out 0.1s backwards;
+  }
+
+  .bio p {
+    font-size: 1.1rem;
+    line-height: 1.75;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+  }
+
+  .bio strong {
+    color: var(--text-primary);
     font-weight: 600;
   }
 
-  .intro p {
-    font-size: 1.05rem;
-    line-height: 1.75;
-    color: var(--text-secondary);
-    margin-bottom: 0.875rem;
+  .location {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9375rem !important;
+    color: var(--text-muted) !important;
+    margin-bottom: 0 !important;
   }
 
-  .intro p:last-child {
-    margin-bottom: 0;
+  .location svg {
+    opacity: 0.7;
   }
 
   .contact-links {
     display: flex;
-    align-items: center;
-    gap: 0.625rem;
-    animation: fadeIn 0.6s ease-out 0.15s forwards;
-    opacity: 0;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    animation: slideUp 0.6s ease-out 0.2s backwards;
   }
 
-  .contact-links a {
+  .contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
     color: var(--text-secondary);
     text-decoration: none;
-    font-size: 0.9375rem;
-    transition: color 0.2s ease;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    transition: all 0.2s ease;
   }
 
-  .contact-links a:hover {
+  .contact-link:hover {
     color: var(--blue-primary);
+    border-color: var(--blue-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(35, 45, 75, 0.1);
   }
 
-  .contact-links .divider {
-    color: var(--text-muted);
-    font-size: 0.875rem;
-    user-select: none;
+  .contact-link svg {
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
   }
 
-  @media (max-width: 600px) {
-    .intro .lead {
-      font-size: 1.15rem;
+  .contact-link:hover svg {
+    opacity: 1;
+  }
+
+  .contact-link.cta {
+    background: var(--blue-primary);
+    color: white;
+    border-color: var(--blue-primary);
+  }
+
+  .contact-link.cta:hover {
+    background: var(--blue-light);
+    border-color: var(--blue-light);
+    color: white;
+  }
+
+  .contact-link.cta svg {
+    opacity: 1;
+    transition: transform 0.2s ease;
+  }
+
+  .contact-link.cta:hover svg {
+    transform: translateX(3px);
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .hero {
+      min-height: auto;
+      padding-top: 1rem;
     }
 
-    .intro p {
+    .name {
+      font-size: 2.5rem;
+    }
+
+    .tagline {
+      font-size: 1.1rem;
+    }
+
+    .bio p {
       font-size: 1rem;
     }
 
     .contact-links {
-      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .contact-link {
+      padding: 0.5rem 0.875rem;
+      font-size: 0.8125rem;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .contact-link span {
+      display: none;
+    }
+
+    .contact-link {
+      padding: 0.625rem;
+    }
+
+    .contact-link.cta span {
+      display: inline;
     }
   }
 </style>

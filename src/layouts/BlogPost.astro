@@ -43,6 +43,17 @@ const formattedDate = dateObject.toLocaleDateString('en-US', {
 ---
 
 <BaseLayout title={title} description={description}>
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress" id="scroll-progress"></div>
+
+  <!-- Sticky Back Button -->
+  <a href={categoryInfo?.href || '/writing'} class="sticky-back" id="sticky-back" aria-label="Go back">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m15 18-6-6 6-6"></path>
+    </svg>
+    <span class="sticky-back-text">Back</span>
+  </a>
+
   <article class="blog-article">
     <header class="article-header">
       <div class="header-meta">
@@ -60,15 +71,104 @@ const formattedDate = dateObject.toLocaleDateString('en-US', {
     </div>
 
     <footer class="article-footer">
-      <a href={categoryInfo?.href || '/'} class="back-link">
+      <a href={categoryInfo?.href || '/writing'} class="back-link">
         <span class="back-arrow">&larr;</span>
-        <span class="back-text">{categoryInfo ? `Back to ${categoryInfo.label}` : 'Back to Home'}</span>
+        <span class="back-text">{categoryInfo ? `Back to ${categoryInfo.label}` : 'Back to Writing'}</span>
       </a>
     </footer>
   </article>
 </BaseLayout>
 
+<script>
+  // Scroll Progress Bar
+  const progressBar = document.getElementById('scroll-progress');
+  const stickyBack = document.getElementById('sticky-back');
+
+  function updateScrollProgress() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollPercent = (scrollTop / docHeight) * 100;
+
+    if (progressBar) {
+      progressBar.style.width = `${scrollPercent}%`;
+    }
+
+    // Show/hide sticky back button based on scroll
+    if (stickyBack) {
+      if (scrollTop > 300) {
+        stickyBack.classList.add('visible');
+      } else {
+        stickyBack.classList.remove('visible');
+      }
+    }
+  }
+
+  window.addEventListener('scroll', updateScrollProgress, { passive: true });
+  updateScrollProgress();
+</script>
+
 <style>
+  /* Scroll Progress Bar */
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--blue-primary), var(--orange-accent));
+    z-index: 1000;
+    transition: width 0.1s ease-out;
+  }
+
+  /* Sticky Back Button */
+  .sticky-back {
+    position: fixed;
+    left: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%) translateX(-10px);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: 100px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(35, 45, 75, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 100;
+  }
+
+  .sticky-back.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) translateX(0);
+  }
+
+  .sticky-back:hover {
+    color: var(--blue-primary);
+    border-color: var(--blue-primary);
+    box-shadow: 0 6px 16px rgba(35, 45, 75, 0.15);
+  }
+
+  .sticky-back svg {
+    transition: transform 0.2s ease;
+  }
+
+  .sticky-back:hover svg {
+    transform: translateX(-3px);
+  }
+
+  .sticky-back-text {
+    display: none;
+  }
+
+  /* Article Styles */
   .blog-article {
     max-width: 680px;
     margin: 0 auto;
@@ -331,7 +431,40 @@ const formattedDate = dateObject.toLocaleDateString('en-US', {
   }
 
   /* Responsive adjustments */
+  @media (min-width: 1200px) {
+    .sticky-back-text {
+      display: inline;
+    }
+  }
+
+  @media (max-width: 1100px) {
+    .sticky-back {
+      left: 1rem;
+      padding: 0.625rem;
+    }
+  }
+
   @media (max-width: 640px) {
+    .sticky-back {
+      left: auto;
+      right: 1rem;
+      top: auto;
+      bottom: 1.5rem;
+      transform: translateY(20px);
+      padding: 0.75rem;
+      border-radius: 50%;
+      box-shadow: 0 4px 16px rgba(35, 45, 75, 0.15);
+    }
+
+    .sticky-back.visible {
+      transform: translateY(0);
+    }
+
+    .sticky-back svg {
+      width: 18px;
+      height: 18px;
+    }
+
     .article-title {
       font-size: 1.875rem;
     }
