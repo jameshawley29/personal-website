@@ -43,6 +43,7 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
       <nav>
         <a href="/" class="logo">{siteName}</a>
         <div class="nav-links">
+          <a href="/about">About</a>
           <div class="nav-dropdown">
             <span class="nav-dropdown-trigger">Writing</span>
             <div class="nav-dropdown-menu">
@@ -53,7 +54,6 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
               <a href="/thoughts">Thoughts</a>
             </div>
           </div>
-          <a href="/about">About</a>
         </div>
       </nav>
     </header>
@@ -63,17 +63,13 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
     <footer>
       <div class="footer-content">
         <div class="footer-links">
-          <a href="/tech">Tech</a>
+          <a href="mailto:jameshawley@email.virginia.edu">Email</a>
           <span class="footer-divider"></span>
-          <a href="/economics">Economics</a>
+          <a href="https://www.linkedin.com/in/james-m-hawley/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <span class="footer-divider"></span>
-          <a href="/books">Books</a>
-          <span class="footer-divider"></span>
-          <a href="/projects">Projects</a>
-          <span class="footer-divider"></span>
-          <a href="/thoughts">Thoughts</a>
+          <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
         </div>
-        <p class="copyright">&copy; {new Date().getFullYear()} {siteName}. CS & Economics at UVA.</p>
+        <p class="copyright">&copy; {new Date().getFullYear()} {siteName}</p>
       </div>
     </footer>
   </body>
