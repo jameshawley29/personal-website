@@ -170,7 +170,7 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
   }
 
   /* ========================================
-     Animated Dot Matrix Background
+     Soothing Animated Dot Matrix Background
      ======================================== */
   .dot-matrix {
     position: fixed;
@@ -180,26 +180,34 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
     height: 100%;
     pointer-events: none;
     z-index: -1;
-    background-image: radial-gradient(circle, rgba(35, 45, 75, 0.08) 1px, transparent 1px);
-    background-size: 24px 24px;
-    animation: dotPulse 8s ease-in-out infinite, dotDrift 20s linear infinite;
+    background-image: radial-gradient(circle, rgba(35, 45, 75, 0.12) 1.5px, transparent 1.5px);
+    background-size: 28px 28px;
+    animation: dotBreath 6s ease-in-out infinite, dotFloat 25s ease-in-out infinite;
   }
 
-  @keyframes dotPulse {
+  @keyframes dotBreath {
     0%, 100% {
-      opacity: 0.4;
+      opacity: 0.5;
+      background-size: 28px 28px;
     }
     50% {
-      opacity: 0.7;
+      opacity: 0.8;
+      background-size: 30px 30px;
     }
   }
 
-  @keyframes dotDrift {
-    0% {
+  @keyframes dotFloat {
+    0%, 100% {
       background-position: 0 0;
     }
-    100% {
-      background-position: 24px 24px;
+    25% {
+      background-position: 14px 7px;
+    }
+    50% {
+      background-position: 0 14px;
+    }
+    75% {
+      background-position: -14px 7px;
     }
   }
 
@@ -207,7 +215,7 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
   @media (prefers-reduced-motion: reduce) {
     .dot-matrix {
       animation: none;
-      opacity: 0.5;
+      opacity: 0.6;
     }
   }
 
