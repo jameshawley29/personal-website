@@ -1,0 +1,169 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BlogCard from '../components/BlogCard.astro';
+
+// Gather posts from all categories
+const techPosts = await Astro.glob('./tech/*.md');
+const econPosts = await Astro.glob('./economics/*.md');
+const bookPosts = await Astro.glob('./books/*.md');
+const projectPosts = await Astro.glob('./projects/*.md');
+const thoughtPosts = await Astro.glob('./thoughts/*.md');
+
+// Combine and sort all posts
+const allPosts = [
+  ...techPosts.map(p => ({ ...p, category: 'tech' as const })),
+  ...econPosts.map(p => ({ ...p, category: 'economics' as const })),
+  ...bookPosts.map(p => ({ ...p, category: 'books' as const })),
+  ...projectPosts.map(p => ({ ...p, category: 'projects' as const })),
+  ...thoughtPosts.map(p => ({ ...p, category: 'thoughts' as const })),
+];
+
+const sortedPosts = allPosts.sort((a, b) =>
+  new Date(b.frontmatter.pubDate).valueOf() - new Date(a.frontmatter.pubDate).valueOf()
+);
+
+// Category links for filtering
+const categories = [
+  { label: 'All', href: '/writing', active: true },
+  { label: 'Technology', href: '/tech' },
+  { label: 'Economics', href: '/economics' },
+  { label: 'Books', href: '/books' },
+  { label: 'Projects', href: '/projects' },
+  { label: 'Thoughts', href: '/thoughts' },
+];
+---
+
+<BaseLayout
+  title="Writing"
+  description="Essays and articles on technology, economics, books, and ideas."
+>
+  <section class="writing-page">
+    <header class="writing-header">
+      <h1>Writing</h1>
+      <p class="writing-description">
+        Essays and articles on technology, economics, and ideas.
+      </p>
+    </header>
+
+    <nav class="category-nav">
+      {categories.map((cat) => (
+        <a
+          href={cat.href}
+          class={`category-link ${cat.active ? 'active' : ''}`}
+        >
+          {cat.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="articles">
+      {sortedPosts.length > 0 ? (
+        sortedPosts.map((post) => (
+          <BlogCard
+            title={post.frontmatter.title}
+            description={post.frontmatter.description}
+            pubDate={new Date(post.frontmatter.pubDate)}
+            url={post.url || ''}
+            category={post.category}
+          />
+        ))
+      ) : (
+        <p class="no-posts">No articles yet. Check back soon.</p>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .writing-page {
+    max-width: 680px;
+    margin: 0 auto;
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .writing-header {
+    margin-bottom: 2rem;
+  }
+
+  .writing-header h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .writing-description {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .category-nav {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .category-link {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 0.375rem 0.875rem;
+    border-radius: 100px;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+  }
+
+  .category-link:hover {
+    color: var(--blue-primary);
+    background: var(--bg-secondary);
+  }
+
+  .category-link.active {
+    color: var(--blue-primary);
+    background: var(--bg-secondary);
+    border-color: var(--border-subtle);
+  }
+
+  .articles {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .no-posts {
+    color: var(--text-muted);
+    font-style: italic;
+    padding: 2rem 0;
+  }
+
+  @media (max-width: 640px) {
+    .writing-header h1 {
+      font-size: 1.75rem;
+    }
+
+    .category-nav {
+      gap: 0.375rem;
+    }
+
+    .category-link {
+      font-size: 0.8125rem;
+      padding: 0.3rem 0.75rem;
+    }
+  }
+</style>
