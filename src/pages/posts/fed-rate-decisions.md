@@ -5,6 +5,7 @@ description: 'How I think about Federal Reserve interest rate policy and what to
 pubDate: 2026-01-05
 author: 'James Hawley'
 category: 'economics'
+visible: true
 ---
 
 Every six weeks, the Federal Open Market Committee meets to decide on interest rates, and financial markets hang on every word. As an economics student, I've spent a lot of time trying to understand not just what the Fed does, but how to think about their decisions. Here's the framework I've developed.

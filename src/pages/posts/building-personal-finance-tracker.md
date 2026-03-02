@@ -5,6 +5,7 @@ description: 'A deep dive into building a full-stack personal finance applicatio
 pubDate: 2026-01-12
 author: 'James Hawley'
 category: 'projects'
+visible: false
 ---
 
 Last semester, I built a personal finance tracker as a side project. I wanted something that would automatically categorize my transactions and show me where my money was actually going. Here's how I built it and what I learned.

@@ -4,6 +4,8 @@ title: 'Book Review: Chip War by Chris Miller'
 description: 'How a history of semiconductors became one of the most important books for understanding modern geopolitics.'
 pubDate: 2024-08-22
 author: 'James Hawley'
+category: 'books'
+visible: true
 ---
 
 I picked up *Chip War* expecting a straightforward history of the semiconductor industry. What I got was a masterclass in how technology, economics, and geopolitics intertwine in ways that most people—including most people in tech—don't fully appreciate.

@@ -4,6 +4,8 @@ title: 'On Learning in Public'
 description: 'Why sharing half-formed ideas has been the most valuable habit I developed in college.'
 pubDate: 2025-01-12
 author: 'James Hawley'
+category: 'thoughts'
+visible: true
 ---
 
 Sometime during my sophomore year, I started writing about things I was learning. Not polished essays—more like extended notes. Half-baked thoughts on mechanism design after a particularly good lecture. Questions I still had about distributed systems after finishing a project. Observations about why certain codebases felt easier to work with than others.

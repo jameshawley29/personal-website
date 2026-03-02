@@ -5,6 +5,7 @@ description: 'After reading another apocalyptic AI prediction, I wanted to artic
 pubDate: 2026-01-18
 author: 'James Hawley'
 category: 'thoughts'
+visible: false
 ---
 
 Another week, another viral essay predicting that artificial intelligence will end civilization. These arguments range from the sophisticated (Nick Bostrom's *Superintelligence*) to the sensational (countless Twitter threads about imminent doom). Having spent time with both the technical literature and the breathless commentary, I find myself skeptical of the doom scenarios while still believing AI safety matters. Here's why.

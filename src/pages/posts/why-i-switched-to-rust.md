@@ -4,6 +4,8 @@ title: 'Why I Finally Switched to Rust (And Why It Took So Long)'
 description: 'A journey from skepticism to genuine appreciation for Rust, and what I learned about learning along the way.'
 pubDate: 2024-11-03
 author: 'James Hawley'
+category: 'tech'
+visible: true
 ---
 
 I've been putting off learning Rust for three years. Every few months, I'd see another blog post about how Rust would make me a better programmer, how the borrow checker was actually a gift, how memory safety without garbage collection was the future. I'd nod along, maybe skim through the first chapter of The Book, then go back to writing Python like everyone else.

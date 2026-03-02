@@ -5,6 +5,7 @@ description: 'Daniel Kahneman''s masterwork on human judgment and decision-makin
 pubDate: 2026-01-08
 author: 'James Hawley'
 category: 'books'
+visible: false
 ---
 
 Daniel Kahneman won the Nobel Prize in Economics despite being a psychologist. *Thinking, Fast and Slow* distills decades of his research with Amos Tversky on how humans actually make decisions—and how systematically we get things wrong.

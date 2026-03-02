@@ -9,17 +9,19 @@ interface Props {
   category?: 'tech' | 'economics' | 'books' | 'projects' | 'thoughts';
 }
 
-const { title, description, pubDate, author = "James Hawley", category } = Astro.props;
+const props = Astro.props as any;
+const fm = props.frontmatter || props;
+const { title, description, pubDate, category } = fm;
 
-const categoryMap = {
-  tech: { label: 'Technology', href: '/tech' },
-  economics: { label: 'Economics', href: '/economics' },
-  books: { label: 'Book Review', href: '/books' },
-  projects: { label: 'Project', href: '/projects' },
-  thoughts: { label: 'Thoughts', href: '/thoughts' }
+const categoryLabels: Record<string, string> = {
+  tech: 'Technology',
+  economics: 'Economics',
+  books: 'Books',
+  projects: 'Projects',
+  thoughts: 'Essays'
 };
 
-const categoryInfo = category ? categoryMap[category] : null;
+const categoryLabel = category ? categoryLabels[category] : null;
 
 let dateObject: Date;
 if (!pubDate) {
@@ -31,7 +33,6 @@ if (!pubDate) {
 }
 
 if (isNaN(dateObject.getTime())) {
-  console.error('Invalid date:', pubDate);
   dateObject = new Date();
 }
 
@@ -43,209 +44,87 @@ const formattedDate = dateObject.toLocaleDateString('en-US', {
 ---
 
 <BaseLayout title={title} description={description}>
-  <!-- Scroll Progress Bar -->
-  <div class="scroll-progress" id="scroll-progress"></div>
-
-  <!-- Sticky Back Button -->
-  <a href={categoryInfo?.href || '/writing'} class="sticky-back" id="sticky-back" aria-label="Go back">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="m15 18-6-6 6-6"></path>
-    </svg>
-    <span class="sticky-back-text">Back</span>
-  </a>
-
-  <article class="blog-article">
+  <div class="notch-cover"></div>
+  <div class="progress-bar" id="progress-bar"></div>
+  <article class="article">
     <header class="article-header">
-      <div class="header-meta">
-        {categoryInfo && (
-          <a href={categoryInfo.href} class="category-label">{categoryInfo.label}</a>
-        )}
-        <time datetime={dateObject.toISOString()}>{formattedDate}</time>
-      </div>
+      <a href="/" class="back-link">&larr; Home</a>
       <h1 class="article-title">{title}</h1>
-      <p class="article-author">By {author}</p>
+      <p class="article-meta">
+        <time datetime={dateObject.toISOString()}>{formattedDate}</time>
+        {categoryLabel && <span class="category-tag">{categoryLabel}</span>}
+      </p>
     </header>
 
     <div class="article-body">
       <slot />
     </div>
-
-    <footer class="article-footer">
-      <a href={categoryInfo?.href || '/writing'} class="back-link">
-        <span class="back-arrow">&larr;</span>
-        <span class="back-text">{categoryInfo ? `Back to ${categoryInfo.label}` : 'Back to Writing'}</span>
-      </a>
-    </footer>
   </article>
 </BaseLayout>
 
-<script>
-  // Scroll Progress Bar
-  const progressBar = document.getElementById('scroll-progress');
-  const stickyBack = document.getElementById('sticky-back');
-
-  function updateScrollProgress() {
+<script is:inline>
+  const bar = document.getElementById('progress-bar');
+  window.addEventListener('scroll', () => {
     const scrollTop = window.scrollY;
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const scrollPercent = (scrollTop / docHeight) * 100;
-
-    if (progressBar) {
-      progressBar.style.width = `${scrollPercent}%`;
-    }
-
-    // Show/hide sticky back button based on scroll
-    if (stickyBack) {
-      if (scrollTop > 300) {
-        stickyBack.classList.add('visible');
-      } else {
-        stickyBack.classList.remove('visible');
-      }
-    }
-  }
-
-  window.addEventListener('scroll', updateScrollProgress, { passive: true });
-  updateScrollProgress();
+    const progress = docHeight > 0 ? Math.min(scrollTop / docHeight, 1) : 0;
+    bar.style.width = (progress * 100) + '%';
+  });
 </script>
 
 <style>
-  /* Scroll Progress Bar */
-  .scroll-progress {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--blue-primary), var(--orange-accent));
-    z-index: 1000;
-    transition: width 0.1s ease-out;
+  .article {
+    max-width: 100%;
   }
 
-  /* Sticky Back Button */
-  .sticky-back {
-    position: fixed;
-    left: 1.5rem;
-    top: 50%;
-    transform: translateY(-50%) translateX(-10px);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1rem;
-    background: var(--bg-primary);
-    border: 1px solid var(--border-light);
-    border-radius: 100px;
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 0.875rem;
-    font-weight: 500;
-    box-shadow: 0 4px 12px rgba(35, 45, 75, 0.1);
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    z-index: 100;
-  }
-
-  .sticky-back.visible {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(-50%) translateX(0);
-  }
-
-  .sticky-back:hover {
-    color: var(--blue-primary);
-    border-color: var(--blue-primary);
-    box-shadow: 0 6px 16px rgba(35, 45, 75, 0.15);
-  }
-
-  .sticky-back svg {
-    transition: transform 0.2s ease;
-  }
-
-  .sticky-back:hover svg {
-    transform: translateX(-3px);
-  }
-
-  .sticky-back-text {
-    display: none;
-  }
-
-  /* Article Styles */
-  .blog-article {
-    max-width: 680px;
-    margin: 0 auto;
-    animation: fadeIn 0.5s ease-out;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(12px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* Header Styles */
   .article-header {
-    margin-bottom: 3rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid var(--border-light);
+    margin-bottom: 2.5rem;
   }
 
-  .header-meta {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .category-label {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    padding: 0.3rem 0.6rem;
-    border-radius: 3px;
-    background: var(--bg-secondary);
-    color: var(--blue-primary);
-    border: 1px solid var(--border-light);
-    text-decoration: none;
-    transition: all 0.2s ease;
-  }
-
-  .category-label:hover {
-    background: var(--blue-primary);
-    color: white;
-    border-color: var(--blue-primary);
-  }
-
-  .header-meta time {
-    font-size: 0.75rem;
+  .back-link {
+    display: inline-block;
+    font-size: 0.875rem;
     color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    text-decoration: none;
+    margin-bottom: 1.5rem;
+  }
+
+  .back-link:hover {
+    color: var(--text-primary);
+    opacity: 1;
   }
 
   .article-title {
-    font-size: 2.375rem;
+    font-family: var(--font-serif);
+    font-size: 2.25rem;
+    font-weight: 700;
     line-height: 1.2;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.02em;
     margin-bottom: 0.75rem;
-    color: var(--text-primary);
   }
 
-  .article-author {
-    font-size: 0.9375rem;
+  .article-meta {
+    font-size: 0.875rem;
     color: var(--text-muted);
     margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
   }
 
-  /* Content Body Styles */
+  .category-tag {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    background: var(--cream-dark, #ebe5d9);
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+  }
+
+  /* Article body typography */
   .article-body {
-    font-size: 1.125rem;
+    font-size: 1.0625rem;
     line-height: 1.8;
-    color: var(--text-primary);
+    color: var(--text-secondary);
   }
 
   .article-body :global(p) {
@@ -253,140 +132,40 @@ const formattedDate = dateObject.toLocaleDateString('en-US', {
   }
 
   .article-body :global(h2) {
+    font-family: var(--font-serif);
     font-size: 1.5rem;
-    margin-top: 2.75rem;
+    margin-top: 2.5rem;
     margin-bottom: 1rem;
-    letter-spacing: -0.02em;
     color: var(--text-primary);
   }
 
   .article-body :global(h3) {
+    font-family: var(--font-serif);
     font-size: 1.25rem;
     margin-top: 2rem;
     margin-bottom: 0.75rem;
-    letter-spacing: -0.01em;
     color: var(--text-primary);
   }
 
   .article-body :global(h4) {
-    font-size: 1.1rem;
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 600;
     margin-top: 1.75rem;
     margin-bottom: 0.5rem;
     color: var(--text-primary);
   }
 
-  /* Links in content */
   .article-body :global(a) {
-    color: var(--blue-primary);
+    color: var(--text-primary);
     text-decoration: underline;
     text-underline-offset: 2px;
-    transition: color 0.15s ease;
   }
 
   .article-body :global(a:hover) {
-    color: var(--orange-accent);
+    opacity: 0.6;
   }
 
-  /* Code styling */
-  .article-body :global(code) {
-    font-family: 'SF Mono', Menlo, Monaco, 'Courier New', monospace;
-    font-size: 0.875em;
-    background: var(--bg-secondary);
-    padding: 0.2rem 0.4rem;
-    border-radius: 4px;
-    border: 1px solid var(--border-light);
-  }
-
-  .article-body :global(pre) {
-    background: #0e1a26;
-    padding: 1.5rem;
-    border-radius: 8px;
-    overflow-x: auto;
-    margin: 2rem 0;
-    font-size: 0.875rem;
-    line-height: 1.6;
-  }
-
-  .article-body :global(pre code) {
-    background: transparent;
-    padding: 0;
-    border: none;
-    border-radius: 0;
-    color: #e8e8e8;
-    font-size: 1em;
-  }
-
-  /* Lists */
-  .article-body :global(ul),
-  .article-body :global(ol) {
-    margin-left: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .article-body :global(li) {
-    margin-bottom: 0.6rem;
-    padding-left: 0.25rem;
-  }
-
-  .article-body :global(li::marker) {
-    color: var(--text-muted);
-  }
-
-  /* Blockquotes */
-  .article-body :global(blockquote) {
-    border-left: 3px solid var(--orange-accent);
-    padding: 0.5rem 0 0.5rem 1.5rem;
-    margin: 2rem 0;
-    background: transparent;
-  }
-
-  .article-body :global(blockquote p) {
-    font-style: italic;
-    color: var(--text-secondary);
-    margin-bottom: 0;
-  }
-
-  .article-body :global(blockquote p:not(:last-child)) {
-    margin-bottom: 1rem;
-  }
-
-  /* Images */
-  .article-body :global(img) {
-    max-width: 100%;
-    height: auto;
-    border-radius: 6px;
-    margin: 2rem 0;
-  }
-
-  /* Horizontal rules */
-  .article-body :global(hr) {
-    border: none;
-    height: 1px;
-    background: var(--border-light);
-    margin: 3rem 0;
-  }
-
-  /* Tables */
-  .article-body :global(table) {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 2rem 0;
-    font-size: 0.95rem;
-  }
-
-  .article-body :global(th),
-  .article-body :global(td) {
-    padding: 0.75rem 1rem;
-    text-align: left;
-    border-bottom: 1px solid var(--border-light);
-  }
-
-  .article-body :global(th) {
-    font-weight: 600;
-    background: var(--bg-secondary);
-  }
-
-  /* Strong and emphasis */
   .article-body :global(strong) {
     font-weight: 600;
     color: var(--text-primary);
@@ -396,94 +175,128 @@ const formattedDate = dateObject.toLocaleDateString('en-US', {
     font-style: italic;
   }
 
-  /* Footer Styles */
-  .article-footer {
-    margin-top: 4rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--border-light);
+  .article-body :global(code) {
+    font-family: 'SF Mono', Menlo, Monaco, 'Courier New', monospace;
+    font-size: 0.875em;
+    background: var(--cream-dark);
+    padding: 0.15rem 0.35rem;
+    border-radius: 3px;
   }
 
-  .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.9375rem;
+  .article-body :global(pre) {
+    background: #1a1a1a;
+    padding: 1.5rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 2rem 0;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .article-body :global(pre code) {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    color: #e5e5e5;
+    font-size: 1em;
+  }
+
+  .article-body :global(ul),
+  .article-body :global(ol) {
+    margin-left: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .article-body :global(li) {
+    margin-bottom: 0.5rem;
+    padding-left: 0.25rem;
+  }
+
+  .article-body :global(blockquote) {
+    border-left: 2px solid var(--text-muted);
+    padding: 0.25rem 0 0.25rem 1.25rem;
+    margin: 2rem 0;
+  }
+
+  .article-body :global(blockquote p) {
+    font-style: italic;
     color: var(--text-muted);
-    text-decoration: none;
-    transition: color 0.2s ease;
+    margin-bottom: 0;
   }
 
-  .back-link:hover {
-    color: var(--blue-primary);
+  .article-body :global(blockquote p:not(:last-child)) {
+    margin-bottom: 1rem;
   }
 
-  .back-arrow {
-    display: inline-block;
-    transition: transform 0.2s ease;
+  .article-body :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: 2rem 0;
   }
 
-  .back-link:hover .back-arrow {
-    transform: translateX(-4px);
+  .article-body :global(hr) {
+    border: none;
+    height: 1px;
+    background: var(--border-color);
+    margin: 3rem 0;
   }
 
-  .back-text {
-    transition: color 0.2s ease;
+  .article-body :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    font-size: 0.9375rem;
   }
 
-  /* Responsive adjustments */
-  @media (min-width: 1200px) {
-    .sticky-back-text {
-      display: inline;
-    }
+  .article-body :global(th),
+  .article-body :global(td) {
+    padding: 0.625rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
   }
 
-  @media (max-width: 1100px) {
-    .sticky-back {
-      left: 1rem;
-      padding: 0.625rem;
-    }
+  .article-body :global(th) {
+    font-weight: 600;
+  }
+
+  .notch-cover {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: env(safe-area-inset-top, 0px);
+    background: var(--cream, #f5f0e8);
+    z-index: 1001;
+  }
+
+  .progress-bar {
+    position: fixed;
+    top: env(safe-area-inset-top, 0px);
+    left: 0;
+    height: 2px;
+    width: 0;
+    background: var(--text-primary);
+    z-index: 1000;
+    transition: width 0.1s linear;
   }
 
   @media (max-width: 640px) {
-    .sticky-back {
-      left: auto;
-      right: 1rem;
-      top: auto;
-      bottom: 1.5rem;
-      transform: translateY(20px);
-      padding: 0.75rem;
-      border-radius: 50%;
-      box-shadow: 0 4px 16px rgba(35, 45, 75, 0.15);
-    }
-
-    .sticky-back.visible {
-      transform: translateY(0);
-    }
-
-    .sticky-back svg {
-      width: 18px;
-      height: 18px;
-    }
-
     .article-title {
-      font-size: 1.875rem;
+      font-size: 1.75rem;
     }
 
     .article-body {
-      font-size: 1.0625rem;
+      font-size: 1rem;
     }
 
     .article-body :global(h2) {
       font-size: 1.375rem;
     }
 
-    .article-body :global(h3) {
-      font-size: 1.125rem;
-    }
-
     .article-body :global(pre) {
       padding: 1.25rem;
-      margin: 1.5rem -1rem;
+      margin: 1.5rem -1.25rem;
       border-radius: 0;
     }
   }

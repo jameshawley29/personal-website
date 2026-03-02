@@ -7,232 +7,110 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   description="Learn more about James Hawley - CS & Economics student at the University of Virginia."
 >
   <article class="about">
-    <header class="about-header">
-      <h1>About</h1>
-    </header>
+    <h1>About</h1>
 
-    <section class="intro">
-      <p class="lead">
-        I'm James, a Computer Science and Economics double major at the
-        University of Virginia, based out of Orlando, Florida.
-      </p>
-      <p>
-        I have three years of experience at <strong>Lockheed Martin</strong>,
-        where I gained hands-on experience in defense technology and systems
-        engineering. This site is where I explore the intersection of technology
-        and markets, document my projects, and share what I'm learning along the
-        way.
-      </p>
-    </section>
+    <p class="lead">
+      I'm James, a Computer Science and Economics double major at the
+      University of Virginia, based out of Orlando, Florida.
+    </p>
 
-    <section class="topics">
-      <h2>What I Write About</h2>
-      <ul class="topic-list">
-        <li>
-          <span class="topic-name">Technology</span> Software, programming languages,
-          and the tech industry
-        </li>
-        <li>
-          <span class="topic-name">Economics</span> Markets, policy, and how technology
-          reshapes economic models
-        </li>
-        <li>
-          <span class="topic-name">Books</span> Reviews and notes on what I'm reading
-        </li>
-        <li>
-          <span class="topic-name">Projects</span> Technical write-ups from concept
-          to deployment
-        </li>
-      </ul>
-    </section>
+    <p>
+      I have three years of experience at <strong>Lockheed Martin</strong>,
+      where I gained hands-on experience in defense technology and systems
+      engineering. This site is where I explore the intersection of technology
+      and markets, document my projects, and share what I'm learning along the
+      way.
+    </p>
 
-    <section class="background">
-      <h2>Background</h2>
-      <p>
-        I'm pursuing both Computer Science and Economics at UVA because I
-        believe the most interesting problems exist at the intersection of
-        disciplines. Technology is reshaping every aspect of the economy, and
-        understanding both dimensions gives a more complete picture.
-      </p>
-      <p>
-        My experience at Lockheed Martin gave me a unique perspective on
-        large-scale High Performance Computing systems, project management, and
-        the real-world implications of engineering decisions. I'm channeling
-        that experience into my studies and the projects I build.
-      </p>
-    </section>
+    <h2>What I Write About</h2>
 
-    <section class="contact">
-      <h2>Get in Touch</h2>
-      <p>
-        If something I've written resonates with you, or if you'd like to
-        discuss opportunities, I'd love to hear from you.
-      </p>
-      <div class="contact-links">
-        <a href="mailto:jameshawley@email.virginia.edu" class="contact-pill">
-          Email
-        </a>
-        <a
-          href="https://www.linkedin.com/in/james-m-hawley/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="contact-pill"
-        >
-          LinkedIn
-        </a>
-        <a
-          href="/resume.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="contact-pill"
-        >
-          Resume
-        </a>
-      </div>
-    </section>
+    <p>
+      <strong>Technology</strong> — Software, programming languages, and the tech industry.
+      <strong>Economics</strong> — Markets, policy, and how technology reshapes economic models.
+      <strong>Books</strong> — Reviews and notes on what I'm reading.
+      <strong>Projects</strong> — Technical write-ups from concept to deployment.
+    </p>
+
+    <h2>Background</h2>
+
+    <p>
+      I'm pursuing both Computer Science and Economics at UVA because I
+      believe the most interesting problems exist at the intersection of
+      disciplines. Technology is reshaping every aspect of the economy, and
+      understanding both dimensions gives a more complete picture.
+    </p>
+
+    <p>
+      My experience at Lockheed Martin gave me a unique perspective on
+      large-scale High Performance Computing systems, project management, and
+      the real-world implications of engineering decisions. I'm channeling
+      that experience into my studies and the projects I build.
+    </p>
+
+    <h2>Get in Touch</h2>
+
+    <p>
+      If something I've written resonates with you, or if you'd like to
+      discuss opportunities, I'd love to hear from you:
+      <a href="mailto:jameshawley@email.virginia.edu">Email</a>,
+      <a href="https://www.linkedin.com/in/james-m-hawley/" target="_blank" rel="noopener noreferrer">LinkedIn</a>,
+      <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>.
+    </p>
   </article>
 </BaseLayout>
 
 <style>
   .about {
-    max-width: 640px;
-    margin: 0 auto;
-    animation: fadeIn 0.6s ease-out;
+    max-width: 100%;
   }
 
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(12px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  .about h1 {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
   }
 
-  .about-header {
-    margin-bottom: 3rem;
-  }
-
-  .about-header h1 {
-    font-size: 2.25rem;
+  .about h2 {
+    font-family: var(--font-sans);
+    font-size: 1.1rem;
     font-weight: 700;
-    letter-spacing: -0.03em;
-    margin: 0;
-  }
-
-  section {
-    margin-bottom: 3rem;
-  }
-
-  section:last-child {
-    margin-bottom: 0;
-  }
-
-  h2 {
-    font-size: 1.125rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    color: var(--text-primary);
-    margin-bottom: 1rem;
-    font-family:
-      -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
-      Arial, sans-serif;
-  }
-
-  .intro p,
-  .background p,
-  .contact > p {
-    font-size: 1.0625rem;
-    line-height: 1.75;
-    color: var(--text-secondary);
-    margin-bottom: 1rem;
-  }
-
-  .intro p:last-child,
-  .background p:last-child {
-    margin-bottom: 0;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
   }
 
   .lead {
-    font-size: 1.25rem;
-    line-height: 1.7;
+    font-size: 1.125rem;
+    line-height: 1.75;
     color: var(--text-primary);
-    margin-bottom: 1.25rem;
   }
 
-  .topic-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .topic-list li {
+  .about p {
     font-size: 1rem;
-    line-height: 1.7;
+    line-height: 1.75;
     color: var(--text-secondary);
-    padding: 0.5rem 0;
   }
 
-  .topic-name {
-    font-weight: 600;
+  .about a {
     color: var(--text-primary);
-    margin-right: 0.5rem;
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
 
-  .topic-name::after {
-    content: " —";
-    color: var(--text-muted);
-    font-weight: 400;
+  .about a:hover {
+    opacity: 0.6;
   }
 
-  .contact-links {
-    display: flex;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-    margin-top: 1.5rem;
-  }
-
-  .contact-pill {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.625rem 1.25rem;
-    background: var(--bg-secondary);
-    color: var(--text-secondary);
-    text-decoration: none;
-    font-size: 0.9375rem;
-    font-weight: 500;
-    border-radius: 100px;
-    transition: all 0.2s ease;
-  }
-
-  .contact-pill:hover {
-    background: var(--blue-primary);
-    color: white;
-    transform: translateY(-2px);
+  .about strong {
+    color: var(--text-primary);
   }
 
   @media (max-width: 640px) {
-    .about-header h1 {
-      font-size: 1.875rem;
+    .about h1 {
+      font-size: 1.75rem;
     }
 
     .lead {
-      font-size: 1.125rem;
-    }
-
-    section {
-      margin-bottom: 2.5rem;
-    }
-
-    .contact-links {
-      gap: 0.5rem;
-    }
-
-    .contact-pill {
-      padding: 0.5rem 1rem;
-      font-size: 0.875rem;
+      font-size: 1.0625rem;
     }
   }
 </style>

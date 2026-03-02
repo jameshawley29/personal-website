@@ -5,6 +5,7 @@ description: 'Exploring how the Federal Reserve maintains financial stability th
 pubDate: 2024-09-12
 author: 'James Hawley'
 category: 'economics'
+visible: false
 ---
 
 When most people think about the Federal Reserve, they think about interest rates. But the Fed's role in maintaining financial stability extends far beyond setting the federal funds rate. After taking several courses on monetary economics and banking, I've come to appreciate just how multifaceted the Fed's toolkit really is.

@@ -5,6 +5,7 @@ description: 'What we''ve learned about quantitative easing, how it works, and t
 pubDate: 2025-02-18
 author: 'James Hawley'
 category: 'economics'
+visible: false
 ---
 
 Quantitative easing (QE) has gone from an emergency improvisation in 2008 to a standard part of the central banking toolkit. Fifteen years on, we have enough data to assess what QE actually does—and the picture is more complicated than either enthusiasts or critics suggest.

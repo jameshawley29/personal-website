@@ -5,6 +5,7 @@ description: 'After years of Python and JavaScript, I decided to learn Rust. Her
 pubDate: 2026-01-20
 author: 'James Hawley'
 category: 'tech'
+visible: false
 ---
 
 For most of my programming journey, I've lived comfortably in the world of high-level languages. Python for data analysis and quick scripts, JavaScript and TypeScript for web development. These languages are productive, well-documented, and have massive ecosystems. So why would I voluntarily subject myself to the learning curve of Rust?

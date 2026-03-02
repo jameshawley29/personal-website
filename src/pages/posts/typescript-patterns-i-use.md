@@ -5,6 +5,7 @@ description: 'Practical TypeScript patterns that have improved my code quality a
 pubDate: 2026-01-10
 author: 'James Hawley'
 category: 'tech'
+visible: false
 ---
 
 After three years of writing TypeScript, I've developed a set of patterns that I reach for in almost every project. These aren't exotic type gymnastics—they're practical techniques that make code safer and more maintainable.

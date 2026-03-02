@@ -5,6 +5,7 @@ description: 'A deep dive into inflation targeting, the dual mandate, and why ce
 pubDate: 2024-11-03
 author: 'James Hawley'
 category: 'economics'
+visible: false
 ---
 
 The Federal Reserve has two jobs: keep prices stable and maximize employment. This "dual mandate," codified in the Federal Reserve Act, sounds straightforward. In practice, it involves navigating profound uncertainties and genuine tradeoffs. Here's how I've come to think about it.

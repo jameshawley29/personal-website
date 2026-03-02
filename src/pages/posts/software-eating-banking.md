@@ -5,6 +5,7 @@ description: 'An analysis of how technology companies are disrupting traditional
 pubDate: 2026-01-15
 author: 'James Hawley'
 category: 'economics'
+visible: false
 ---
 
 Marc Andreessen famously declared that "software is eating the world." Nowhere is this more evident than in financial services, where a wave of fintech companies has fundamentally changed how people interact with money.
