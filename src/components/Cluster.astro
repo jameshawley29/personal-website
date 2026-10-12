@@ -28,16 +28,16 @@ const nodes = Array.from({ length: cols * rowsN }, (_, k) => {
   .node { fill: var(--bg-3); animation: job ease-in-out infinite; }
   @keyframes job {
     0%, 18% { fill: var(--bg-3); }
-    26%, 70% { fill: var(--chart); }
+    26%, 70% { fill: var(--sec); }
     78%, 100% { fill: var(--bg-3); }
   }
   .legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--ink-2); align-items: center; }
   .legend span { display: inline-flex; align-items: center; gap: 6px; }
   .sw { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
   .sw.idle { background: var(--bg-3); border: 1px solid var(--line-2); }
-  .sw.busy { background: var(--chart); }
+  .sw.busy { background: var(--sec); }
   @media (prefers-reduced-motion: reduce) {
     .node { animation: none; }
-    .node:nth-child(3n), .node:nth-child(7n) { fill: var(--chart); }
+    .node:nth-child(3n), .node:nth-child(7n) { fill: var(--sec); }
   }
 </style>

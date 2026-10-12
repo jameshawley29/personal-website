@@ -2,28 +2,27 @@
 
 Single-page visual résumé for James Hawley, built with Astro and deployed on Vercel.
 
-The page tells one story with as few words as possible: measured results from OneRail (GPU route optimization on NVIDIA cuOpt), three years of HPC work at Lockheed Martin, a school web platform with 600+ daily users, and leadership at UVA. Charts are drawn to scale from real benchmark numbers; nothing is decorative.
+Seven full-screen panels, one per organization, that the scroll snaps to: OneRail (GPU route optimization on NVIDIA cuOpt, shown as the 7.22× figure and the measured throughput chart), Lockheed Martin HPC, the Trinity Prep web platform, UVA leadership, TPEG, and skills. Charts are drawn to scale from real benchmark numbers. The look borrows from late-century world's-fair futurism: a generated geodesic sphere, geometric type, and one spectrum hue per panel.
 
 ## Stack
 
 - Astro 4 (static output), no UI framework
 - Vanilla TypeScript for the few interactions (stream slider, count-up, scroll-spy)
-- IBM Plex Sans / Mono from Google Fonts
+- Jost and IBM Plex Mono from Google Fonts
 - Light and dark themes via `prefers-color-scheme`; `prefers-reduced-motion` respected
 
 ## Structure
 
 ```
 src/
-├── layouts/Site.astro            # head, sticky nav, footer, scroll-spy
-├── pages/index.astro             # the whole page, section by section
+├── layouts/Site.astro            # head, fixed nav, pavilion dot rail, scroll-spy
+├── pages/index.astro             # the seven panels
 ├── components/
 │   ├── Timeline.astro            # career strip, bar lengths computed from real dates
 │   ├── ThroughputChart.astro     # 1→20 stream sweep, slider, tooltips (desktop + phone renderings)
-│   ├── StreamsDiagram.astro      # one queue vs. twenty streams feeding the GPU
-│   ├── ResultsPanel.astro        # wall time, route quality, cluster breakdown
+│   ├── Geodesic.astro            # hero sphere, generated geometry
 │   └── Cluster.astro             # HPC node grid
-└── styles/global.css             # tokens (light/dark), type, utilities
+└── styles/global.css             # tokens (light/dark), panel + snap rules, type, utilities
 public/
 ├── resume.pdf                    # linked from nav, hero and footer
 ├── og.png                        # link preview image (1200×630)

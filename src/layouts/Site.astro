@@ -26,6 +26,17 @@ const person = {
   jobTitle: "Computer Science & Economics student",
   address: { "@type": "PostalAddress", addressLocality: "Orlando", addressRegion: "FL" },
 };
+
+// Panels in order; the dot rail and the nav are built from this list.
+const sections = [
+  { id: "top", label: "James Hawley", hue: "ink" },
+  { id: "onerail", label: "OneRail", hue: "teal" },
+  { id: "lockheed", label: "Lockheed Martin", hue: "purple" },
+  { id: "platform", label: "Trinity Prep", hue: "orange" },
+  { id: "leadership", label: "Leadership", hue: "magenta" },
+  { id: "tpeg", label: "TPEG", hue: "blue" },
+  { id: "skills", label: "Skills", hue: "ink" },
+];
 ---
 
 <!doctype html>
@@ -47,13 +58,13 @@ const person = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0e1a26" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#0f0c1f" media="(prefers-color-scheme: dark)" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Jost:wght@400;500;600;700&display=swap"
     />
     <script type="application/ld+json" set:html={JSON.stringify(person)} />
   </head>
@@ -64,11 +75,7 @@ const person = {
       <div class="wrap bar">
         <a href="#top" class="brand"><span class="brand-full">James Hawley</span><span class="brand-short" aria-hidden="true">JH</span></a>
         <div class="links" id="nav-links">
-          <a href="#onerail">OneRail</a>
-          <a href="#lockheed">Lockheed</a>
-          <a href="#platform">Platform</a>
-          <a href="#leadership">Leadership</a>
-          <a href="#skills">Skills</a>
+          {sections.slice(1).map((s) => <a href={`#${s.id}`} data-hue={s.hue}>{s.label}</a>)}
         </div>
         <div class="actions">
           <a href="/resume.pdf" target="_blank" rel="noopener" class="action">Résumé<span aria-hidden="true"> ↗</span></a>
@@ -77,28 +84,19 @@ const person = {
       </div>
     </nav>
 
+    <!-- Pavilion dots: one per panel, in that panel's hue -->
+    <nav class="dots" aria-label="Sections">
+      {sections.map((s) => <a href={`#${s.id}`} class:list={["dot", s.hue]} aria-label={s.label}><span class="dot-tip">{s.label}</span></a>)}
+    </nav>
+
     <main id="main">
       <slot />
     </main>
 
-    <footer class="site-footer">
-      <div class="wrap foot">
-        <span class="mono muted">Orlando, FL · Charlottesville, VA</span>
-        <div class="foot-links">
-          <a href="mailto:jameshawley@email.virginia.edu">jameshawley@email.virginia.edu</a>
-          <a href="https://www.linkedin.com/in/james-m-hawley/" target="_blank" rel="noopener">LinkedIn</a>
-          <a href="https://github.com/jameshawley29" target="_blank" rel="noopener">GitHub</a>
-          <a href="/resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a>
-        </div>
-      </div>
-    </footer>
-
     <script>
-      // Scroll-spy: mark the nav link for the section in view.
-      const links = Array.from(document.querySelectorAll<HTMLAnchorElement>("#nav-links a"));
-      const targets = links
-        .map((a) => document.querySelector<HTMLElement>(a.getAttribute("href") || ""))
-        .filter((el): el is HTMLElement => !!el);
+      const links = Array.from(document.querySelectorAll<HTMLAnchorElement>("#nav-links a, .dots a"));
+      const ids = Array.from(new Set(links.map((a) => a.getAttribute("href") || "")));
+      const targets = ids.map((h) => document.querySelector<HTMLElement>(h)).filter((el): el is HTMLElement => !!el);
       if ("IntersectionObserver" in window && targets.length) {
         const io = new IntersectionObserver(
           (entries) => {
@@ -108,7 +106,7 @@ const person = {
               links.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === id));
             }
           },
-          { rootMargin: "-40% 0px -55% 0px", threshold: 0 }
+          { rootMargin: "-45% 0px -45% 0px", threshold: 0 }
         );
         targets.forEach((t) => io.observe(t));
       }
@@ -124,33 +122,54 @@ const person = {
   .skip:focus { top: 8px; }
 
   .topbar {
-    position: sticky; top: 0; z-index: 50;
-    background: color-mix(in srgb, var(--bg) 86%, transparent);
-    backdrop-filter: saturate(140%) blur(10px);
-    -webkit-backdrop-filter: saturate(140%) blur(10px);
+    position: fixed; top: 0; left: 0; right: 0; z-index: 90;
+    background: color-mix(in srgb, var(--bg) 84%, transparent);
+    backdrop-filter: saturate(140%) blur(12px);
+    -webkit-backdrop-filter: saturate(140%) blur(12px);
     border-bottom: 1px solid var(--line);
   }
   .bar { height: var(--nav-h); display: flex; align-items: center; gap: 24px; }
-  .brand { font-weight: 600; letter-spacing: -0.01em; white-space: nowrap; }
+  .brand { font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; font-size: 14px; white-space: nowrap; }
   .brand:hover { text-decoration: none; }
-  .links { display: flex; gap: 4px; margin-inline: auto; overflow-x: auto; scrollbar-width: none; }
   .brand-short { display: none; }
+  .links { display: flex; gap: 2px; margin-inline: auto; overflow-x: auto; scrollbar-width: none; }
   .links::-webkit-scrollbar { display: none; }
   .links a {
-    font-size: 14.5px; color: var(--muted); padding: 6px 10px; border-radius: 4px; white-space: nowrap;
+    font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500;
+    color: var(--muted); padding: 6px 10px; border-radius: 999px; white-space: nowrap;
   }
   .links a:hover { color: var(--ink); text-decoration: none; background: var(--bg-2); }
   .links a.active { color: var(--ink); }
   .actions { display: flex; gap: 6px; align-items: center; }
-  .action { font-size: 14.5px; padding: 7px 12px; border-radius: 5px; border: 1px solid var(--line-2); white-space: nowrap; }
+  .action { font-size: 13.5px; font-weight: 500; letter-spacing: 0.04em; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line-2); white-space: nowrap; }
   .action:hover { text-decoration: none; border-color: var(--ink-2); }
   .action.strong { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 
-  .site-footer { border-top: 1px solid var(--line); padding-block: 32px 48px; font-size: 14px; }
-  .foot { display: flex; flex-wrap: wrap; gap: 12px 28px; justify-content: space-between; align-items: center; }
-  .foot-links { display: flex; flex-wrap: wrap; gap: 8px 20px; }
-  .foot-links a { color: var(--ink-2); }
+  .dots {
+    position: fixed; right: 18px; top: 50%; transform: translateY(-50%); z-index: 80;
+    display: grid; gap: 12px;
+  }
+  .dot {
+    position: relative; width: 12px; height: 12px; border-radius: 50%;
+    border: 2px solid var(--line-2); background: transparent; display: block;
+    transition: transform .15s, border-color .15s, background .15s;
+  }
+  .dot.teal { border-color: var(--teal); } .dot.purple { border-color: var(--purple); }
+  .dot.orange { border-color: var(--orange); } .dot.magenta { border-color: var(--magenta); }
+  .dot.blue { border-color: var(--blue); } .dot.ink { border-color: var(--ink-2); }
+  .dot.active { transform: scale(1.35); }
+  .dot.active.teal { background: var(--teal); } .dot.active.purple { background: var(--purple); }
+  .dot.active.orange { background: var(--orange); } .dot.active.magenta { background: var(--magenta); }
+  .dot.active.blue { background: var(--blue); } .dot.active.ink { background: var(--ink-2); }
+  .dot:hover { text-decoration: none; }
+  .dot-tip {
+    position: absolute; right: 22px; top: 50%; transform: translateY(-50%);
+    font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap;
+    background: var(--ink); color: var(--bg); padding: 4px 8px; border-radius: 4px; display: none;
+  }
+  .dot:hover .dot-tip, .dot:focus-visible .dot-tip { display: block; }
 
+  @media (max-width: 900px) { .dots { display: none; } }
   @media (max-width: 720px) {
     .bar { gap: 12px; }
     .links { margin-inline: 0; }
@@ -160,6 +179,6 @@ const person = {
     .brand-full { display: none; }
     .brand-short { display: inline; }
     .links { -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); padding-right: 16px; }
-    .links a { padding-inline: 7px; font-size: 13.5px; }
+    .links a { padding-inline: 7px; font-size: 12px; }
   }
 </style>

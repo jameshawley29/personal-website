@@ -1,17 +1,17 @@
 ---
 // Career timeline strip. Positions are computed from real dates so bar lengths are to scale.
-type Row = { label: string; role: string; start: string; end?: string; href: string; tone?: "accent" };
+type Row = { label: string; role: string; start: string; end?: string; href: string; hue: string };
 
 const START = new Date("2021-09-01");
 const END = new Date("2027-01-01");
 const NOW = new Date("2026-10-12");
 
 const rows: Row[] = [
-  { label: "Trinity Prep web platform", role: "Founder & Lead Developer · Nov 2021 – May 2025", start: "2021-11-01", end: "2025-05-31", href: "#platform" },
-  { label: "Lockheed Martin MFC", role: "High Performance Computing Intern · Mar 2023 – Aug 2025", start: "2023-03-01", end: "2025-08-31", href: "#lockheed" },
-  { label: "University of Virginia", role: "B.S. Computer Science & B.A. Economics · Aug 2025 – May 2029", start: "2025-08-15", href: "#top" },
-  { label: "ESC & Student Council", role: "First Year President → APD Chair; CIO Consultant · Aug 2025 –", start: "2025-08-15", href: "#leadership" },
-  { label: "OneRail", role: "Data Science & AI Intern · May – Aug 2026", start: "2026-05-01", end: "2026-08-31", href: "#onerail", tone: "accent" },
+  { label: "Trinity Prep web platform", role: "Founder & Lead Developer · Nov 2021 – May 2025", start: "2021-11-01", end: "2025-05-31", href: "#platform", hue: "orange" },
+  { label: "Lockheed Martin MFC", role: "High Performance Computing Intern · Mar 2023 – Aug 2025", start: "2023-03-01", end: "2025-08-31", href: "#lockheed", hue: "purple" },
+  { label: "University of Virginia", role: "B.S. Computer Science & B.A. Economics · Aug 2025 – May 2029", start: "2025-08-15", href: "#top", hue: "ink" },
+  { label: "ESC & Student Council", role: "First Year President → APD Chair; CIO Consultant · Aug 2025 –", start: "2025-08-15", href: "#leadership", hue: "magenta" },
+  { label: "OneRail", role: "Data Science & AI Intern · May – Aug 2026", start: "2026-05-01", end: "2026-08-31", href: "#onerail", hue: "teal" },
 ];
 
 const span = END.getTime() - START.getTime();
@@ -42,7 +42,7 @@ const bars = rows.map((r) => {
         <a class="label" href={b.href}>{b.label}</a>
         <div class="track">
           <a
-            class:list={["bar", { open: b.open, accent: b.tone === "accent", r: b.left > 50 }]}
+            class:list={["bar", b.hue, { open: b.open, r: b.left > 50 }]}
             href={b.href}
             style={`left:${b.left}%;width:${b.width}%`}
             aria-label={`${b.label}: ${b.role}`}
@@ -73,28 +73,32 @@ const bars = rows.map((r) => {
   }
   .tick::after { content: ""; position: absolute; left: 50%; bottom: -7px; width: 1px; height: 6px; background: var(--line-2); }
   .now {
-    position: absolute; top: 0; bottom: 0; width: 1px; background: var(--accent); pointer-events: none; z-index: 1;
+    position: absolute; top: 0; bottom: 0; width: 1px; background: var(--ink-2); pointer-events: none; z-index: 1;
     left: calc(var(--label-w) + var(--gap) + (100% - var(--label-w) - var(--gap)) * var(--p));
   }
-  .now i { position: absolute; top: -2px; left: 6px; font: 500 11px var(--mono); font-style: normal; color: var(--accent); }
+  .now i { position: absolute; top: -2px; left: 6px; font: 500 11px var(--mono); font-style: normal; color: var(--ink-2); }
 
   .rows { list-style: none; }
   .row { height: 34px; }
   .label { font-size: 14px; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .label:hover { color: var(--ink); }
   .bar {
-    position: absolute; top: 4px; height: 18px; border-radius: 3px;
-    background: var(--chart-soft); border: 1px solid var(--chart);
+    --c: var(--blue); --cs: var(--blue-soft);
+    position: absolute; top: 4px; height: 18px; border-radius: 999px;
+    background: var(--cs); border: 1px solid var(--c);
     transition: background .15s;
   }
-  .bar:hover, .bar:focus-visible { background: var(--chart); text-decoration: none; }
-  .bar.open { border-right: 0; border-radius: 3px 0 0 3px;
+  .bar.orange { --c: var(--orange); --cs: var(--orange-soft); }
+  .bar.purple { --c: var(--purple); --cs: var(--purple-soft); }
+  .bar.magenta { --c: var(--magenta); --cs: var(--magenta-soft); }
+  .bar.teal { --c: var(--teal); --cs: var(--teal-soft); }
+  .bar.ink { --c: var(--ink-2); --cs: var(--bg-3); }
+  .bar:hover, .bar:focus-visible { background: var(--c); text-decoration: none; }
+  .bar.open { border-right: 0; border-radius: 999px 0 0 999px;
     -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); }
-  .bar.accent { background: var(--accent-soft); border-color: var(--accent); }
-  .bar.accent:hover, .bar.accent:focus-visible { background: var(--accent); }
   .tip {
     position: absolute; left: 0; top: 24px; z-index: 5; white-space: nowrap; display: none;
-    font: 12.5px var(--sans); color: var(--bg); background: var(--ink);
+    font: 12.5px var(--display); color: var(--bg); background: var(--ink);
     padding: 5px 8px; border-radius: 4px; pointer-events: none;
   }
   .bar.r .tip { left: auto; right: 0; }

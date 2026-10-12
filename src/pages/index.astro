@@ -2,247 +2,188 @@
 import Site from "../layouts/Site.astro";
 import Timeline from "../components/Timeline.astro";
 import ThroughputChart from "../components/ThroughputChart.astro";
-import StreamsDiagram from "../components/StreamsDiagram.astro";
-import ResultsPanel from "../components/ResultsPanel.astro";
 import Cluster from "../components/Cluster.astro";
+import Geodesic from "../components/Geodesic.astro";
 ---
 
 <Site>
-  <!-- Hero -->
-  <section id="top" class="hero">
-    <div class="wrap">
-      <p class="eyebrow">Computer Science &amp; Economics · University of Virginia · Class of 2029</p>
-      <h1>James Hawley</h1>
-      <p class="dek">
-        I make expensive systems do more. One GPU doing 7× the routes. HPC clusters kept busy for three years.
-        A school platform 600+ people opened every day.
-      </p>
-      <div class="cta">
-        <a class="btn primary" href="#onerail">See the work<span aria-hidden="true"> ↓</span></a>
-        <a class="btn" href="/resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a>
-        <a class="btn" href="https://www.linkedin.com/in/james-m-hawley/" target="_blank" rel="noopener">LinkedIn</a>
+  <!-- 0 · Hero -->
+  <section id="top" class="panel hero" style="--z:1">
+    <div class="wrap hero-grid">
+      <div class="hero-text">
+        <p class="eyebrow">Computer Science &amp; Economics · University of Virginia · 2029</p>
+        <h1>James<br />Hawley</h1>
+        <p class="hero-sub">Orlando, FL · Charlottesville, VA</p>
+        <div class="cta">
+          <a class="btn primary" href="#onerail">Start<span aria-hidden="true"> ↓</span></a>
+          <a class="btn" href="/resume.pdf" target="_blank" rel="noopener">Résumé</a>
+          <a class="btn" href="https://www.linkedin.com/in/james-m-hawley/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
       </div>
-      <div class="timeline-wrap">
-        <Timeline />
+      <div class="hero-art" aria-hidden="true"><Geodesic /></div>
+      <div class="hero-timeline"><Timeline /></div>
+    </div>
+  </section>
+
+  <!-- 1 · OneRail -->
+  <section id="onerail" class="panel teal" style="--z:2">
+    <div class="wrap two">
+      <div class="sec-head">
+        <span class="badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 18c4-1 5-6 9-7s5 3 7-3"/><circle cx="4" cy="18" r="1.6"/><circle cx="13" cy="11" r="1.6"/><circle cx="20" cy="8" r="1.6"/></svg></span>
+        <h2>OneRail</h2>
+        <p class="role">Data Science &amp; AI Intern</p>
+        <p class="meta">Orlando, FL · May – Aug 2026 · last-mile delivery platform behind FedEx same-day shipping</p>
+        <div class="hero-figure">
+          <span class="big num" id="hero-count" data-target="7.22">7.22×</span>
+          <span class="big-l">route-generation throughput on one shared GPU, no new hardware</span>
+        </div>
+      </div>
+      <div class="vis">
+        <ThroughputChart />
       </div>
     </div>
   </section>
 
-  <!-- OneRail -->
-  <section id="onerail" class="section">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow">OneRail · Data Science &amp; AI Intern · Orlando · May – Aug 2026</p>
-        <h2>One GPU. Seven times the routes. No new hardware.</h2>
-        <p class="dek">
-          Last-mile delivery platform behind FedEx same-day shipping. Route consolidation ran on NVIDIA cuOpt,
-          all of it on one shared GPU that spent most of the wall clock waiting.
-        </p>
-      </div>
-
-      <div class="hero-figure">
-        <span class="big num" id="hero-count" data-target="7.22">7.22×</span>
-        <span class="big-l">route-generation throughput<br /><span class="muted">measured on the parity run · same 160 clusters · n = 3 per arm</span></span>
-      </div>
-
-      <ThroughputChart />
-
-      <h3 class="sub-h">Why it worked</h3>
-      <StreamsDiagram />
-
-      <h3 class="sub-h">What it changed</h3>
-      <ResultsPanel />
-
-      <div class="twocol">
-        <div>
-          <h3 class="sub-h">Two doors that didn't open</h3>
-          <ul class="doors">
-            <li>
-              <span class="door-n num">−2.5%</span>
-              <span class="door-t"><b>Hammer one endpoint harder.</b> Concurrency 2 → 4 against a single cuOpt service: p50 latency ×3.8, throughput down. The service's internal queue was the choke point, not the solver.</span>
-            </li>
-            <li>
-              <span class="door-n num">&lt;6%</span>
-              <span class="door-t"><b>Just add client threads.</b> At 20 streams, extra workers moved wall time under the noise floor for 4 of 5 workload sizes. Once the GPU is saturated, threads are not the answer.</span>
-            </li>
-          </ul>
+  <!-- 2 · Lockheed Martin -->
+  <section id="lockheed" class="panel purple" style="--z:3">
+    <div class="wrap two">
+      <div class="sec-head">
+        <span class="badge" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="5" height="5" rx="1"/><rect x="9.5" y="3" width="5" height="5" rx="1"/><rect x="16" y="3" width="5" height="5" rx="1"/><rect x="3" y="9.5" width="5" height="5" rx="1"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><rect x="16" y="9.5" width="5" height="5" rx="1"/><rect x="3" y="16" width="5" height="5" rx="1"/><rect x="9.5" y="16" width="5" height="5" rx="1"/><rect x="16" y="16" width="5" height="5" rx="1"/></svg></span>
+        <h2>Lockheed Martin</h2>
+        <p class="role">High Performance Computing Intern</p>
+        <p class="meta">Missiles and Fire Control · Orlando, FL · Mar 2023 – Aug 2025</p>
+        <div class="facts tight">
+          <div class="fact"><div class="v num">3 yrs</div><div class="l">building and tuning HPC clusters</div></div>
+          <div class="fact"><div class="v">SLURM · MPI · CUDA</div><div class="l">simulation and data-rendering workloads</div></div>
+          <div class="fact"><div class="v">Classified R&amp;D</div><div class="l">deployed compute nodes across multiple programs</div></div>
         </div>
-        <div>
-          <h3 class="sub-h">How it's built</h3>
-          <ul class="built">
-            <li><b>Deterministic slicing</b><span>non-overlapping batch ranges across up to 20 cuOpt streams</span></li>
-            <li><b>Lighter transport</b><span>keep-alive reuse + zlib · xlarge payloads −67.7%</span></li>
-            <li><b>Faster detection</b><span>adaptive polling 1 s → 0.1–0.25 s</span></li>
-            <li><b>Fail-safe refinement</b><span>guarded two-phase solve, never worse than phase 1</span></li>
-          </ul>
-        </div>
-      </div>
-
-      <dl class="rigor" aria-label="Verification scale">
-        <div><dt>lines across the stack</dt><dd class="num">992</dd></div>
-        <div><dt>tests passing</dt><dd class="num">64</dd></div>
-        <div><dt>benchmark notebooks</dt><dd class="num">11</dd></div>
-        <div><dt>generated result files</dt><dd class="num">15,342</dd></div>
-        <div><dt>route costs independently audited</dt><dd class="num">12,115<span class="dd-sub">max diff 1.1 × 10⁻¹³</span></dd></div>
-        <div><dt>new hardware</dt><dd class="num">$0</dd></div>
-      </dl>
-
-      <p class="aside">
-        <span class="eyebrow">Weeks 1–4 · Data Science team</span><br />
-        Replaced recurring manual data pulls with two Snowflake SQL views and a Boomi ingestion pipeline, reported in Power BI.
-      </p>
-    </div>
-  </section>
-
-  <!-- Lockheed Martin -->
-  <section id="lockheed" class="section">
-    <div class="wrap split">
-      <div class="section-head">
-        <p class="eyebrow">Lockheed Martin Missiles and Fire Control · High Performance Computing Intern · Orlando · Mar 2023 – Aug 2025</p>
-        <h2>Three years keeping expensive hardware busy.</h2>
-        <ul class="lines">
-          <li>Built and tuned HPC clusters with SLURM, MPI and CUDA to accelerate large-scale simulation and data rendering.</li>
-          <li>Deployed scalable compute nodes, expanding data-processing capacity for R&amp;D across multiple classified programs.</li>
-        </ul>
         <ul class="wins" aria-label="Lockheed Martin competitions">
-          <li><span class="place">1st</span> CyberQuest 2023</li>
-          <li><span class="place">2nd</span> CyberQuest 2024</li>
-          <li><span class="place">3rd</span> Code Quest Advanced 2023</li>
+          <li><span class="place">1st</span>CyberQuest 2023</li>
+          <li><span class="place">2nd</span>CyberQuest 2024</li>
+          <li><span class="place">3rd</span>Code Quest Advanced 2023</li>
         </ul>
       </div>
-      <div class="split-vis">
-        <Cluster />
-      </div>
+      <div class="vis"><Cluster /></div>
     </div>
   </section>
 
-  <!-- Trinity Prep platform -->
-  <section id="platform" class="section">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow">Trinity Preparatory School · Founder &amp; Lead Developer · Winter Park, FL · Nov 2021 – May 2025</p>
-        <h2>A student web platform that became school infrastructure.</h2>
-      </div>
-      <div class="facts">
-        <div class="fact"><div class="v num">600+</div><div class="l">daily users</div></div>
-        <div class="fact"><div class="v num">420,000+</div><div class="l">total views</div></div>
-        <div class="fact"><div class="v num">32,000+</div><div class="l">accounts in an encrypted MySQL database</div></div>
-        <div class="fact"><div class="v num">25</div><div class="l">person team I grew and led</div></div>
-      </div>
-      <div class="twocol platform-grid">
+  <!-- 3 · Trinity Prep platform -->
+  <section id="platform" class="panel orange" style="--z:4">
+    <div class="wrap two">
+      <div class="sec-head">
+        <span class="badge" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></svg></span>
+        <h2>Trinity Prep</h2>
+        <p class="role">Founder &amp; Lead Developer, student web platform</p>
+        <p class="meta">Winter Park, FL · Nov 2021 – May 2025 · Next.js · Tailwind · AWS · MySQL</p>
         <ul class="lines">
-          <li>Sponsor management system that generated new student council revenue.</li>
-          <li>Secure platform for official digital elections.</li>
-          <li>The most-used student platform in the school's history, adopted by school IT.</li>
+          <li>Sponsor management system that generated new student council revenue</li>
+          <li>Secure platform for official digital elections</li>
+          <li>Adopted by school IT; grew and led a 25-person team</li>
         </ul>
-        <div class="stack-dia" role="img" aria-label="Architecture: browser to Next.js and Tailwind on AWS, to an encrypted MySQL database.">
-          <span class="node">Browser</span><span class="arrow" aria-hidden="true">→</span>
-          <span class="node">Next.js · Tailwind<br /><small>on AWS</small></span><span class="arrow" aria-hidden="true">→</span>
-          <span class="node">MySQL<br /><small>encrypted</small></span>
+      </div>
+      <div class="vis">
+        <div class="facts big-facts">
+          <div class="fact"><div class="v num">600+</div><div class="l">daily users</div></div>
+          <div class="fact"><div class="v num">420,000+</div><div class="l">total views</div></div>
+          <div class="fact"><div class="v num">32,000+</div><div class="l">accounts, encrypted MySQL</div></div>
+          <div class="fact"><div class="v num">25</div><div class="l">person team</div></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Leadership -->
-  <section id="leadership" class="section">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow">University of Virginia · 2025 –</p>
-        <h2>Running things for 800+ organizations and a class of first-years.</h2>
+  <!-- 4 · Leadership -->
+  <section id="leadership" class="panel magenta" style="--z:5">
+    <div class="wrap two">
+      <div class="sec-head">
+        <span class="badge" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 19c0-3.3 2.7-6 6-6s6 2.7 6 6M15 19c0-2.4 1.6-4.4 3.8-5"/></svg></span>
+        <h2>University of Virginia</h2>
+        <p class="role">Engineering Student Council · Student Council</p>
+        <p class="meta">Charlottesville, VA · Aug 2025 –</p>
       </div>
-      <div class="cards">
-        <article class="card">
-          <p class="eyebrow">Student Council · CIO Consultant · Aug 2026 –</p>
-          <p class="card-n num">800+</p>
-          <p class="card-t">organizations at the Fall Activities Fair, the largest student-run event in UVA history. I ran logistics and operations, and advise CIOs on funding, operations and appropriations.</p>
-        </article>
-        <article class="card">
-          <p class="eyebrow">Engineering Student Council · First Year President · 2025 – 26</p>
-          <p class="card-n num">$20,000</p>
-          <p class="card-t">budget and a 30-member committee for the first-year engineering class. Major Declaration grew to 400+ attendees (+13%).</p>
-        </article>
-        <article class="card">
-          <p class="eyebrow">Engineering Student Council · Academic &amp; Professional Development · Aug 2026 –</p>
-          <p class="card-n num">Chair</p>
-          <p class="card-t">of the committee that runs academic and career-readiness programming for the engineering school's undergraduates.</p>
-        </article>
+      <div class="vis">
+        <div class="cards">
+          <article class="card">
+            <p class="eyebrow">CIO Consultant · Student Council</p>
+            <p class="card-n num">800+</p>
+            <p class="card-t">organizations at the Fall Activities Fair, the largest student-run event in UVA history. Ran logistics and operations; advise CIOs on funding and appropriations.</p>
+          </article>
+          <article class="card">
+            <p class="eyebrow">First Year President · ESC · 2025 – 26</p>
+            <p class="card-n num">$20,000</p>
+            <p class="card-t">budget and a 30-member committee for the first-year engineering class. Major Declaration grew to 400+ attendees (+13%).</p>
+          </article>
+          <article class="card">
+            <p class="eyebrow">Academic &amp; Professional Development Chair · ESC · 2026 –</p>
+            <p class="card-n">Chair</p>
+            <p class="card-t">of the committee running academic and career-readiness programming for engineering undergraduates.</p>
+          </article>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- TPEG -->
-  <section id="tpeg" class="section">
-    <div class="wrap split">
-      <div class="section-head">
-        <p class="eyebrow">Theme Park Engineering Group · Software &amp; Electrical Lead, Competition Team</p>
-        <h2>Next: ride and show systems.</h2>
-        <p class="dek">Leading the software and electrical team for TPEG's competition build: control software and electrical integration, working alongside the mechanical team.</p>
+  <!-- 5 · TPEG -->
+  <section id="tpeg" class="panel blue" style="--z:6">
+    <div class="wrap two">
+      <div class="sec-head">
+        <span class="badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2 16c4 0 4-8 8-8s4 8 8 8 3-5 4-6"/><circle cx="10" cy="8" r="1.8"/></svg></span>
+        <h2>Theme Park Engineering Group</h2>
+        <p class="role">Software &amp; Electrical Lead, Competition Team</p>
+        <p class="meta">University of Virginia · control software and electrical integration for the competition build</p>
       </div>
-      <div class="split-vis">
+      <div class="vis">
         <div class="disc" role="img" aria-label="Three disciplines on the competition build: software and electrical, which I lead, and mechanical.">
           <div class="disc-box lead"><span class="eyebrow">lead</span>Software</div>
           <div class="disc-box lead"><span class="eyebrow">lead</span>Electrical</div>
-          <div class="disc-box">Mechanical</div>
+          <div class="disc-box"><span class="eyebrow">partner</span>Mechanical</div>
         </div>
+        <svg class="track" viewBox="0 0 640 150" aria-hidden="true">
+          <path id="track-path" d="M8 120 C 90 120, 110 30, 180 30 S 270 120, 340 120 S 430 36, 500 36 S 600 110, 632 110" />
+          <circle r="7" class="car"><animateMotion dur="7s" repeatCount="indefinite" rotate="auto"><mpath href="#track-path" /></animateMotion></circle>
+        </svg>
       </div>
     </div>
   </section>
 
-  <!-- Skills + awards -->
-  <section id="skills" class="section">
-    <div class="wrap twocol skills-grid">
-      <div>
-        <div class="section-head">
-          <h2>Skills</h2>
-        </div>
-        <div class="skill-rows">
-          <div class="skill-row">
-            <span class="eyebrow">Languages</span>
-            <div class="chips">
-              {["Python", "SQL", "R", "C++", "Java", "JavaScript", "TypeScript", "Swift", "HTML/CSS"].map((s) => <span class="chip">{s}</span>)}
-            </div>
-          </div>
-          <div class="skill-row">
-            <span class="eyebrow">Data &amp; compute</span>
-            <div class="chips">
-              {["CUDA", "NVIDIA cuOpt", "PyTorch", "TensorFlow", "SLURM", "MPI", "Snowflake", "Power BI", "Linux", "Docker", "Kubernetes"].map((s) => <span class="chip">{s}</span>)}
-            </div>
-          </div>
-          <div class="skill-row">
-            <span class="eyebrow">Web &amp; cloud</span>
-            <div class="chips">
-              {["Next.js", "Node.js", "AWS", "MySQL", "Tailwind CSS", "Unity"].map((s) => <span class="chip">{s}</span>)}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="section-head">
-          <h2>Awards</h2>
-        </div>
-        <ol class="awards">
-          <li><span class="place">1st</span>Virginia Case Club Competition <span class="yr">2026</span></li>
-          <li><span class="place">1st</span>Lockheed Martin CyberQuest <span class="yr">2023</span></li>
-          <li><span class="place">2nd</span>Lockheed Martin CyberQuest <span class="yr">2024</span></li>
-          <li><span class="place">3rd</span>CyberPatriot National Competition, Silver League <span class="yr">2023</span></li>
-          <li><span class="place">3rd</span>Lockheed Martin Code Quest Advanced <span class="yr">2023</span></li>
-          <li><span class="place">3rd</span>University of Florida Programming Competition <span class="yr">2023</span></li>
-        </ol>
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact -->
-  <section id="contact" class="section contact">
+  <!-- 6 · Skills, awards, contact -->
+  <section id="skills" class="panel last" style="--z:7">
     <div class="wrap">
-      <p class="eyebrow">Summer 2027</p>
-      <h2>Looking for an internship where the systems are real and the guests are counting on them.</h2>
-      <div class="cta">
-        <a class="btn primary" href="mailto:jameshawley@email.virginia.edu">jameshawley@email.virginia.edu</a>
-        <a class="btn" href="https://www.linkedin.com/in/james-m-hawley/" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="btn" href="/resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a>
+      <div class="three">
+        <div>
+          <p class="eyebrow">Skills</p>
+          <div class="skill-rows">
+            <div class="skill-row"><span class="sk-l">Languages</span>
+              <div class="chips">{["Python", "SQL", "R", "C++", "Java", "JavaScript", "TypeScript", "Swift", "HTML/CSS"].map((s) => <span class="chip">{s}</span>)}</div></div>
+            <div class="skill-row"><span class="sk-l">Data &amp; compute</span>
+              <div class="chips">{["CUDA", "NVIDIA cuOpt", "PyTorch", "TensorFlow", "SLURM", "MPI", "Snowflake", "Power BI", "Linux", "Docker", "Kubernetes"].map((s) => <span class="chip">{s}</span>)}</div></div>
+            <div class="skill-row"><span class="sk-l">Web &amp; cloud</span>
+              <div class="chips">{["Next.js", "Node.js", "AWS", "MySQL", "Tailwind CSS", "Unity"].map((s) => <span class="chip">{s}</span>)}</div></div>
+          </div>
+        </div>
+        <div>
+          <p class="eyebrow">Awards</p>
+          <ol class="awards">
+            <li><span class="place">1st</span>Virginia Case Club Competition<span class="yr">2026</span></li>
+            <li><span class="place">1st</span>Lockheed Martin CyberQuest<span class="yr">2023</span></li>
+            <li><span class="place">2nd</span>Lockheed Martin CyberQuest<span class="yr">2024</span></li>
+            <li><span class="place">3rd</span>CyberPatriot National, Silver League<span class="yr">2023</span></li>
+            <li><span class="place">3rd</span>Lockheed Martin Code Quest Advanced<span class="yr">2023</span></li>
+            <li><span class="place">3rd</span>UF Programming Competition<span class="yr">2023</span></li>
+          </ol>
+        </div>
+        <div class="contact">
+          <p class="eyebrow">Summer 2027</p>
+          <p class="contact-h">Open to internships.</p>
+          <div class="cta col">
+            <a class="btn primary" href="mailto:jameshawley@email.virginia.edu">jameshawley@email.virginia.edu</a>
+            <a class="btn" href="https://www.linkedin.com/in/james-m-hawley/" target="_blank" rel="noopener">LinkedIn</a>
+            <a class="btn" href="https://github.com/jameshawley29" target="_blank" rel="noopener">GitHub</a>
+            <a class="btn" href="/resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a>
+          </div>
+        </div>
       </div>
+      <p class="foot mono muted">Orlando, FL · Charlottesville, VA</p>
     </div>
   </section>
 </Site>
@@ -269,87 +210,99 @@ import Cluster from "../components/Cluster.astro";
     }, { threshold: 0.6 });
     io.observe(el);
   }
-  // Pause SMIL pulses under reduced motion.
   if (reduce) document.querySelectorAll("svg").forEach((s) => s.pauseAnimations?.());
 </script>
 
 <style>
-  .hero { padding-block: 72px 56px; }
-  .hero h1 { font-size: clamp(44px, 7vw, 76px); margin-top: 12px; letter-spacing: -0.03em; }
-  .hero .dek { margin-top: 20px; font-size: clamp(18px, 2.2vw, 22px); color: var(--ink-2); max-width: 46ch; text-wrap: pretty; }
-  .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
-  .timeline-wrap { margin-top: 56px; padding-top: 28px; border-top: 1px solid var(--line); }
+  /* Hero */
+  .hero { border-top: 0; }
+  .hero-grid {
+    display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    grid-template-areas: "text art" "tl tl"; gap: 24px 48px; align-items: center;
+  }
+  .hero-text { grid-area: text; }
+  .hero-art { grid-area: art; max-width: 440px; justify-self: end; }
+  .hero-timeline { grid-area: tl; padding-top: 24px; border-top: 1px solid var(--line); }
+  .hero h1 { font-size: clamp(56px, 9vw, 112px); font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em; line-height: 0.92; margin-top: 14px; }
+  .hero-sub { margin-top: 18px; font-family: var(--mono); font-size: 14px; color: var(--muted); }
+  .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+  .cta.col { flex-direction: column; align-items: flex-start; }
 
-  .hero-figure { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 24px; margin: 8px 0 36px; }
-  .hero-figure .big { font-size: clamp(64px, 11vw, 128px); font-weight: 600; letter-spacing: -0.04em; line-height: 0.95; }
-  .hero-figure .big-l { font-size: 16px; color: var(--ink-2); max-width: 30ch; line-height: 1.4; }
+  /* Two-column panel: head left, visual right */
+  .two { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 48px; align-items: center; }
+  .vis { min-width: 0; }
 
-  .sub-h { font-size: 15px; font-weight: 600; letter-spacing: 0; margin: 48px 0 16px; color: var(--ink); }
-  .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-  .doors { list-style: none; display: grid; gap: 16px; }
-  .doors li { display: grid; grid-template-columns: 84px 1fr; gap: 14px; align-items: start; }
-  .door-n { font-size: 26px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; color: var(--ink); }
-  .door-t { font-size: 15px; color: var(--ink-2); }
-  .door-t b { color: var(--ink); font-weight: 600; }
-  .built { list-style: none; display: grid; gap: 12px; }
-  .built li { display: grid; gap: 2px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
-  .built li:last-child { border-bottom: 0; }
-  .built b { font-weight: 600; }
-  .built span { font-size: 14.5px; color: var(--ink-2); font-family: var(--mono); }
+  .hero-figure { display: grid; gap: 6px; margin-top: 18px; }
+  .hero-figure .big { font-size: clamp(64px, 8vw, 112px); font-weight: 700; letter-spacing: -0.02em; line-height: 0.95; color: var(--sec); }
+  .hero-figure .big-l { font-size: 15px; color: var(--ink-2); max-width: 34ch; }
 
-  .rigor { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; margin-top: 48px; padding: 20px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-  .rigor div { display: grid; gap: 4px; }
-  .rigor dt { order: 2; font-size: 12.5px; color: var(--muted); }
-  .rigor dd { order: 1; font-size: 24px; font-weight: 600; letter-spacing: -0.02em; line-height: 1; }
-  .dd-sub { display: block; font: 11.5px var(--mono); color: var(--muted); margin-top: 4px; letter-spacing: 0; }
-  .aside { margin-top: 28px; font-size: 15px; color: var(--ink-2); max-width: 70ch; }
+  .facts.tight { margin-top: 18px; grid-template-columns: 1fr; gap: 12px; }
+  .facts.tight .v { font-size: 24px; }
+  .facts.tight .l { margin-top: 2px; }
+  .big-facts { grid-template-columns: 1fr 1fr; gap: 36px; }
+  .big-facts .fact { min-width: 0; }
+  .big-facts .v { font-size: clamp(36px, 4.6vw, 64px); color: var(--sec); white-space: nowrap; }
 
-  .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: center; }
-  .split .section-head { margin-bottom: 0; }
-  .lines { list-style: none; display: grid; gap: 10px; font-size: 16px; color: var(--ink-2); max-width: 52ch; }
+  .lines { list-style: none; display: grid; gap: 8px; font-size: 15.5px; color: var(--ink-2); margin-top: 14px; max-width: 46ch; }
   .lines li { padding-left: 16px; position: relative; }
-  .lines li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 6px; height: 6px; border-radius: 1px; background: var(--accent); }
-  .wins { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 10px; font-size: 14px; color: var(--ink-2); }
-  .place { font: 500 12px var(--mono); color: var(--ink); background: var(--bg-2); border: 1px solid var(--line); border-radius: 3px; padding: 2px 6px; margin-right: 6px; }
+  .lines li::before { content: ""; position: absolute; left: 0; top: 0.55em; width: 7px; height: 7px; border-radius: 50%; background: var(--sec); }
+  .wins { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 16px; font-size: 14px; color: var(--ink-2); }
+  .place { font: 500 12px var(--mono); color: var(--ink); background: var(--bg-2); border: 1px solid var(--line); border-radius: 999px; padding: 2px 8px; margin-right: 8px; }
 
-  .platform-grid { margin-top: 40px; align-items: center; }
-  .stack-dia { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 14px; }
-  .stack-dia .node { padding: 10px 14px; border: 1px solid var(--line-2); border-radius: 6px; background: var(--bg-2); text-align: center; line-height: 1.25; }
-  .stack-dia small { font: 12px var(--mono); color: var(--muted); }
-  .stack-dia .arrow { color: var(--muted); }
-
-  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .card { display: grid; gap: 10px; align-content: start; padding: 20px; border: 1px solid var(--line); border-radius: 8px; }
-  .card-n { font-size: 40px; font-weight: 600; letter-spacing: -0.03em; line-height: 1; }
+  .cards { display: grid; gap: 14px; }
+  .card { display: grid; grid-template-columns: 150px 1fr; gap: 4px 20px; align-items: start; padding: 16px 18px; border: 1px solid var(--line); border-radius: 14px; }
+  .card .eyebrow { grid-column: 1 / -1; font-size: 11.5px; }
+  .card-n { font-size: 40px; font-weight: 600; letter-spacing: -0.01em; line-height: 1; color: var(--sec); }
   .card-t { font-size: 14.5px; color: var(--ink-2); }
 
-  .disc { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-  .disc-box { display: grid; gap: 6px; padding: 18px 14px; border: 1px solid var(--line); border-radius: 8px; font-weight: 500; text-align: center; color: var(--muted); }
-  .disc-box.lead { color: var(--ink); border-color: var(--accent); background: var(--accent-soft); }
+  .disc { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .disc-box { display: grid; gap: 8px; padding: 26px 16px; border: 1px solid var(--line); border-radius: 14px; font-weight: 500; font-size: 18px; text-align: center; color: var(--muted); }
+  .disc-box.lead { color: var(--ink); border-color: var(--sec); background: var(--sec-soft); }
   .disc-box .eyebrow { font-size: 11px; }
-  .disc-box.lead .eyebrow { color: var(--accent); }
+  .disc-box.lead .eyebrow { color: var(--sec); }
+  .track { width: 100%; height: auto; margin-top: 18px; }
+  .track path { fill: none; stroke: var(--line-2); stroke-width: 2; }
+  .track .car { fill: var(--sec); }
 
-  .skills-grid { gap: 48px; }
-  .skills-grid .section-head { margin-bottom: 20px; }
-  .skill-rows { display: grid; gap: 18px; }
+
+  .last .wrap { display: grid; gap: 28px; }
+  .three { display: grid; grid-template-columns: 1.3fr 1fr 0.9fr; gap: 48px; align-items: start; }
+  .three > div { display: grid; gap: 16px; align-content: start; }
+  .skill-rows { display: grid; gap: 14px; }
   .skill-row { display: grid; gap: 8px; }
-  .awards { list-style: none; display: grid; gap: 10px; font-size: 15px; color: var(--ink-2); }
-  .awards li { display: flex; align-items: center; gap: 4px; }
-  .awards .yr { margin-left: auto; font: 13px var(--mono); color: var(--muted); }
+  .sk-l { font-size: 13px; color: var(--muted); }
+  .awards { list-style: none; display: grid; gap: 10px; font-size: 14.5px; color: var(--ink-2); }
+  .awards li { display: flex; align-items: center; }
+  .awards .yr { margin-left: auto; padding-left: 12px; font: 13px var(--mono); color: var(--muted); }
+  .contact-h { font-size: 26px; font-weight: 600; }
+  .contact .cta { margin-top: 4px; }
+  .foot { font-size: 13px; }
 
-  .contact h2 { font-size: clamp(26px, 3.6vw, 36px); max-width: 24ch; margin-top: 12px; }
-  .contact .cta { margin-top: 24px; }
-
-  @media (max-width: 900px) {
-    .cards { grid-template-columns: 1fr; }
-    .rigor { grid-template-columns: repeat(3, 1fr); }
+  @media (max-height: 840px) and (min-width: 1001px) {
+    .hero h1 { font-size: clamp(48px, 7vw, 84px); }
+    .hero-art { max-width: 320px; }
+    .hero-timeline { padding-top: 16px; }
+    .hero .cta { margin-top: 16px; }
   }
-  @media (max-width: 760px) {
-    .hero { padding-block: 48px 40px; }
-    .twocol, .split { grid-template-columns: 1fr; gap: 32px; }
-    .rigor { grid-template-columns: repeat(2, 1fr); }
-    .doors li { grid-template-columns: 72px 1fr; }
-    .door-n { font-size: 21px; }
-    .hero-figure .big-l { max-width: none; }
+  @media (max-width: 1000px) {
+    .three { grid-template-columns: 1fr 1fr; }
+    .three > .contact { grid-column: 1 / -1; }
+  }
+  @media (max-width: 900px) {
+    .two { grid-template-columns: 1fr; gap: 28px; }
+    .hero-grid { grid-template-columns: 1fr; grid-template-areas: "text" "art" "tl"; }
+    .hero-art { max-width: 300px; justify-self: center; }
+    .big-facts { gap: 24px; }
+  }
+  @media (max-width: 480px) {
+    .big-facts { grid-template-columns: 1fr; gap: 18px; }
+  }
+  @media (max-width: 720px) {
+    .panel { padding-block: calc(var(--nav-h) + 16px) 32px; }
+    .hero-figure .big { font-size: 64px; }
+    .card { grid-template-columns: 1fr; }
+    .disc { grid-template-columns: 1fr; }
+    .disc-box { padding: 16px; }
+    .three { grid-template-columns: 1fr; gap: 32px; }
   }
 </style>

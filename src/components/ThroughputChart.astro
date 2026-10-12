@@ -16,7 +16,7 @@ const ticks = [0, 2, 4, 6, 8];
 
 // Two renderings of the same data: one sized for desktop, one for phones, so SVG text stays ~12px in both.
 const cfgs = [
-  { key: "d", W: 1040, H: 340, L: 48, R: 24, T: 30, B: 48, barW: 28 },
+  { key: "d", W: 680, H: 320, L: 44, R: 16, T: 28, B: 46, barW: 26 },
   { key: "m", W: 360, H: 260, L: 36, R: 12, T: 26, B: 44, barW: 22 },
 ].map((c) => {
   const plotW = c.W - c.L - c.R, plotH = c.H - c.T - c.B;
@@ -33,10 +33,7 @@ const roundedTop = (bx: number, by: number, w: number, bottom: number, r = 4) =>
 
 <figure class="chart" id="tp-chart">
   <div class="chart-head">
-    <div>
-      <div class="eyebrow">Route-generation throughput vs. concurrent cuOpt streams</div>
-      <div class="sub">One shared GPU · same batches · relative to the one-stream baseline</div>
-    </div>
+    <div class="eyebrow">Throughput vs. cuOpt streams on one shared GPU</div>
   </div>
 
   <div class="plot-wrap">
@@ -145,8 +142,7 @@ const roundedTop = (bx: number, by: number, w: number, bottom: number, r = 4) =>
 </script>
 
 <style>
-  .chart { display: grid; gap: 14px; }
-  .chart-head .sub { font-size: 14px; color: var(--ink-2); margin-top: 4px; }
+  .chart { display: grid; gap: 10px; }
   .plot-wrap { position: relative; }
   .plot { width: 100%; height: auto; overflow: visible; }
   .plot-m { display: none; }
@@ -154,16 +150,16 @@ const roundedTop = (bx: number, by: number, w: number, bottom: number, r = 4) =>
   .tick { font: 12px var(--mono); fill: var(--muted); }
   .axis-title { fill: var(--muted); }
   .target { stroke: var(--ink-2); stroke-width: 1; stroke-dasharray: 4 4; }
-  .target-label { font: 12px var(--sans); fill: var(--ink-2); }
+  .target-label { font: 500 12px var(--display); fill: var(--ink-2); letter-spacing: 0.02em; }
   .val { font: 500 13px var(--mono); fill: var(--ink); }
-  .bar { fill: var(--chart); transition: fill .15s, opacity .15s; }
-  .bar.last { fill: var(--accent); }
+  .bar { fill: var(--sec); transition: fill .15s, opacity .15s; }
+  .bar.last { fill: var(--orange); }
   .hit { fill: transparent; }
   .bar-g { cursor: pointer; outline: none; }
-  .bar-g.dim .bar { fill: var(--chart-soft); }
-  .bar-g.dim .bar.last { fill: var(--accent-soft); }
+  .bar-g.dim .bar { fill: var(--sec-soft); }
+  .bar-g.dim .bar.last { fill: var(--orange-soft); }
   .bar-g:hover .bar, .bar-g:focus-visible .bar { opacity: .85; }
-  .bar-g:focus-visible .hit { stroke: var(--focus); stroke-width: 2; fill: var(--chart-faint); }
+  .bar-g:focus-visible .hit { stroke: var(--focus); stroke-width: 2; fill: var(--bg-2); }
 
   .tooltip {
     position: absolute; transform: translate(-50%, -100%);
@@ -172,13 +168,13 @@ const roundedTop = (bx: number, by: number, w: number, bottom: number, r = 4) =>
   }
   .tooltip span { color: color-mix(in srgb, var(--bg) 75%, transparent); }
 
-  .controls { display: grid; gap: 12px; padding: 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg-2); }
+  .controls { display: grid; gap: 10px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg-2); }
   .ctl-label { display: flex; justify-content: space-between; font-size: 14px; color: var(--ink-2); }
   .ctl-label output { font-weight: 500; color: var(--ink); }
-  input[type="range"] { width: 100%; accent-color: var(--accent); }
+  input[type="range"] { width: 100%; accent-color: var(--orange); }
   .readouts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
   .ro { display: grid; gap: 2px; }
-  .ro .v { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; }
+  .ro .v { font-size: 24px; font-weight: 600; letter-spacing: -0.01em; }
   .ro .l { font-size: 12.5px; color: var(--muted); }
   .note { font-size: 13px; color: var(--muted); max-width: 70ch; }
 
