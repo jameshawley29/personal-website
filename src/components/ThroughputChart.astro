@@ -1,0 +1,191 @@
+---
+// Throughput vs. concurrent cuOpt streams on one shared GPU.
+// Sweep values are the earlier measured sweep; 20 streams is also the parity-run endpoint (7.22x).
+const points = [
+  { streams: 1, speedup: 1.0 },
+  { streams: 2, speedup: 1.59 },
+  { streams: 4, speedup: 2.75 },
+  { streams: 8, speedup: 4.39 },
+  { streams: 16, speedup: 6.44 },
+  { streams: 20, speedup: 7.06, parity: 7.22 },
+];
+const TARGET = 2.5;
+const BASE_HOURS = 18.47; // single-stream estimate for 1,000 batches (20-batch run x 50)
+const yMax = 8;
+const ticks = [0, 2, 4, 6, 8];
+
+// Two renderings of the same data: one sized for desktop, one for phones, so SVG text stays ~12px in both.
+const cfgs = [
+  { key: "d", W: 1040, H: 340, L: 48, R: 24, T: 30, B: 48, barW: 28 },
+  { key: "m", W: 360, H: 260, L: 36, R: 12, T: 26, B: 44, barW: 22 },
+].map((c) => {
+  const plotW = c.W - c.L - c.R, plotH = c.H - c.T - c.B;
+  const y = (v: number) => c.T + plotH - (v / yMax) * plotH;
+  const slot = plotW / points.length;
+  const x = (i: number) => c.L + slot * i + slot / 2 - c.barW / 2;
+  return { ...c, plotW, plotH, y, x };
+});
+
+// Bar with a 4px rounded top and a square baseline.
+const roundedTop = (bx: number, by: number, w: number, bottom: number, r = 4) =>
+  `M${bx},${bottom} V${by + r} a${r},${r} 0 0 1 ${r},-${r} h${w - 2 * r} a${r},${r} 0 0 1 ${r},${r} V${bottom} Z`;
+---
+
+<figure class="chart" id="tp-chart">
+  <div class="chart-head">
+    <div>
+      <div class="eyebrow">Route-generation throughput vs. concurrent cuOpt streams</div>
+      <div class="sub">One shared GPU · same batches · relative to the one-stream baseline</div>
+    </div>
+  </div>
+
+  <div class="plot-wrap">
+    {cfgs.map((c) => (
+      <svg viewBox={`0 0 ${c.W} ${c.H}`} role="img" aria-labelledby={`tp-title-${c.key}`} class:list={["plot", `plot-${c.key}`]}>
+        <title id={`tp-title-${c.key}`}>Bar chart of throughput speedup at 1, 2, 4, 8, 16 and 20 streams: 1.0, 1.59, 2.75, 4.39, 6.44 and 7.06 times. Dashed line marks the 2.5 times target.</title>
+        {ticks.map((t) => (
+          <g>
+            <line x1={c.L} x2={c.W - c.R} y1={c.y(t)} y2={c.y(t)} class="grid" />
+            <text x={c.L - 8} y={c.y(t) + 4} class="tick" text-anchor="end">{t}×</text>
+          </g>
+        ))}
+        <line x1={c.L} x2={c.W - c.R} y1={c.y(TARGET)} y2={c.y(TARGET)} class="target" />
+        <text x={c.L + 8} y={c.y(TARGET) - 7} class="target-label">2–3× hoped for going in</text>
+
+        {points.map((p, i) => (
+          <g class="bar-g" data-i={i} tabindex="0" aria-label={`${p.streams} streams: ${(p.parity ?? p.speedup).toFixed(2)} times`}>
+            <rect x={c.x(i) - 14} y={c.T} width={c.barW + 28} height={c.plotH} class="hit" />
+            <path d={roundedTop(c.x(i), c.y(p.speedup), c.barW, c.T + c.plotH)} class:list={["bar", { last: i === points.length - 1 }]} />
+            <text x={c.x(i) + c.barW / 2} y={c.H - c.B + 18} class="tick" text-anchor="middle">{p.streams}</text>
+            {(i === 0 || p.parity) && (
+              <text x={c.x(i) + c.barW / 2} y={c.y(p.parity ?? p.speedup) - 8} class="val" text-anchor="middle">
+                {p.parity ? `${p.parity.toFixed(2)}×` : "1.0×"}
+              </text>
+            )}
+          </g>
+        ))}
+        <text x={c.L + c.plotW / 2} y={c.H - 4} class="tick axis-title" text-anchor="middle">cuOpt service streams</text>
+      </svg>
+    ))}
+    <div class="tooltip" id="tp-tip" role="status" aria-live="polite" hidden></div>
+  </div>
+
+  <div class="controls">
+    <label for="tp-range" class="ctl-label">Streams on the GPU <output id="tp-out" for="tp-range" class="mono">20</output></label>
+    <input id="tp-range" type="range" min="0" max="5" step="1" value="5" aria-valuetext="20 streams" />
+    <div class="readouts" aria-live="polite">
+      <div class="ro"><span class="v num" id="ro-speed">7.22×</span><span class="l">throughput</span></div>
+      <div class="ro"><span class="v num" id="ro-hours">2.6 h</span><span class="l">est. per 1,000 batches</span></div>
+      <div class="ro"><span class="v num" id="ro-back">15.9 h</span><span class="l">back, per 1,000 batches</span></div>
+    </div>
+  </div>
+
+  <figcaption class="note">
+    Measured: 20 batches, 160 equal-sized clusters, n = 3 per arm. The 1,000-batch hours are a linear estimate from the measured run, not a measured campaign.
+  </figcaption>
+
+  <table class="visually-hidden">
+    <caption>Throughput speedup by stream count</caption>
+    <thead><tr><th>Streams</th><th>Speedup</th></tr></thead>
+    <tbody>{points.map((p) => <tr><td>{p.streams}</td><td>{(p.parity ?? p.speedup).toFixed(2)}×</td></tr>)}</tbody>
+  </table>
+</figure>
+
+<script define:vars={{ points, BASE_HOURS }}>
+  const fig = document.getElementById("tp-chart");
+  const range = document.getElementById("tp-range");
+  const out = document.getElementById("tp-out");
+  const roSpeed = document.getElementById("ro-speed");
+  const roHours = document.getElementById("ro-hours");
+  const roBack = document.getElementById("ro-back");
+  const tip = document.getElementById("tp-tip");
+  const wrap = fig.querySelector(".plot-wrap");
+  const bars = Array.from(fig.querySelectorAll(".bar-g"));
+
+  const speedOf = (i) => points[i].parity ?? points[i].speedup;
+  const fmtH = (h) => h.toFixed(1) + " h";
+
+  function apply(i) {
+    const s = speedOf(i);
+    out.value = String(points[i].streams);
+    range.setAttribute("aria-valuetext", `${points[i].streams} streams`);
+    roSpeed.textContent = s.toFixed(2) + "×";
+    const hrs = BASE_HOURS / s;
+    roHours.textContent = fmtH(hrs);
+    roBack.textContent = i === 0 ? "0 h" : fmtH(BASE_HOURS - hrs);
+    bars.forEach((g) => {
+      const j = Number(g.dataset.i);
+      g.classList.toggle("dim", j > i);
+      g.classList.toggle("sel", j === i);
+    });
+  }
+  range.addEventListener("input", () => apply(Number(range.value)));
+  apply(5);
+
+  function showTip(i, el) {
+    const p = points[i], s = speedOf(i);
+    tip.innerHTML = `<b>${p.streams} stream${p.streams === 1 ? "" : "s"}</b> · ${s.toFixed(2)}×${p.parity ? " on the parity run" : ""}<br><span>${(BASE_HOURS / s).toFixed(1)} h est. per 1,000 batches</span>`;
+    tip.hidden = false;
+    const fr = wrap.getBoundingClientRect();
+    const br = el.querySelector(".bar").getBoundingClientRect();
+    if (br.width === 0) return; // the hidden rendering
+    const left = br.left - fr.left + br.width / 2;
+    tip.style.left = Math.min(Math.max(left, 96), fr.width - 96) + "px";
+    tip.style.top = (br.top - fr.top - 10) + "px";
+  }
+  bars.forEach((g) => {
+    const i = Number(g.dataset.i);
+    g.addEventListener("mouseenter", () => showTip(i, g));
+    g.addEventListener("focus", () => showTip(i, g));
+    g.addEventListener("mouseleave", () => (tip.hidden = true));
+    g.addEventListener("blur", () => (tip.hidden = true));
+    g.addEventListener("click", () => { range.value = String(i); apply(i); });
+    g.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); range.value = String(i); apply(i); } });
+  });
+</script>
+
+<style>
+  .chart { display: grid; gap: 14px; }
+  .chart-head .sub { font-size: 14px; color: var(--ink-2); margin-top: 4px; }
+  .plot-wrap { position: relative; }
+  .plot { width: 100%; height: auto; overflow: visible; }
+  .plot-m { display: none; }
+  .grid { stroke: var(--line); stroke-width: 1; }
+  .tick { font: 12px var(--mono); fill: var(--muted); }
+  .axis-title { fill: var(--muted); }
+  .target { stroke: var(--ink-2); stroke-width: 1; stroke-dasharray: 4 4; }
+  .target-label { font: 12px var(--sans); fill: var(--ink-2); }
+  .val { font: 500 13px var(--mono); fill: var(--ink); }
+  .bar { fill: var(--chart); transition: fill .15s, opacity .15s; }
+  .bar.last { fill: var(--accent); }
+  .hit { fill: transparent; }
+  .bar-g { cursor: pointer; outline: none; }
+  .bar-g.dim .bar { fill: var(--chart-soft); }
+  .bar-g.dim .bar.last { fill: var(--accent-soft); }
+  .bar-g:hover .bar, .bar-g:focus-visible .bar { opacity: .85; }
+  .bar-g:focus-visible .hit { stroke: var(--focus); stroke-width: 2; fill: var(--chart-faint); }
+
+  .tooltip {
+    position: absolute; transform: translate(-50%, -100%);
+    background: var(--ink); color: var(--bg); font-size: 13px; line-height: 1.35;
+    padding: 8px 10px; border-radius: 5px; pointer-events: none; white-space: nowrap; z-index: 3;
+  }
+  .tooltip span { color: color-mix(in srgb, var(--bg) 75%, transparent); }
+
+  .controls { display: grid; gap: 12px; padding: 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg-2); }
+  .ctl-label { display: flex; justify-content: space-between; font-size: 14px; color: var(--ink-2); }
+  .ctl-label output { font-weight: 500; color: var(--ink); }
+  input[type="range"] { width: 100%; accent-color: var(--accent); }
+  .readouts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .ro { display: grid; gap: 2px; }
+  .ro .v { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; }
+  .ro .l { font-size: 12.5px; color: var(--muted); }
+  .note { font-size: 13px; color: var(--muted); max-width: 70ch; }
+
+  @media (max-width: 640px) {
+    .plot-d { display: none; }
+    .plot-m { display: block; }
+    .readouts { grid-template-columns: 1fr 1fr; }
+    .ro .v { font-size: 20px; }
+  }
+</style>

@@ -1,0 +1,113 @@
+---
+// Career timeline strip. Positions are computed from real dates so bar lengths are to scale.
+type Row = { label: string; role: string; start: string; end?: string; href: string; tone?: "accent" };
+
+const START = new Date("2021-09-01");
+const END = new Date("2027-01-01");
+const NOW = new Date("2026-10-12");
+
+const rows: Row[] = [
+  { label: "Trinity Prep web platform", role: "Founder & Lead Developer · Nov 2021 – May 2025", start: "2021-11-01", end: "2025-05-31", href: "#platform" },
+  { label: "Lockheed Martin MFC", role: "High Performance Computing Intern · Mar 2023 – Aug 2025", start: "2023-03-01", end: "2025-08-31", href: "#lockheed" },
+  { label: "University of Virginia", role: "B.S. Computer Science & B.A. Economics · Aug 2025 – May 2029", start: "2025-08-15", href: "#top" },
+  { label: "ESC & Student Council", role: "First Year President → APD Chair; CIO Consultant · Aug 2025 –", start: "2025-08-15", href: "#leadership" },
+  { label: "OneRail", role: "Data Science & AI Intern · May – Aug 2026", start: "2026-05-01", end: "2026-08-31", href: "#onerail", tone: "accent" },
+];
+
+const span = END.getTime() - START.getTime();
+const pct = (d: Date) => Math.max(0, Math.min(100, ((d.getTime() - START.getTime()) / span) * 100));
+const nowPct = pct(NOW);
+
+const years = [2022, 2023, 2024, 2025, 2026].map((y) => ({ y, x: pct(new Date(`${y}-01-01`)) }));
+
+const bars = rows.map((r) => {
+  const s = pct(new Date(r.start));
+  const e = r.end ? pct(new Date(r.end)) : nowPct;
+  return { ...r, left: s, width: e - s, open: !r.end };
+});
+---
+
+<figure class="timeline" aria-label="Career timeline, 2021 to 2026">
+  <div class="body">
+  <span class="now" style={`--p:${nowPct / 100}`} aria-hidden="true"><i>now</i></span>
+  <div class="axis" aria-hidden="true">
+    <span class="axis-label"></span>
+    <div class="axis-track">
+      {years.map((t) => <span class="tick" style={`left:${t.x}%`}>{t.y}</span>)}
+    </div>
+  </div>
+  <ol class="rows">
+    {bars.map((b) => (
+      <li class="row">
+        <a class="label" href={b.href}>{b.label}</a>
+        <div class="track">
+          <a
+            class:list={["bar", { open: b.open, accent: b.tone === "accent", r: b.left > 50 }]}
+            href={b.href}
+            style={`left:${b.left}%;width:${b.width}%`}
+            aria-label={`${b.label}: ${b.role}`}
+          >
+            <span class="tip">{b.role}</span>
+          </a>
+        </div>
+      </li>
+    ))}
+  </ol>
+  </div>
+  <figcaption class="visually-hidden">
+    Trinity Prep web platform, November 2021 to May 2025. Lockheed Martin Missiles and Fire Control, March 2023 to August 2025.
+    University of Virginia, August 2025 to present. Engineering Student Council and Student Council leadership, August 2025 to present.
+    OneRail, May to August 2026.
+  </figcaption>
+</figure>
+
+<style>
+  .timeline { --label-w: 200px; --gap: 16px; }
+  .body { position: relative; display: grid; gap: 6px; }
+  .axis, .row { display: grid; grid-template-columns: var(--label-w) 1fr; align-items: center; gap: var(--gap); }
+  .axis-track, .track { position: relative; height: 26px; }
+  .axis-track { height: 20px; border-bottom: 1px solid var(--line-2); margin-bottom: 6px; }
+  .tick {
+    position: absolute; top: 0; transform: translateX(-50%);
+    font-family: var(--mono); font-size: 11.5px; color: var(--muted);
+  }
+  .tick::after { content: ""; position: absolute; left: 50%; bottom: -7px; width: 1px; height: 6px; background: var(--line-2); }
+  .now {
+    position: absolute; top: 0; bottom: 0; width: 1px; background: var(--accent); pointer-events: none; z-index: 1;
+    left: calc(var(--label-w) + var(--gap) + (100% - var(--label-w) - var(--gap)) * var(--p));
+  }
+  .now i { position: absolute; top: -2px; left: 6px; font: 500 11px var(--mono); font-style: normal; color: var(--accent); }
+
+  .rows { list-style: none; }
+  .row { height: 34px; }
+  .label { font-size: 14px; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .label:hover { color: var(--ink); }
+  .bar {
+    position: absolute; top: 4px; height: 18px; border-radius: 3px;
+    background: var(--chart-soft); border: 1px solid var(--chart);
+    transition: background .15s;
+  }
+  .bar:hover, .bar:focus-visible { background: var(--chart); text-decoration: none; }
+  .bar.open { border-right: 0; border-radius: 3px 0 0 3px;
+    -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); }
+  .bar.accent { background: var(--accent-soft); border-color: var(--accent); }
+  .bar.accent:hover, .bar.accent:focus-visible { background: var(--accent); }
+  .tip {
+    position: absolute; left: 0; top: 24px; z-index: 5; white-space: nowrap; display: none;
+    font: 12.5px var(--sans); color: var(--bg); background: var(--ink);
+    padding: 5px 8px; border-radius: 4px; pointer-events: none;
+  }
+  .bar.r .tip { left: auto; right: 0; }
+  .bar:hover .tip, .bar:focus-visible .tip { display: block; }
+
+  @media (max-width: 720px) {
+    .timeline { --label-w: 0px; --gap: 0px; }
+    .axis, .row { grid-template-columns: 1fr; gap: 0; }
+    .axis-label { display: none; }
+    .row { height: auto; padding-block: 2px; }
+    .label { font-size: 13px; margin-bottom: 2px; }
+    .track { height: 22px; }
+    .bar { top: 2px; height: 16px; }
+    .tip { white-space: normal; max-width: 70vw; }
+  }
+</style>

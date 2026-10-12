@@ -1,404 +1,355 @@
 ---
-// Homepage uses its own minimal layout without nav
-const siteName = "James Hawley";
-const title = "James Hawley";
-const description = "CS & Economics at UVA. Writing on technology, economics, and monetary policy.";
+import Site from "../layouts/Site.astro";
+import Timeline from "../components/Timeline.astro";
+import ThroughputChart from "../components/ThroughputChart.astro";
+import StreamsDiagram from "../components/StreamsDiagram.astro";
+import ResultsPanel from "../components/ResultsPanel.astro";
+import Cluster from "../components/Cluster.astro";
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <title>{title}</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  </head>
-  <body>
-    <!-- Animated Dot Matrix Background -->
-    <div class="dot-matrix" aria-hidden="true"></div>
+<Site>
+  <!-- Hero -->
+  <section id="top" class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Computer Science &amp; Economics · University of Virginia · Class of 2029</p>
+      <h1>James Hawley</h1>
+      <p class="dek">
+        I make expensive systems do more. One GPU doing 7× the routes. HPC clusters kept busy for three years.
+        A school platform 600+ people opened every day.
+      </p>
+      <div class="cta">
+        <a class="btn primary" href="#onerail">See the work<span aria-hidden="true"> ↓</span></a>
+        <a class="btn" href="/resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a>
+        <a class="btn" href="https://www.linkedin.com/in/james-m-hawley/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+      <div class="timeline-wrap">
+        <Timeline />
+      </div>
+    </div>
+  </section>
 
-    <main class="homepage">
-      <section class="hero">
-        <div class="hero-content">
-          <div class="greeting">
-            <span class="wave">👋</span>
-            <span class="greeting-text">Hey, I'm</span>
+  <!-- OneRail -->
+  <section id="onerail" class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">OneRail · Data Science &amp; AI Intern · Orlando · May – Aug 2026</p>
+        <h2>One GPU. Seven times the routes. No new hardware.</h2>
+        <p class="dek">
+          Last-mile delivery platform behind FedEx same-day shipping. Route consolidation ran on NVIDIA cuOpt,
+          all of it on one shared GPU that spent most of the wall clock waiting.
+        </p>
+      </div>
+
+      <div class="hero-figure">
+        <span class="big num" id="hero-count" data-target="7.22">7.22×</span>
+        <span class="big-l">route-generation throughput<br /><span class="muted">measured on the parity run · same 160 clusters · n = 3 per arm</span></span>
+      </div>
+
+      <ThroughputChart />
+
+      <h3 class="sub-h">Why it worked</h3>
+      <StreamsDiagram />
+
+      <h3 class="sub-h">What it changed</h3>
+      <ResultsPanel />
+
+      <div class="twocol">
+        <div>
+          <h3 class="sub-h">Two doors that didn't open</h3>
+          <ul class="doors">
+            <li>
+              <span class="door-n num">−2.5%</span>
+              <span class="door-t"><b>Hammer one endpoint harder.</b> Concurrency 2 → 4 against a single cuOpt service: p50 latency ×3.8, throughput down. The service's internal queue was the choke point, not the solver.</span>
+            </li>
+            <li>
+              <span class="door-n num">&lt;6%</span>
+              <span class="door-t"><b>Just add client threads.</b> At 20 streams, extra workers moved wall time under the noise floor for 4 of 5 workload sizes. Once the GPU is saturated, threads are not the answer.</span>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="sub-h">How it's built</h3>
+          <ul class="built">
+            <li><b>Deterministic slicing</b><span>non-overlapping batch ranges across up to 20 cuOpt streams</span></li>
+            <li><b>Lighter transport</b><span>keep-alive reuse + zlib · xlarge payloads −67.7%</span></li>
+            <li><b>Faster detection</b><span>adaptive polling 1 s → 0.1–0.25 s</span></li>
+            <li><b>Fail-safe refinement</b><span>guarded two-phase solve, never worse than phase 1</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <dl class="rigor" aria-label="Verification scale">
+        <div><dt>lines across the stack</dt><dd class="num">992</dd></div>
+        <div><dt>tests passing</dt><dd class="num">64</dd></div>
+        <div><dt>benchmark notebooks</dt><dd class="num">11</dd></div>
+        <div><dt>generated result files</dt><dd class="num">15,342</dd></div>
+        <div><dt>route costs independently audited</dt><dd class="num">12,115<span class="dd-sub">max diff 1.1 × 10⁻¹³</span></dd></div>
+        <div><dt>new hardware</dt><dd class="num">$0</dd></div>
+      </dl>
+
+      <p class="aside">
+        <span class="eyebrow">Weeks 1–4 · Data Science team</span><br />
+        Replaced recurring manual data pulls with two Snowflake SQL views and a Boomi ingestion pipeline, reported in Power BI.
+      </p>
+    </div>
+  </section>
+
+  <!-- Lockheed Martin -->
+  <section id="lockheed" class="section">
+    <div class="wrap split">
+      <div class="section-head">
+        <p class="eyebrow">Lockheed Martin Missiles and Fire Control · High Performance Computing Intern · Orlando · Mar 2023 – Aug 2025</p>
+        <h2>Three years keeping expensive hardware busy.</h2>
+        <ul class="lines">
+          <li>Built and tuned HPC clusters with SLURM, MPI and CUDA to accelerate large-scale simulation and data rendering.</li>
+          <li>Deployed scalable compute nodes, expanding data-processing capacity for R&amp;D across multiple classified programs.</li>
+        </ul>
+        <ul class="wins" aria-label="Lockheed Martin competitions">
+          <li><span class="place">1st</span> CyberQuest 2023</li>
+          <li><span class="place">2nd</span> CyberQuest 2024</li>
+          <li><span class="place">3rd</span> Code Quest Advanced 2023</li>
+        </ul>
+      </div>
+      <div class="split-vis">
+        <Cluster />
+      </div>
+    </div>
+  </section>
+
+  <!-- Trinity Prep platform -->
+  <section id="platform" class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Trinity Preparatory School · Founder &amp; Lead Developer · Winter Park, FL · Nov 2021 – May 2025</p>
+        <h2>A student web platform that became school infrastructure.</h2>
+      </div>
+      <div class="facts">
+        <div class="fact"><div class="v num">600+</div><div class="l">daily users</div></div>
+        <div class="fact"><div class="v num">420,000+</div><div class="l">total views</div></div>
+        <div class="fact"><div class="v num">32,000+</div><div class="l">accounts in an encrypted MySQL database</div></div>
+        <div class="fact"><div class="v num">25</div><div class="l">person team I grew and led</div></div>
+      </div>
+      <div class="twocol platform-grid">
+        <ul class="lines">
+          <li>Sponsor management system that generated new student council revenue.</li>
+          <li>Secure platform for official digital elections.</li>
+          <li>The most-used student platform in the school's history, adopted by school IT.</li>
+        </ul>
+        <div class="stack-dia" role="img" aria-label="Architecture: browser to Next.js and Tailwind on AWS, to an encrypted MySQL database.">
+          <span class="node">Browser</span><span class="arrow" aria-hidden="true">→</span>
+          <span class="node">Next.js · Tailwind<br /><small>on AWS</small></span><span class="arrow" aria-hidden="true">→</span>
+          <span class="node">MySQL<br /><small>encrypted</small></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Leadership -->
+  <section id="leadership" class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">University of Virginia · 2025 –</p>
+        <h2>Running things for 800+ organizations and a class of first-years.</h2>
+      </div>
+      <div class="cards">
+        <article class="card">
+          <p class="eyebrow">Student Council · CIO Consultant · Aug 2026 –</p>
+          <p class="card-n num">800+</p>
+          <p class="card-t">organizations at the Fall Activities Fair, the largest student-run event in UVA history. I ran logistics and operations, and advise CIOs on funding, operations and appropriations.</p>
+        </article>
+        <article class="card">
+          <p class="eyebrow">Engineering Student Council · First Year President · 2025 – 26</p>
+          <p class="card-n num">$20,000</p>
+          <p class="card-t">budget and a 30-member committee for the first-year engineering class. Major Declaration grew to 400+ attendees (+13%).</p>
+        </article>
+        <article class="card">
+          <p class="eyebrow">Engineering Student Council · Academic &amp; Professional Development · Aug 2026 –</p>
+          <p class="card-n num">Chair</p>
+          <p class="card-t">of the committee that runs academic and career-readiness programming for the engineering school's undergraduates.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- TPEG -->
+  <section id="tpeg" class="section">
+    <div class="wrap split">
+      <div class="section-head">
+        <p class="eyebrow">Theme Park Engineering Group · Software &amp; Electrical Lead, Competition Team</p>
+        <h2>Next: ride and show systems.</h2>
+        <p class="dek">Leading the software and electrical team for TPEG's competition build: control software and electrical integration, working alongside the mechanical team.</p>
+      </div>
+      <div class="split-vis">
+        <div class="disc" role="img" aria-label="Three disciplines on the competition build: software and electrical, which I lead, and mechanical.">
+          <div class="disc-box lead"><span class="eyebrow">lead</span>Software</div>
+          <div class="disc-box lead"><span class="eyebrow">lead</span>Electrical</div>
+          <div class="disc-box">Mechanical</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills + awards -->
+  <section id="skills" class="section">
+    <div class="wrap twocol skills-grid">
+      <div>
+        <div class="section-head">
+          <h2>Skills</h2>
+        </div>
+        <div class="skill-rows">
+          <div class="skill-row">
+            <span class="eyebrow">Languages</span>
+            <div class="chips">
+              {["Python", "SQL", "R", "C++", "Java", "JavaScript", "TypeScript", "Swift", "HTML/CSS"].map((s) => <span class="chip">{s}</span>)}
+            </div>
           </div>
-          <h1 class="name">James Hawley</h1>
-          <p class="tagline">
-            Computer Science & Economics at the <span class="highlight">University of Virginia</span>
-          </p>
+          <div class="skill-row">
+            <span class="eyebrow">Data &amp; compute</span>
+            <div class="chips">
+              {["CUDA", "NVIDIA cuOpt", "PyTorch", "TensorFlow", "SLURM", "MPI", "Snowflake", "Power BI", "Linux", "Docker", "Kubernetes"].map((s) => <span class="chip">{s}</span>)}
+            </div>
+          </div>
+          <div class="skill-row">
+            <span class="eyebrow">Web &amp; cloud</span>
+            <div class="chips">
+              {["Next.js", "Node.js", "AWS", "MySQL", "Tailwind CSS", "Unity"].map((s) => <span class="chip">{s}</span>)}
+            </div>
+          </div>
         </div>
-
-        <div class="bio">
-          <p>
-            Three years of experience at <strong>Lockheed Martin</strong> in defense technology and systems engineering.
-            I write about technology, economics, monetary policy, and the ideas that sit at their intersections.
-          </p>
-          <p class="location">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-              <circle cx="12" cy="10" r="3"></circle>
-            </svg>
-            Orlando, Florida
-          </p>
+      </div>
+      <div>
+        <div class="section-head">
+          <h2>Awards</h2>
         </div>
+        <ol class="awards">
+          <li><span class="place">1st</span>Virginia Case Club Competition <span class="yr">2026</span></li>
+          <li><span class="place">1st</span>Lockheed Martin CyberQuest <span class="yr">2023</span></li>
+          <li><span class="place">2nd</span>Lockheed Martin CyberQuest <span class="yr">2024</span></li>
+          <li><span class="place">3rd</span>CyberPatriot National Competition, Silver League <span class="yr">2023</span></li>
+          <li><span class="place">3rd</span>Lockheed Martin Code Quest Advanced <span class="yr">2023</span></li>
+          <li><span class="place">3rd</span>University of Florida Programming Competition <span class="yr">2023</span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
 
-        <nav class="contact-links">
-          <a href="mailto:jameshawley@email.virginia.edu" class="contact-link">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-              <polyline points="22,6 12,13 2,6"></polyline>
-            </svg>
-            <span>Email</span>
-          </a>
-          <a href="https://www.linkedin.com/in/james-m-hawley/" target="_blank" rel="noopener noreferrer" class="contact-link">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-              <rect x="2" y="9" width="4" height="12"></rect>
-              <circle cx="4" cy="4" r="2"></circle>
-            </svg>
-            <span>LinkedIn</span>
-          </a>
-          <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" class="contact-link">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="16" y1="13" x2="8" y2="13"></line>
-              <line x1="16" y1="17" x2="8" y2="17"></line>
-            </svg>
-            <span>Resume</span>
-          </a>
-          <a href="/writing" class="contact-link cta">
-            <span>Read my writing</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 12h14"></path>
-              <path d="m12 5 7 7-7 7"></path>
-            </svg>
-          </a>
-        </nav>
+  <!-- Contact -->
+  <section id="contact" class="section contact">
+    <div class="wrap">
+      <p class="eyebrow">Summer 2027</p>
+      <h2>Looking for an internship where the systems are real and the guests are counting on them.</h2>
+      <div class="cta">
+        <a class="btn primary" href="mailto:jameshawley@email.virginia.edu">jameshawley@email.virginia.edu</a>
+        <a class="btn" href="https://www.linkedin.com/in/james-m-hawley/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="/resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a>
+      </div>
+    </div>
+  </section>
+</Site>
 
-        <a href="/about" class="about-link">Learn more about me →</a>
-      </section>
-    </main>
-  </body>
-</html>
-
-<style is:global>
-  :root {
-    --blue-deep: #0e1a26;
-    --blue-primary: #232d4b;
-    --blue-light: #3a4a6b;
-    --orange-accent: #e57200;
-    --text-primary: #1a1a1a;
-    --text-secondary: #4a4a4a;
-    --text-muted: #6b6b6b;
-    --bg-primary: #ffffff;
-    --bg-secondary: #f8f9fa;
-    --border-subtle: rgba(35, 45, 75, 0.1);
-    --border-light: rgba(35, 45, 75, 0.15);
+<script>
+  // Count the hero figure up when it scrolls into view (skipped under reduced motion).
+  const el = document.getElementById("hero-count");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (el && !reduce && "IntersectionObserver" in window) {
+    const target = Number(el.dataset.target || "0");
+    let done = false;
+    const io = new IntersectionObserver((entries) => {
+      if (done || !entries.some((e) => e.isIntersecting)) return;
+      done = true;
+      el.textContent = "1.00×";
+      const t0 = performance.now(), dur = 1400;
+      const tick = (t: number) => {
+        const k = Math.min(1, (t - t0) / dur);
+        const eased = 1 - Math.pow(1 - k, 3);
+        el.textContent = (1 + (target - 1) * eased).toFixed(2) + "×";
+        if (k < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }, { threshold: 0.6 });
+    io.observe(el);
   }
-
-  *, *::before, *::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
-
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    font-size: 17px;
-    line-height: 1.7;
-    color: var(--text-primary);
-    background-color: var(--bg-primary);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  /* Soothing Animated Dot Matrix Background */
-  .dot-matrix {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: -1;
-    background-image: radial-gradient(circle, rgba(35, 45, 75, 0.12) 1.5px, transparent 1.5px);
-    background-size: 28px 28px;
-    animation: dotBreath 6s ease-in-out infinite, dotFloat 25s ease-in-out infinite;
-  }
-
-  @keyframes dotBreath {
-    0%, 100% {
-      opacity: 0.5;
-      background-size: 28px 28px;
-    }
-    50% {
-      opacity: 0.8;
-      background-size: 30px 30px;
-    }
-  }
-
-  @keyframes dotFloat {
-    0%, 100% {
-      background-position: 0 0;
-    }
-    25% {
-      background-position: 14px 7px;
-    }
-    50% {
-      background-position: 0 14px;
-    }
-    75% {
-      background-position: -14px 7px;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .dot-matrix {
-      animation: none;
-      opacity: 0.6;
-    }
-  }
-</style>
+  // Pause SMIL pulses under reduced motion.
+  if (reduce) document.querySelectorAll("svg").forEach((s) => s.pauseAnimations?.());
+</script>
 
 <style>
-  .homepage {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
+  .hero { padding-block: 72px 56px; }
+  .hero h1 { font-size: clamp(44px, 7vw, 76px); margin-top: 12px; letter-spacing: -0.03em; }
+  .hero .dek { margin-top: 20px; font-size: clamp(18px, 2.2vw, 22px); color: var(--ink-2); max-width: 46ch; text-wrap: pretty; }
+  .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+  .timeline-wrap { margin-top: 56px; padding-top: 28px; border-top: 1px solid var(--line); }
+
+  .hero-figure { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 24px; margin: 8px 0 36px; }
+  .hero-figure .big { font-size: clamp(64px, 11vw, 128px); font-weight: 600; letter-spacing: -0.04em; line-height: 0.95; }
+  .hero-figure .big-l { font-size: 16px; color: var(--ink-2); max-width: 30ch; line-height: 1.4; }
+
+  .sub-h { font-size: 15px; font-weight: 600; letter-spacing: 0; margin: 48px 0 16px; color: var(--ink); }
+  .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .doors { list-style: none; display: grid; gap: 16px; }
+  .doors li { display: grid; grid-template-columns: 84px 1fr; gap: 14px; align-items: start; }
+  .door-n { font-size: 26px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; color: var(--ink); }
+  .door-t { font-size: 15px; color: var(--ink-2); }
+  .door-t b { color: var(--ink); font-weight: 600; }
+  .built { list-style: none; display: grid; gap: 12px; }
+  .built li { display: grid; gap: 2px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+  .built li:last-child { border-bottom: 0; }
+  .built b { font-weight: 600; }
+  .built span { font-size: 14.5px; color: var(--ink-2); font-family: var(--mono); }
+
+  .rigor { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; margin-top: 48px; padding: 20px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .rigor div { display: grid; gap: 4px; }
+  .rigor dt { order: 2; font-size: 12.5px; color: var(--muted); }
+  .rigor dd { order: 1; font-size: 24px; font-weight: 600; letter-spacing: -0.02em; line-height: 1; }
+  .dd-sub { display: block; font: 11.5px var(--mono); color: var(--muted); margin-top: 4px; letter-spacing: 0; }
+  .aside { margin-top: 28px; font-size: 15px; color: var(--ink-2); max-width: 70ch; }
+
+  .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: center; }
+  .split .section-head { margin-bottom: 0; }
+  .lines { list-style: none; display: grid; gap: 10px; font-size: 16px; color: var(--ink-2); max-width: 52ch; }
+  .lines li { padding-left: 16px; position: relative; }
+  .lines li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 6px; height: 6px; border-radius: 1px; background: var(--accent); }
+  .wins { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 10px; font-size: 14px; color: var(--ink-2); }
+  .place { font: 500 12px var(--mono); color: var(--ink); background: var(--bg-2); border: 1px solid var(--line); border-radius: 3px; padding: 2px 6px; margin-right: 6px; }
+
+  .platform-grid { margin-top: 40px; align-items: center; }
+  .stack-dia { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 14px; }
+  .stack-dia .node { padding: 10px 14px; border: 1px solid var(--line-2); border-radius: 6px; background: var(--bg-2); text-align: center; line-height: 1.25; }
+  .stack-dia small { font: 12px var(--mono); color: var(--muted); }
+  .stack-dia .arrow { color: var(--muted); }
+
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .card { display: grid; gap: 10px; align-content: start; padding: 20px; border: 1px solid var(--line); border-radius: 8px; }
+  .card-n { font-size: 40px; font-weight: 600; letter-spacing: -0.03em; line-height: 1; }
+  .card-t { font-size: 14.5px; color: var(--ink-2); }
+
+  .disc { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .disc-box { display: grid; gap: 6px; padding: 18px 14px; border: 1px solid var(--line); border-radius: 8px; font-weight: 500; text-align: center; color: var(--muted); }
+  .disc-box.lead { color: var(--ink); border-color: var(--accent); background: var(--accent-soft); }
+  .disc-box .eyebrow { font-size: 11px; }
+  .disc-box.lead .eyebrow { color: var(--accent); }
+
+  .skills-grid { gap: 48px; }
+  .skills-grid .section-head { margin-bottom: 20px; }
+  .skill-rows { display: grid; gap: 18px; }
+  .skill-row { display: grid; gap: 8px; }
+  .awards { list-style: none; display: grid; gap: 10px; font-size: 15px; color: var(--ink-2); }
+  .awards li { display: flex; align-items: center; gap: 4px; }
+  .awards .yr { margin-left: auto; font: 13px var(--mono); color: var(--muted); }
+
+  .contact h2 { font-size: clamp(26px, 3.6vw, 36px); max-width: 24ch; margin-top: 12px; }
+  .contact .cta { margin-top: 24px; }
+
+  @media (max-width: 900px) {
+    .cards { grid-template-columns: 1fr; }
+    .rigor { grid-template-columns: repeat(3, 1fr); }
   }
-
-  .hero {
-    max-width: 560px;
-    text-align: center;
-    animation: fadeUp 0.8s ease-out;
-  }
-
-  @keyframes fadeUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .hero-content {
-    margin-bottom: 2rem;
-  }
-
-  .greeting {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .wave {
-    font-size: 1.75rem;
-    display: inline-block;
-    animation: wave 2.5s ease-in-out infinite;
-    transform-origin: 70% 70%;
-  }
-
-  @keyframes wave {
-    0%, 100% { transform: rotate(0deg); }
-    10% { transform: rotate(14deg); }
-    20% { transform: rotate(-8deg); }
-    30% { transform: rotate(14deg); }
-    40% { transform: rotate(-4deg); }
-    50%, 100% { transform: rotate(0deg); }
-  }
-
-  .greeting-text {
-    font-size: 1.1rem;
-    color: var(--text-muted);
-    font-weight: 500;
-    letter-spacing: 0.02em;
-  }
-
-  .name {
-    font-size: 3.75rem;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-    margin-bottom: 0.75rem;
-    background: linear-gradient(135deg, var(--blue-primary) 0%, var(--blue-light) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .tagline {
-    font-size: 1.25rem;
-    color: var(--text-secondary);
-    line-height: 1.5;
-    margin: 0;
-  }
-
-  .highlight {
-    color: var(--text-primary);
-    font-weight: 500;
-  }
-
-  .bio {
-    margin-bottom: 2.5rem;
-    animation: fadeUp 0.8s ease-out 0.15s backwards;
-  }
-
-  .bio p {
-    font-size: 1.1rem;
-    line-height: 1.75;
-    color: var(--text-secondary);
-    margin-bottom: 1rem;
-  }
-
-  .bio strong {
-    color: var(--text-primary);
-    font-weight: 600;
-  }
-
-  .location {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    font-size: 0.9375rem !important;
-    color: var(--text-muted) !important;
-    margin-bottom: 0 !important;
-  }
-
-  .location svg {
-    opacity: 0.7;
-  }
-
-  .contact-links {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.75rem;
-    margin-bottom: 2rem;
-    animation: fadeUp 0.8s ease-out 0.3s backwards;
-  }
-
-  .contact-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.625rem 1rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-    text-decoration: none;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-subtle);
-    border-radius: 8px;
-    transition: all 0.25s ease;
-  }
-
-  .contact-link:hover {
-    color: var(--blue-primary);
-    border-color: var(--blue-primary);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(35, 45, 75, 0.12);
-  }
-
-  .contact-link svg {
-    opacity: 0.7;
-    transition: opacity 0.2s ease;
-  }
-
-  .contact-link:hover svg {
-    opacity: 1;
-  }
-
-  .contact-link.cta {
-    background: var(--blue-primary);
-    color: white;
-    border-color: var(--blue-primary);
-  }
-
-  .contact-link.cta:hover {
-    background: var(--blue-light);
-    border-color: var(--blue-light);
-    color: white;
-  }
-
-  .contact-link.cta svg {
-    opacity: 1;
-    transition: transform 0.2s ease;
-  }
-
-  .contact-link.cta:hover svg {
-    transform: translateX(3px);
-  }
-
-  .about-link {
-    display: inline-block;
-    font-size: 0.9375rem;
-    color: var(--text-muted);
-    text-decoration: none;
-    transition: color 0.2s ease;
-    animation: fadeUp 0.8s ease-out 0.45s backwards;
-  }
-
-  .about-link:hover {
-    color: var(--blue-primary);
-  }
-
-  /* Responsive */
-  @media (max-width: 640px) {
-    .homepage {
-      padding: 1.5rem;
-    }
-
-    .name {
-      font-size: 2.75rem;
-    }
-
-    .tagline {
-      font-size: 1.1rem;
-    }
-
-    .bio p {
-      font-size: 1rem;
-    }
-
-    .contact-links {
-      gap: 0.5rem;
-    }
-
-    .contact-link {
-      padding: 0.5rem 0.875rem;
-      font-size: 0.8125rem;
-    }
-  }
-
-  @media (max-width: 400px) {
-    .contact-link span {
-      display: none;
-    }
-
-    .contact-link {
-      padding: 0.625rem;
-    }
-
-    .contact-link.cta span {
-      display: inline;
-    }
+  @media (max-width: 760px) {
+    .hero { padding-block: 48px 40px; }
+    .twocol, .split { grid-template-columns: 1fr; gap: 32px; }
+    .rigor { grid-template-columns: repeat(2, 1fr); }
+    .doors li { grid-template-columns: 72px 1fr; }
+    .door-n { font-size: 21px; }
+    .hero-figure .big-l { max-width: none; }
   }
 </style>

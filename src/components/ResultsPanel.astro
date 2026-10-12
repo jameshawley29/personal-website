@@ -1,0 +1,74 @@
+---
+// Three small, to-scale comparisons from the parity run (1 stream vs 20 streams).
+const wall = { one: 18.47, twenty: 2.56, max: 20 };          // hours per 1,000 batches (linear estimate)
+const gain = { one: 2351, twenty: 2647, max: 3000 };         // mean positive-only Optimized Gain, $ per run
+const clusters = { same: 98, favor20: 40, favor1: 22, total: 160 };
+
+const pct = (v: number, max: number) => (v / max) * 100;
+---
+
+<div class="results">
+  <figure class="mini">
+    <div class="mini-head"><span class="eyebrow">Wall time, per 1,000 batches</span><span class="delta num">15.9 h back</span></div>
+    <div class="hbars" role="img" aria-label="Estimated wall time: 18.5 hours on one stream versus 2.6 hours on twenty streams.">
+      <div class="hrow"><span class="hl">1 stream</span><div class="htrack"><div class="hbar" style={`width:${pct(wall.one, wall.max)}%`}></div></div><span class="hv num">18.5 h</span></div>
+      <div class="hrow"><span class="hl">20 streams</span><div class="htrack"><div class="hbar accent" style={`width:${pct(wall.twenty, wall.max)}%`}></div></div><span class="hv num">2.6 h</span></div>
+    </div>
+    <figcaption class="note">Linear estimate from the measured 20-batch run (×50).</figcaption>
+  </figure>
+
+  <figure class="mini">
+    <div class="mini-head"><span class="eyebrow">Route quality, mean Optimized Gain per run</span><span class="delta num">+12.6%</span></div>
+    <div class="hbars" role="img" aria-label="Mean positive-only Optimized Gain: $2,351 per run on one stream versus $2,647 on twenty streams, a 12.6 percent increase.">
+      <div class="hrow"><span class="hl">1 stream</span><div class="htrack"><div class="hbar" style={`width:${pct(gain.one, gain.max)}%`}></div></div><span class="hv num">$2,351</span></div>
+      <div class="hrow"><span class="hl">20 streams</span><div class="htrack"><div class="hbar accent" style={`width:${pct(gain.twenty, gain.max)}%`}></div></div><span class="hv num">$2,647</span></div>
+    </div>
+    <figcaption class="note">Measured. Every 20-stream run beat every 1-stream run; no quality penalty for parallelism.</figcaption>
+  </figure>
+
+  <figure class="mini">
+    <div class="mini-head"><span class="eyebrow">Same 160 clusters, solved both ways</span><span class="delta num">98 identical</span></div>
+    <div class="stack" role="img" aria-label="Of 160 clusters, 98 produced identical routes, 40 were better with twenty streams, and 22 were better with one stream.">
+      <div class="seg same" style={`width:${pct(clusters.same, clusters.total)}%`}><span>98</span></div>
+      <div class="seg f20" style={`width:${pct(clusters.favor20, clusters.total)}%`}><span>40</span></div>
+      <div class="seg f1" style={`width:${pct(clusters.favor1, clusters.total)}%`}><span>22</span></div>
+    </div>
+    <ul class="legend">
+      <li><i class="sw same"></i>identical routes</li>
+      <li><i class="sw f20"></i>better with 20 streams</li>
+      <li><i class="sw f1"></i>better with 1 stream</li>
+    </ul>
+  </figure>
+</div>
+
+<style>
+  .results { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .mini { display: grid; gap: 12px; align-content: start; padding: 18px; border: 1px solid var(--line); border-radius: 8px; min-width: 0; }
+  .mini-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .delta { font: 500 13px var(--mono); color: var(--ink); white-space: nowrap; }
+  .hbars { display: grid; gap: 10px; }
+  .hrow { display: grid; grid-template-columns: 76px 1fr 64px; align-items: center; gap: 10px; }
+  .hl { font-size: 13px; color: var(--ink-2); }
+  .hv { font: 500 13px var(--mono); color: var(--ink); text-align: right; }
+  .htrack { height: 14px; background: var(--bg-2); border-radius: 3px; overflow: hidden; }
+  .hbar { height: 100%; background: var(--chart); border-radius: 0 3px 3px 0; min-width: 2px; }
+  .hbar.accent { background: var(--accent); }
+  .note { font-size: 12.5px; color: var(--muted); }
+
+  .stack { display: flex; gap: 2px; height: 22px; border-radius: 3px; overflow: hidden; }
+  .seg { display: flex; align-items: center; justify-content: center; min-width: 0; }
+  .seg span { font: 500 12px var(--mono); color: #fff; }
+  .seg.same { background: var(--chart-soft); }
+  .seg.same span { color: var(--ink); }
+  .seg.f20 { background: var(--accent); }
+  .seg.f20 span { color: var(--accent-ink); }
+  .seg.f1 { background: var(--chart); }
+  .legend { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12.5px; color: var(--ink-2); }
+  .legend li { display: inline-flex; align-items: center; gap: 6px; }
+  .sw { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+  .sw.same { background: var(--chart-soft); }
+  .sw.f20 { background: var(--accent); }
+  .sw.f1 { background: var(--chart); }
+
+  @media (max-width: 900px) { .results { grid-template-columns: 1fr; } }
+</style>

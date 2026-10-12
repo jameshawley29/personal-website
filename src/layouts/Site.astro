@@ -1,0 +1,165 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "James Hawley",
+  description = "Computer Science & Economics at the University of Virginia. GPU route optimization at OneRail, three years of HPC at Lockheed Martin, and a school web platform with 600+ daily users.",
+} = Astro.props;
+
+const siteUrl = Astro.site?.toString() ?? "";
+const canonical = siteUrl ? new URL(Astro.url.pathname, siteUrl).toString() : undefined;
+const ogImage = siteUrl ? new URL("/og.png", siteUrl).toString() : "/og.png";
+
+const person = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "James Hawley",
+  url: siteUrl || undefined,
+  email: "mailto:jameshawley@email.virginia.edu",
+  sameAs: ["https://www.linkedin.com/in/james-m-hawley/", "https://github.com/jameshawley29"],
+  alumniOf: { "@type": "CollegeOrUniversity", name: "University of Virginia" },
+  jobTitle: "Computer Science & Economics student",
+  address: { "@type": "PostalAddress", addressLocality: "Orlando", addressRegion: "FL" },
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0e1a26" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+    />
+    <script type="application/ld+json" set:html={JSON.stringify(person)} />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <nav class="topbar" aria-label="Primary">
+      <div class="wrap bar">
+        <a href="#top" class="brand"><span class="brand-full">James Hawley</span><span class="brand-short" aria-hidden="true">JH</span></a>
+        <div class="links" id="nav-links">
+          <a href="#onerail">OneRail</a>
+          <a href="#lockheed">Lockheed</a>
+          <a href="#platform">Platform</a>
+          <a href="#leadership">Leadership</a>
+          <a href="#skills">Skills</a>
+        </div>
+        <div class="actions">
+          <a href="/resume.pdf" target="_blank" rel="noopener" class="action">Résumé<span aria-hidden="true"> ↗</span></a>
+          <a href="mailto:jameshawley@email.virginia.edu" class="action strong">Email</a>
+        </div>
+      </div>
+    </nav>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap foot">
+        <span class="mono muted">Orlando, FL · Charlottesville, VA</span>
+        <div class="foot-links">
+          <a href="mailto:jameshawley@email.virginia.edu">jameshawley@email.virginia.edu</a>
+          <a href="https://www.linkedin.com/in/james-m-hawley/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://github.com/jameshawley29" target="_blank" rel="noopener">GitHub</a>
+          <a href="/resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Scroll-spy: mark the nav link for the section in view.
+      const links = Array.from(document.querySelectorAll<HTMLAnchorElement>("#nav-links a"));
+      const targets = links
+        .map((a) => document.querySelector<HTMLElement>(a.getAttribute("href") || ""))
+        .filter((el): el is HTMLElement => !!el);
+      if ("IntersectionObserver" in window && targets.length) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (!e.isIntersecting) continue;
+              const id = "#" + e.target.id;
+              links.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === id));
+            }
+          },
+          { rootMargin: "-40% 0px -55% 0px", threshold: 0 }
+        );
+        targets.forEach((t) => io.observe(t));
+      }
+    </script>
+  </body>
+</html>
+
+<style>
+  .skip {
+    position: absolute; left: 8px; top: -48px; padding: 8px 12px;
+    background: var(--ink); color: var(--bg); border-radius: 4px; z-index: 100;
+  }
+  .skip:focus { top: 8px; }
+
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--bg) 86%, transparent);
+    backdrop-filter: saturate(140%) blur(10px);
+    -webkit-backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .bar { height: var(--nav-h); display: flex; align-items: center; gap: 24px; }
+  .brand { font-weight: 600; letter-spacing: -0.01em; white-space: nowrap; }
+  .brand:hover { text-decoration: none; }
+  .links { display: flex; gap: 4px; margin-inline: auto; overflow-x: auto; scrollbar-width: none; }
+  .brand-short { display: none; }
+  .links::-webkit-scrollbar { display: none; }
+  .links a {
+    font-size: 14.5px; color: var(--muted); padding: 6px 10px; border-radius: 4px; white-space: nowrap;
+  }
+  .links a:hover { color: var(--ink); text-decoration: none; background: var(--bg-2); }
+  .links a.active { color: var(--ink); }
+  .actions { display: flex; gap: 6px; align-items: center; }
+  .action { font-size: 14.5px; padding: 7px 12px; border-radius: 5px; border: 1px solid var(--line-2); white-space: nowrap; }
+  .action:hover { text-decoration: none; border-color: var(--ink-2); }
+  .action.strong { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+  .site-footer { border-top: 1px solid var(--line); padding-block: 32px 48px; font-size: 14px; }
+  .foot { display: flex; flex-wrap: wrap; gap: 12px 28px; justify-content: space-between; align-items: center; }
+  .foot-links { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+  .foot-links a { color: var(--ink-2); }
+
+  @media (max-width: 720px) {
+    .bar { gap: 12px; }
+    .links { margin-inline: 0; }
+    .action:not(.strong) { display: none; }
+  }
+  @media (max-width: 520px) {
+    .brand-full { display: none; }
+    .brand-short { display: inline; }
+    .links { -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); padding-right: 16px; }
+    .links a { padding-inline: 7px; font-size: 13.5px; }
+  }
+</style>

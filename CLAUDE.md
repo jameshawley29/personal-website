@@ -1,108 +1,63 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code when working with this repository.
+Guidance for Claude Code when working in this repository.
 
-## Project Overview
+## What this is
 
-Personal website for James Hawley - a CS & Economics student at UVA with three years of experience at Lockheed Martin, based in Orlando, Florida. Built with **Astro** featuring a modern, minimal design inspired by McIntire School of Commerce aesthetics.
+James Hawley's personal site: a single-page, recruiter-facing visual résumé. CS & Economics at UVA (Class of 2029), OneRail Data Science & AI intern (Summer 2026), Lockheed Martin HPC intern (2023–2025), founder of a school web platform, ESC and Student Council leadership, TPEG Software & Electrical Lead.
 
-## Tech Stack
+The page is tuned for themed-entertainment and large-scale operations employers without naming any company. Keep that framing: real systems, guests, attractions, throughput.
 
-- **Framework**: Astro 4.15.0
-- **Language**: TypeScript 5.5.0
-- **Deployment**: Vercel
-- **Syntax Highlighting**: Shiki with Dracula theme
+## Principles (do not regress these)
 
-## Design System
+- **Show, don't write.** Every section leads with a number, a chart, or a diagram. Paragraphs stay under two sentences. No "passionate", no adjectives doing the work a number should do.
+- **Every figure is real and sourced.** OneRail numbers come from the Summer 2026 intern deck: 7.22× parity-run speedup; sweep 1.0 / 1.59 / 2.75 / 4.39 / 6.44 / 7.06 at 1 / 2 / 4 / 8 / 16 / 20 streams; 18.47 h → 2.56 h per 1,000 batches (linear estimate from a measured 20-batch run); Optimized Gain $2,351 → $2,647 (+12.6%); 98 / 40 / 22 of 160 clusters. Never extrapolate the quality dollars; always label the 1,000-batch hours as an estimate.
+- **Confidentiality line.** Do not add customer names beyond FedEx (already on the public résumé), internal file paths, or content from the deck's "known gaps" appendix.
+- **No AI-slop patterns.** No emoji, no gradients, no glassmorphism, no skill bars, no numbered "01/02/03" markers, no em dashes, no accent stripes on cards.
+- **Charts follow the data-viz rules.** Thin marks (≤ 28px), 4px rounded data-ends, hairline solid gridlines, one series color plus one accent for the highlighted mark, text in text tokens never series color, tooltips on hover/focus, a visually hidden table for each chart.
+- **Both themes, reduced motion, keyboard.** Tokens in `src/styles/global.css`; every color has a light value on `:root` and dark values under both the media query and `[data-theme="dark"]`. Animations are decorative only and switch off under `prefers-reduced-motion`.
 
-### Color Palette (UVA/McIntire inspired)
-- `--blue-deep`: #0e1a26
-- `--blue-primary`: #232d4b
-- `--blue-light`: #3a4a6b
-- `--orange-accent`: #e57200
+## Stack
 
-### Key Design Features
-- Animated dot matrix background (soothing breathing + floating animation)
-- Page fade-in animations
-- Scroll progress indicator on articles
-- Sticky back button on articles
-- Mobile hamburger menu with slide-in overlay
-- No nav bar on homepage (centered, minimal layout)
+- Astro 4.16, static output, no UI framework; vanilla TypeScript in `<script>` blocks
+- Fonts: IBM Plex Sans (400/500/600) and IBM Plex Mono (400/500) via Google Fonts
+- Deployed on Vercel (`vercel.json` sets headers and build settings)
 
-## Project Structure
+## Design tokens
+
+| Token | Light | Dark |
+|---|---|---|
+| `--bg` / `--ink` | `#ffffff` / `#0e1a26` | `#0e1a26` / `#eef2f6` |
+| `--navy` | `#232d4b` | `#c9d3ee` |
+| `--accent` (orange, the highlighted mark) | `#e57200` | `#dd7418` |
+| `--chart` (series blue) | `#2f5fd0` | `#5b86ff` |
+
+The chart pair was validated with the dataviz palette checker in both modes.
+
+## Structure
 
 ```
-src/
-├── components/
-│   └── BlogCard.astro       # Article card with hover effects
-├── layouts/
-│   ├── BaseLayout.astro     # Main layout with nav/footer (used on all pages except homepage)
-│   ├── BlogPost.astro       # Article layout with sticky back button
-│   └── VaultEntry.astro     # Private notes layout
-└── pages/
-    ├── index.astro          # Centered homepage (no nav, custom layout)
-    ├── about.astro          # About page
-    ├── writing.astro        # All posts aggregated
-    ├── books/               # Book reviews
-    ├── economics/           # Economics articles (Fed, monetary policy)
-    ├── projects/            # Project writeups
-    ├── tech/                # Tech articles
-    ├── thoughts/            # Opinion pieces
-    └── vault/               # Password-protected private notes
+src/layouts/Site.astro          head, sticky nav, footer, scroll-spy
+src/pages/index.astro           all sections: hero + timeline, OneRail, Lockheed, platform, leadership, TPEG, skills/awards, contact
+src/components/Timeline.astro   career strip; edit the `rows` array, positions are computed from dates
+src/components/ThroughputChart.astro   data array at top; renders a desktop and a phone SVG from the same data
+src/components/StreamsDiagram.astro
+src/components/ResultsPanel.astro
+src/components/Cluster.astro
+src/styles/global.css           tokens, reset, section rhythm, chips, buttons
+public/resume.pdf, public/og.png, public/favicon.svg
 ```
 
 ## Commands
 
-| Command               | Description                              |
-|-----------------------|------------------------------------------|
-| `npm run dev`         | Start dev server at localhost:4321       |
-| `npm run build`       | Type-check and build for production      |
-| `npm run preview`     | Preview production build locally         |
-| `npm run astro check` | Run TypeScript type checking             |
+`npm run dev` · `npm run build` (runs `astro check` first) · `npm run preview`
 
-## Content Guidelines
+## Checklist before committing
 
-### Adding New Blog Posts
+1. `npm run build` passes with 0 errors.
+2. Screenshot desktop (1280), phone (390) and dark; `document.documentElement.scrollWidth` must equal the viewport width (no horizontal scroll).
+3. Chart labels do not collide; nothing is clipped.
 
-Create a `.md` file in the appropriate category folder under `src/pages/`. Use this frontmatter:
+## Contact details on the site
 
-```markdown
----
-layout: ../../layouts/BlogPost.astro
-title: 'Post Title'
-description: 'Brief description'
-pubDate: 2024-01-15
-author: 'James Hawley'
----
-```
-
-### Categories
-- **tech**: Software engineering, programming, tech industry
-- **economics**: Markets, policy, Fed, monetary policy
-- **books**: Book reviews and notes
-- **projects**: Technical project writeups
-- **thoughts**: Essays and reflections
-
-### Vault Entries
-Password-protected personal notes. Use `VaultEntry.astro` layout. Default passcode: "wahoo"
-
-## Contact Information
-
-- **Email**: jameshawley@email.virginia.edu
-- **LinkedIn**: linkedin.com/in/james-m-hawley/
-- **Resume**: /resume.pdf (placeholder in public folder)
-
-## Development Notes
-
-- Homepage (`index.astro`) uses its own layout without nav bar - centered, minimal design
-- All other pages use `BaseLayout.astro` with nav and footer
-- CSS variables defined in BaseLayout and homepage separately (keep in sync)
-- Dot matrix animation: `dotBreath` (opacity/size pulse) + `dotFloat` (gentle drift)
-- Respects `prefers-reduced-motion` for accessibility
-- Run `astro check` before committing
-
-## Configuration Files
-
-- `astro.config.mjs` - Astro configuration
-- `vercel.json` - Deployment settings and headers
-- `tsconfig.json` - TypeScript configuration
+Email jameshawley@email.virginia.edu · linkedin.com/in/james-m-hawley · github.com/jameshawley29 · `/resume.pdf`

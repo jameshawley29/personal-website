@@ -1,0 +1,43 @@
+---
+// HPC cluster: a grid of compute nodes with jobs being scheduled onto them. Illustrative, not a measurement.
+const cols = 16, rowsN = 5, cell = 18, gap = 5;
+const W = cols * cell + (cols - 1) * gap;
+const H = rowsN * cell + (rowsN - 1) * gap;
+const nodes = Array.from({ length: cols * rowsN }, (_, k) => {
+  const c = k % cols, r = Math.floor(k / cols);
+  // Jobs occupy contiguous blocks; each block gets its own phase so the grid breathes like a scheduler.
+  const block = Math.floor(c / 4) + r * 4;
+  return { x: c * (cell + gap), y: r * (cell + gap), delay: (block % 7) * 0.9 + (c % 4) * 0.05, dur: 5.2 + (block % 3) * 0.8 };
+});
+---
+
+<figure class="cluster">
+  <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Grid of 80 compute nodes with jobs being scheduled across them." class="grid-svg">
+    {nodes.map((n) => <rect x={n.x} y={n.y} width={cell} height={cell} rx="3" class="node" style={`animation-delay:${n.delay}s;animation-duration:${n.dur}s`} />)}
+  </svg>
+  <figcaption class="legend">
+    <span><i class="sw idle"></i>idle node</span>
+    <span><i class="sw busy"></i>job running</span>
+    <span class="mono muted">SLURM · MPI · CUDA</span>
+  </figcaption>
+</figure>
+
+<style>
+  .cluster { display: grid; gap: 12px; }
+  .grid-svg { width: 100%; height: auto; }
+  .node { fill: var(--bg-3); animation: job ease-in-out infinite; }
+  @keyframes job {
+    0%, 18% { fill: var(--bg-3); }
+    26%, 70% { fill: var(--chart); }
+    78%, 100% { fill: var(--bg-3); }
+  }
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--ink-2); align-items: center; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .sw { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+  .sw.idle { background: var(--bg-3); border: 1px solid var(--line-2); }
+  .sw.busy { background: var(--chart); }
+  @media (prefers-reduced-motion: reduce) {
+    .node { animation: none; }
+    .node:nth-child(3n), .node:nth-child(7n) { fill: var(--chart); }
+  }
+</style>
