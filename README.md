@@ -2,7 +2,7 @@
 
 Single-page visual résumé for James Hawley, built with Astro and deployed on Vercel.
 
-Seven full-screen panels, one per organization, that the scroll snaps to: OneRail (GPU route optimization on NVIDIA cuOpt, shown as the 7.22× figure and the measured throughput chart), Lockheed Martin HPC, the Trinity Prep web platform, UVA leadership, TPEG, and skills. Charts are drawn to scale from real benchmark numbers. The look borrows from late-century world's-fair futurism: a generated geodesic sphere, geometric type, and one spectrum hue per panel.
+Seven full-screen panels, one per organization, that the scroll snaps to: OneRail (GPU route optimization on NVIDIA cuOpt, shown as the 7.22× figure and the measured throughput chart), Lockheed Martin HPC, the Trinity Prep web platform, Student Council, TPEG, and skills. Charts are drawn to scale from real benchmark numbers. The look borrows from late-century world's-fair futurism: a generated geodesic sphere, geometric type, and one spectrum hue per panel.
 
 ## Stack
 
@@ -24,7 +24,8 @@ src/
 │   └── Cluster.astro             # HPC node grid
 └── styles/global.css             # tokens (light/dark), panel + snap rules, type, utilities
 public/
-├── resume.pdf                    # linked from nav, hero and footer
+├── James_Hawley_Resume.pdf       # primary, linked from nav, hero and contact
+├── James_Hawley_Resume_General.pdf  # second link in the contact panel
 ├── og.png                        # link preview image (1200×630)
 └── favicon.svg
 ```
@@ -41,5 +42,5 @@ public/
 ## Updating content
 
 - Numbers and copy live in `src/pages/index.astro` and the component files; each chart's data is a small array at the top of its component.
-- Replace `public/resume.pdf` to update the résumé link everywhere.
-- Set `site` in `astro.config.mjs` to the production domain so canonical and Open Graph URLs resolve.
+- Replace `public/James_Hawley_Resume.pdf` to update the primary résumé link everywhere (`/resume.pdf` redirects to it in `vercel.json`).
+- Canonical and Open Graph URLs come from Vercel's `VERCEL_PROJECT_PRODUCTION_URL` at build time (the custom domain once one is attached). Set `SITE_URL` to override.

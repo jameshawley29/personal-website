@@ -4,6 +4,9 @@
   "devCommand": "npm run dev",
   "installCommand": "npm install",
   "framework": "astro",
+  "redirects": [
+    { "source": "/resume.pdf", "destination": "/James_Hawley_Resume.pdf", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/(.*)",

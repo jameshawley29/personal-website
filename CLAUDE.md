@@ -34,7 +34,7 @@ The page is tuned for themed-entertainment and large-scale operations employers 
 | `--teal` (OneRail) | `#0a9aa8` | `#17a3b0` |
 | `--purple` (Lockheed) | `#6a4fc9` | `#8f7cf0` |
 | `--orange` (Trinity Prep, chart emphasis) | `#e57200` | `#dd7418` |
-| `--magenta` (Leadership) | `#c9307a` | `#e6508f` |
+| `--magenta` (Student Council) | `#c9307a` | `#e6508f` |
 | `--blue` (TPEG) | `#2f5fd0` | `#5b86ff` |
 
 Each `.panel.<hue>` sets `--sec` / `--sec-soft`; components use those. Pairs were validated with the dataviz palette checker in both modes.
@@ -43,13 +43,13 @@ Each `.panel.<hue>` sets `--sec` / `--sec-soft`; components use those. Pairs wer
 
 ```
 src/layouts/Site.astro          head, fixed nav, pavilion dot rail, scroll-spy; the `sections` array drives nav and dots
-src/pages/index.astro           seven panels: hero + timeline, OneRail, Lockheed, Trinity Prep, UVA leadership, TPEG, skills/awards/contact
+src/pages/index.astro           seven panels: hero + timeline, OneRail, Lockheed, Trinity Prep, Student Council, TPEG, skills/awards/contact
 src/components/Timeline.astro   career strip; edit the `rows` array, positions are computed from dates, each row carries a hue
 src/components/ThroughputChart.astro   data array at top; renders a desktop and a phone SVG from the same data
 src/components/Geodesic.astro   hero sphere, generated at build time
 src/components/Cluster.astro    HPC node grid
 src/styles/global.css           tokens, panel/snap rules, section header, chips, buttons
-public/resume.pdf, public/og.png, public/favicon.svg
+public/James_Hawley_Resume.pdf (primary), public/James_Hawley_Resume_General.pdf, public/og.png, public/favicon.svg
 ```
 
 ## Commands
@@ -65,4 +65,4 @@ public/resume.pdf, public/og.png, public/favicon.svg
 
 ## Contact details on the site
 
-Email jameshawley@email.virginia.edu · linkedin.com/in/james-m-hawley · github.com/jameshawley29 · `/resume.pdf`
+Email jameshawley@email.virginia.edu · linkedin.com/in/james-m-hawley · github.com/jameshawley29 · `/James_Hawley_Resume.pdf` (primary; `/resume.pdf` redirects to it) · `/James_Hawley_Resume_General.pdf`
