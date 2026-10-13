@@ -1,404 +1,310 @@
 ---
-// Homepage uses its own minimal layout without nav
-const siteName = "James Hawley";
-const title = "James Hawley";
-const description = "CS & Economics at UVA. Writing on technology, economics, and monetary policy.";
+import Site from "../layouts/Site.astro";
+import Timeline from "../components/Timeline.astro";
+import ThroughputChart from "../components/ThroughputChart.astro";
+import Cluster from "../components/Cluster.astro";
+import Geodesic from "../components/Geodesic.astro";
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <title>{title}</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  </head>
-  <body>
-    <!-- Animated Dot Matrix Background -->
-    <div class="dot-matrix" aria-hidden="true"></div>
+<Site>
+  <!-- 0 · Hero -->
+  <section id="top" class="panel hero" style="--z:1">
+    <div class="wrap hero-grid">
+      <div class="hero-text">
+        <p class="eyebrow">Computer Science &amp; Economics · University of Virginia · 2029</p>
+        <h1>James<br />Hawley</h1>
+        <p class="hero-sub">Orlando, FL · Charlottesville, VA</p>
+        <div class="cta">
+          <a class="btn primary" href="#onerail">Start<span aria-hidden="true"> ↓</span></a>
+          <a class="btn" href="/James_Hawley_Resume.pdf" target="_blank" rel="noopener">Résumé</a>
+          <a class="btn" href="https://www.linkedin.com/in/james-m-hawley/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true"><Geodesic /></div>
+      <div class="hero-timeline"><Timeline /></div>
+    </div>
+  </section>
 
-    <main class="homepage">
-      <section class="hero">
-        <div class="hero-content">
-          <div class="greeting">
-            <span class="wave">👋</span>
-            <span class="greeting-text">Hey, I'm</span>
+  <!-- 1 · OneRail -->
+  <section id="onerail" class="panel teal" style="--z:2">
+    <div class="wrap two">
+      <div class="sec-head">
+        <span class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 18c4-1 5-6 9-7s5 3 7-3"/><circle cx="4" cy="18" r="1.6"/><circle cx="13" cy="11" r="1.6"/><circle cx="20" cy="8" r="1.6"/></svg></span>
+        <h2>OneRail</h2>
+        <p class="role">Data Science &amp; AI Intern</p>
+        <p class="meta">Orlando, FL · May – Aug 2026 · last-mile delivery platform behind FedEx same-day shipping</p>
+        <div class="hero-figure">
+          <span class="big num" id="hero-count" data-target="7.22">7.22×</span>
+          <span class="big-l">route-generation throughput on one shared GPU, no new hardware</span>
+        </div>
+      </div>
+      <div class="vis">
+        <ThroughputChart />
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · Lockheed Martin -->
+  <section id="lockheed" class="panel purple" style="--z:3">
+    <div class="wrap two">
+      <div class="sec-head">
+        <span class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="5" height="5" rx="1"/><rect x="9.5" y="3" width="5" height="5" rx="1"/><rect x="16" y="3" width="5" height="5" rx="1"/><rect x="3" y="9.5" width="5" height="5" rx="1"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><rect x="16" y="9.5" width="5" height="5" rx="1"/><rect x="3" y="16" width="5" height="5" rx="1"/><rect x="9.5" y="16" width="5" height="5" rx="1"/><rect x="16" y="16" width="5" height="5" rx="1"/></svg></span>
+        <h2>Lockheed Martin</h2>
+        <p class="role">High Performance Computing Intern</p>
+        <p class="meta">Missiles and Fire Control · Orlando, FL · Mar 2023 – Aug 2025</p>
+        <div class="facts tight">
+          <div class="fact"><div class="v num">3 yrs</div><div class="l">building and tuning HPC clusters</div></div>
+          <div class="fact"><div class="v">SLURM · MPI · CUDA</div><div class="l">simulation and data-rendering workloads</div></div>
+          <div class="fact"><div class="v">Classified R&amp;D</div><div class="l">deployed compute nodes across multiple programs</div></div>
+        </div>
+        <ul class="wins" aria-label="Lockheed Martin competitions">
+          <li><span class="place">1st</span>CyberQuest 2023</li>
+          <li><span class="place">2nd</span>CyberQuest 2024</li>
+          <li><span class="place">3rd</span>Code Quest Advanced 2023</li>
+        </ul>
+      </div>
+      <div class="vis"><Cluster /></div>
+    </div>
+  </section>
+
+  <!-- 3 · TPS Time -->
+  <section id="platform" class="panel orange" style="--z:4">
+    <div class="wrap two">
+      <div class="sec-head">
+        <span class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></svg></span>
+        <h2>TPS Time</h2>
+        <p class="role">Founder &amp; Lead Developer</p>
+        <p class="meta"><a href="https://tpstime.com" target="_blank" rel="noopener">tpstime.com</a> · Trinity Preparatory School · Winter Park, FL · Nov 2021 – May 2025</p>
+        <p class="meta">Next.js · Tailwind · AWS · MySQL</p>
+        <ul class="lines">
+          <li>Sponsor management system that generated new student council revenue</li>
+          <li>Secure platform for official digital elections</li>
+          <li>The school's student platform, adopted by school IT; grew and led a 25-person team</li>
+        </ul>
+      </div>
+      <div class="vis">
+        <div class="facts big-facts">
+          <div class="fact"><div class="v num">600+</div><div class="l">daily users</div></div>
+          <div class="fact"><div class="v num">420,000+</div><div class="l">total views</div></div>
+          <div class="fact"><div class="v num">32,000+</div><div class="l">accounts, encrypted MySQL</div></div>
+          <div class="fact"><div class="v num">25</div><div class="l">person team</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · Leadership -->
+  <section id="leadership" class="panel magenta" style="--z:5">
+    <div class="wrap two">
+      <div class="sec-head">
+        <span class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 19c0-3.3 2.7-6 6-6s6 2.7 6 6M15 19c0-2.4 1.6-4.4 3.8-5"/></svg></span>
+        <h2>Student Council</h2>
+        <p class="role">CIO Consultant · Academic &amp; Professional Development Chair</p>
+        <p class="meta">University of Virginia · Student Council and Engineering Student Council · Aug 2025 –</p>
+      </div>
+      <div class="vis">
+        <div class="cards">
+          <article class="card">
+            <p class="eyebrow">CIO Consultant · University Student Council · 2026 –</p>
+            <p class="card-n num">800+</p>
+            <p class="card-t">organizations at the Fall Activities Fair, the largest student-run event in UVA history. Ran logistics and operations; advise CIOs on funding and appropriations.</p>
+          </article>
+          <article class="card">
+            <p class="eyebrow">First Year President · Engineering Student Council · 2025 – 26</p>
+            <p class="card-n num">$20,000</p>
+            <p class="card-t">budget and a 30-member committee for the first-year engineering class. Major Declaration grew to 400+ attendees (+13%).</p>
+          </article>
+          <article class="card">
+            <p class="eyebrow">Academic &amp; Professional Development Chair · Engineering Student Council · 2026 –</p>
+            <p class="card-n">Chair</p>
+            <p class="card-t">of the committee running academic and career-readiness programming for engineering undergraduates.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · TPEG -->
+  <section id="tpeg" class="panel blue" style="--z:6">
+    <div class="wrap two">
+      <div class="sec-head">
+        <span class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 16c4 0 4-8 8-8s4 8 8 8 3-5 4-6"/><circle cx="10" cy="8" r="1.8"/></svg></span>
+        <h2>Theme Park Engineering Group</h2>
+        <p class="role">Software &amp; Electrical Lead, Competition Team</p>
+        <p class="meta">University of Virginia · control software and electrical integration for the competition build</p>
+      </div>
+      <div class="vis">
+        <div class="disc" role="img" aria-label="Three disciplines on the competition build: software and electrical, which I lead, and mechanical.">
+          <div class="disc-box lead"><span class="eyebrow">lead</span>Software</div>
+          <div class="disc-box lead"><span class="eyebrow">lead</span>Electrical</div>
+          <div class="disc-box"><span class="eyebrow">partner</span>Mechanical</div>
+        </div>
+        <svg class="track" viewBox="0 0 640 150" aria-hidden="true">
+          <path id="track-path" d="M8 120 C 90 120, 110 30, 180 30 S 270 120, 340 120 S 430 36, 500 36 S 600 110, 632 110" />
+          <circle r="7" class="car"><animateMotion dur="7s" repeatCount="indefinite" rotate="auto"><mpath href="#track-path" /></animateMotion></circle>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · Skills, awards, contact -->
+  <section id="skills" class="panel last" style="--z:7">
+    <div class="wrap">
+      <div class="three">
+        <div>
+          <p class="eyebrow">Skills</p>
+          <div class="skill-rows">
+            <div class="skill-row"><span class="sk-l">Languages</span>
+              <div class="chips">{["Python", "SQL", "R", "C++", "Java", "JavaScript", "TypeScript", "Swift", "HTML/CSS"].map((s) => <span class="chip">{s}</span>)}</div></div>
+            <div class="skill-row"><span class="sk-l">Data &amp; compute</span>
+              <div class="chips">{["CUDA", "NVIDIA cuOpt", "PyTorch", "TensorFlow", "SLURM", "MPI", "Snowflake", "Power BI", "Linux", "Docker", "Kubernetes"].map((s) => <span class="chip">{s}</span>)}</div></div>
+            <div class="skill-row"><span class="sk-l">Web &amp; cloud</span>
+              <div class="chips">{["Next.js", "Node.js", "AWS", "MySQL", "Tailwind CSS", "Unity"].map((s) => <span class="chip">{s}</span>)}</div></div>
           </div>
-          <h1 class="name">James Hawley</h1>
-          <p class="tagline">
-            Computer Science & Economics at the <span class="highlight">University of Virginia</span>
-          </p>
         </div>
-
-        <div class="bio">
-          <p>
-            Three years of experience at <strong>Lockheed Martin</strong> in defense technology and systems engineering.
-            I write about technology, economics, monetary policy, and the ideas that sit at their intersections.
-          </p>
-          <p class="location">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-              <circle cx="12" cy="10" r="3"></circle>
-            </svg>
-            Orlando, Florida
-          </p>
+        <div>
+          <p class="eyebrow">Awards</p>
+          <ol class="awards">
+            <li><span class="place">1st</span>Virginia Case Club Competition<span class="yr">2026</span></li>
+            <li><span class="place">1st</span>Lockheed Martin CyberQuest<span class="yr">2023</span></li>
+            <li><span class="place">2nd</span>Lockheed Martin CyberQuest<span class="yr">2024</span></li>
+            <li><span class="place">3rd</span>CyberPatriot National, Silver League<span class="yr">2023</span></li>
+            <li><span class="place">3rd</span>Lockheed Martin Code Quest Advanced<span class="yr">2023</span></li>
+            <li><span class="place">3rd</span>UF Programming Competition<span class="yr">2023</span></li>
+          </ol>
         </div>
+        <div class="contact">
+          <p class="eyebrow">Summer 2027</p>
+          <p class="contact-h">Open to internships.</p>
+          <div class="cta col">
+            <a class="btn primary" href="mailto:jameshawley@email.virginia.edu">jameshawley@email.virginia.edu</a>
+            <a class="btn" href="https://www.linkedin.com/in/james-m-hawley/" target="_blank" rel="noopener">LinkedIn</a>
+            <a class="btn" href="https://github.com/jameshawley29" target="_blank" rel="noopener">GitHub</a>
+            <a class="btn" href="/James_Hawley_Resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a>
+            <a class="btn" href="/James_Hawley_Resume_General.pdf" target="_blank" rel="noopener">General résumé (PDF)</a>
+          </div>
+        </div>
+      </div>
+      <p class="foot mono muted">Orlando, FL · Charlottesville, VA</p>
+    </div>
+  </section>
+</Site>
 
-        <nav class="contact-links">
-          <a href="mailto:jameshawley@email.virginia.edu" class="contact-link">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-              <polyline points="22,6 12,13 2,6"></polyline>
-            </svg>
-            <span>Email</span>
-          </a>
-          <a href="https://www.linkedin.com/in/james-m-hawley/" target="_blank" rel="noopener noreferrer" class="contact-link">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-              <rect x="2" y="9" width="4" height="12"></rect>
-              <circle cx="4" cy="4" r="2"></circle>
-            </svg>
-            <span>LinkedIn</span>
-          </a>
-          <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" class="contact-link">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="16" y1="13" x2="8" y2="13"></line>
-              <line x1="16" y1="17" x2="8" y2="17"></line>
-            </svg>
-            <span>Resume</span>
-          </a>
-          <a href="/writing" class="contact-link cta">
-            <span>Read my writing</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 12h14"></path>
-              <path d="m12 5 7 7-7 7"></path>
-            </svg>
-          </a>
-        </nav>
-
-        <a href="/about" class="about-link">Learn more about me →</a>
-      </section>
-    </main>
-  </body>
-</html>
-
-<style is:global>
-  :root {
-    --blue-deep: #0e1a26;
-    --blue-primary: #232d4b;
-    --blue-light: #3a4a6b;
-    --orange-accent: #e57200;
-    --text-primary: #1a1a1a;
-    --text-secondary: #4a4a4a;
-    --text-muted: #6b6b6b;
-    --bg-primary: #ffffff;
-    --bg-secondary: #f8f9fa;
-    --border-subtle: rgba(35, 45, 75, 0.1);
-    --border-light: rgba(35, 45, 75, 0.15);
+<script>
+  // Count the hero figure up when it scrolls into view (skipped under reduced motion).
+  const el = document.getElementById("hero-count");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (el && !reduce && "IntersectionObserver" in window) {
+    const target = Number(el.dataset.target || "0");
+    let done = false;
+    const io = new IntersectionObserver((entries) => {
+      if (done || !entries.some((e) => e.isIntersecting)) return;
+      done = true;
+      el.textContent = "1.00×";
+      const t0 = performance.now(), dur = 1400;
+      const tick = (t: number) => {
+        const k = Math.min(1, (t - t0) / dur);
+        const eased = 1 - Math.pow(1 - k, 3);
+        el.textContent = (1 + (target - 1) * eased).toFixed(2) + "×";
+        if (k < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }, { threshold: 0.6 });
+    io.observe(el);
   }
-
-  *, *::before, *::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
-
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    font-size: 17px;
-    line-height: 1.7;
-    color: var(--text-primary);
-    background-color: var(--bg-primary);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  /* Soothing Animated Dot Matrix Background */
-  .dot-matrix {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: -1;
-    background-image: radial-gradient(circle, rgba(35, 45, 75, 0.12) 1.5px, transparent 1.5px);
-    background-size: 28px 28px;
-    animation: dotBreath 6s ease-in-out infinite, dotFloat 25s ease-in-out infinite;
-  }
-
-  @keyframes dotBreath {
-    0%, 100% {
-      opacity: 0.5;
-      background-size: 28px 28px;
-    }
-    50% {
-      opacity: 0.8;
-      background-size: 30px 30px;
-    }
-  }
-
-  @keyframes dotFloat {
-    0%, 100% {
-      background-position: 0 0;
-    }
-    25% {
-      background-position: 14px 7px;
-    }
-    50% {
-      background-position: 0 14px;
-    }
-    75% {
-      background-position: -14px 7px;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .dot-matrix {
-      animation: none;
-      opacity: 0.6;
-    }
-  }
-</style>
+  if (reduce) document.querySelectorAll("svg").forEach((s) => s.pauseAnimations?.());
+</script>
 
 <style>
-  .homepage {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
+  /* Hero */
+  .hero { border-top: 0; }
+  .hero-grid {
+    display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    grid-template-areas: "text art" "tl tl"; gap: 24px 48px; align-items: center;
   }
+  .hero-text { grid-area: text; }
+  .hero-art { grid-area: art; max-width: 440px; justify-self: end; }
+  .hero-timeline { grid-area: tl; padding-top: 24px; border-top: 1px solid var(--line); }
+  .hero h1 { font-size: clamp(56px, 9vw, 112px); font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em; line-height: 0.92; margin-top: 14px; }
+  .hero-sub { margin-top: 18px; font-family: var(--mono); font-size: 14px; color: var(--muted); }
+  .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+  .cta.col { flex-direction: column; align-items: flex-start; }
 
-  .hero {
-    max-width: 560px;
-    text-align: center;
-    animation: fadeUp 0.8s ease-out;
+  /* Two-column panel: head left, visual right */
+  .two { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 48px; align-items: center; }
+  .vis { min-width: 0; }
+
+  .hero-figure { display: grid; gap: 6px; margin-top: 18px; }
+  .hero-figure .big { font-size: clamp(64px, 8vw, 112px); font-weight: 700; letter-spacing: -0.02em; line-height: 0.95; color: var(--sec); }
+  .hero-figure .big-l { font-size: 15px; color: var(--ink-2); max-width: 34ch; }
+
+  .facts.tight { margin-top: 18px; grid-template-columns: 1fr; gap: 12px; }
+  .facts.tight .v { font-size: 24px; }
+  .facts.tight .l { margin-top: 2px; }
+  .big-facts { grid-template-columns: 1fr 1fr; gap: 36px; }
+  .big-facts .fact { min-width: 0; }
+  .big-facts .v { font-size: clamp(36px, 4.6vw, 64px); color: var(--sec); white-space: nowrap; }
+
+  .lines { list-style: none; display: grid; gap: 8px; font-size: 15.5px; color: var(--ink-2); margin-top: 14px; max-width: 46ch; }
+  .lines li { padding-left: 16px; position: relative; }
+  .lines li::before { content: ""; position: absolute; left: 0; top: 0.55em; width: 7px; height: 7px; border-radius: 50%; background: var(--sec); }
+  .wins { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 16px; font-size: 14px; color: var(--ink-2); }
+  .place { font: 500 12px var(--mono); color: var(--ink); background: var(--bg-2); border: 1px solid var(--line); border-radius: 999px; padding: 2px 8px; margin-right: 8px; }
+
+  .cards { display: grid; gap: 14px; }
+  .card { display: grid; grid-template-columns: 150px 1fr; gap: 4px 20px; align-items: start; padding: 16px 18px; border: 1px solid var(--line); border-radius: 14px; }
+  .card .eyebrow { grid-column: 1 / -1; font-size: 11.5px; }
+  .card-n { font-size: 40px; font-weight: 600; letter-spacing: -0.01em; line-height: 1; color: var(--sec); }
+  .card-t { font-size: 14.5px; color: var(--ink-2); }
+
+  .disc { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .disc-box { display: grid; gap: 8px; padding: 26px 16px; border: 1px solid var(--line); border-radius: 14px; font-weight: 500; font-size: 18px; text-align: center; color: var(--muted); }
+  .disc-box.lead { color: var(--ink); border-color: var(--sec); background: var(--sec-soft); }
+  .disc-box .eyebrow { font-size: 11px; }
+  .disc-box.lead .eyebrow { color: var(--sec); }
+  .track { width: 100%; height: auto; margin-top: 18px; }
+  .track path { fill: none; stroke: var(--line-2); stroke-width: 2; }
+  .track .car { fill: var(--sec); }
+
+
+  .last .wrap { display: grid; gap: 28px; }
+  .three { display: grid; grid-template-columns: 1.3fr 1fr 0.9fr; gap: 48px; align-items: start; }
+  .three > div { display: grid; gap: 16px; align-content: start; }
+  .skill-rows { display: grid; gap: 14px; }
+  .skill-row { display: grid; gap: 8px; }
+  .sk-l { font-size: 13px; color: var(--muted); }
+  .awards { list-style: none; display: grid; gap: 10px; font-size: 14.5px; color: var(--ink-2); }
+  .awards li { display: flex; align-items: center; }
+  .awards .yr { margin-left: auto; padding-left: 12px; font: 13px var(--mono); color: var(--muted); }
+  .contact-h { font-size: 26px; font-weight: 600; }
+  .contact .cta { margin-top: 4px; }
+  .foot { font-size: 13px; }
+
+  @media (max-height: 840px) and (min-width: 1001px) {
+    .hero h1 { font-size: clamp(48px, 7vw, 84px); }
+    .hero-art { max-width: 320px; }
+    .hero-timeline { padding-top: 16px; }
+    .hero .cta { margin-top: 16px; }
   }
-
-  @keyframes fadeUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  @media (max-width: 1000px) {
+    .three { grid-template-columns: 1fr 1fr; }
+    .three > .contact { grid-column: 1 / -1; }
   }
-
-  .hero-content {
-    margin-bottom: 2rem;
+  @media (max-width: 900px) {
+    .two { grid-template-columns: 1fr; gap: 28px; }
+    .hero-grid { grid-template-columns: 1fr; grid-template-areas: "text" "art" "tl"; }
+    .hero-art { max-width: 300px; justify-self: center; }
+    .big-facts { gap: 24px; }
   }
-
-  .greeting {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
+  @media (max-width: 480px) {
+    .big-facts { grid-template-columns: 1fr; gap: 18px; }
   }
-
-  .wave {
-    font-size: 1.75rem;
-    display: inline-block;
-    animation: wave 2.5s ease-in-out infinite;
-    transform-origin: 70% 70%;
-  }
-
-  @keyframes wave {
-    0%, 100% { transform: rotate(0deg); }
-    10% { transform: rotate(14deg); }
-    20% { transform: rotate(-8deg); }
-    30% { transform: rotate(14deg); }
-    40% { transform: rotate(-4deg); }
-    50%, 100% { transform: rotate(0deg); }
-  }
-
-  .greeting-text {
-    font-size: 1.1rem;
-    color: var(--text-muted);
-    font-weight: 500;
-    letter-spacing: 0.02em;
-  }
-
-  .name {
-    font-size: 3.75rem;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-    margin-bottom: 0.75rem;
-    background: linear-gradient(135deg, var(--blue-primary) 0%, var(--blue-light) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .tagline {
-    font-size: 1.25rem;
-    color: var(--text-secondary);
-    line-height: 1.5;
-    margin: 0;
-  }
-
-  .highlight {
-    color: var(--text-primary);
-    font-weight: 500;
-  }
-
-  .bio {
-    margin-bottom: 2.5rem;
-    animation: fadeUp 0.8s ease-out 0.15s backwards;
-  }
-
-  .bio p {
-    font-size: 1.1rem;
-    line-height: 1.75;
-    color: var(--text-secondary);
-    margin-bottom: 1rem;
-  }
-
-  .bio strong {
-    color: var(--text-primary);
-    font-weight: 600;
-  }
-
-  .location {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    font-size: 0.9375rem !important;
-    color: var(--text-muted) !important;
-    margin-bottom: 0 !important;
-  }
-
-  .location svg {
-    opacity: 0.7;
-  }
-
-  .contact-links {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.75rem;
-    margin-bottom: 2rem;
-    animation: fadeUp 0.8s ease-out 0.3s backwards;
-  }
-
-  .contact-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.625rem 1rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-    text-decoration: none;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-subtle);
-    border-radius: 8px;
-    transition: all 0.25s ease;
-  }
-
-  .contact-link:hover {
-    color: var(--blue-primary);
-    border-color: var(--blue-primary);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(35, 45, 75, 0.12);
-  }
-
-  .contact-link svg {
-    opacity: 0.7;
-    transition: opacity 0.2s ease;
-  }
-
-  .contact-link:hover svg {
-    opacity: 1;
-  }
-
-  .contact-link.cta {
-    background: var(--blue-primary);
-    color: white;
-    border-color: var(--blue-primary);
-  }
-
-  .contact-link.cta:hover {
-    background: var(--blue-light);
-    border-color: var(--blue-light);
-    color: white;
-  }
-
-  .contact-link.cta svg {
-    opacity: 1;
-    transition: transform 0.2s ease;
-  }
-
-  .contact-link.cta:hover svg {
-    transform: translateX(3px);
-  }
-
-  .about-link {
-    display: inline-block;
-    font-size: 0.9375rem;
-    color: var(--text-muted);
-    text-decoration: none;
-    transition: color 0.2s ease;
-    animation: fadeUp 0.8s ease-out 0.45s backwards;
-  }
-
-  .about-link:hover {
-    color: var(--blue-primary);
-  }
-
-  /* Responsive */
-  @media (max-width: 640px) {
-    .homepage {
-      padding: 1.5rem;
-    }
-
-    .name {
-      font-size: 2.75rem;
-    }
-
-    .tagline {
-      font-size: 1.1rem;
-    }
-
-    .bio p {
-      font-size: 1rem;
-    }
-
-    .contact-links {
-      gap: 0.5rem;
-    }
-
-    .contact-link {
-      padding: 0.5rem 0.875rem;
-      font-size: 0.8125rem;
-    }
-  }
-
-  @media (max-width: 400px) {
-    .contact-link span {
-      display: none;
-    }
-
-    .contact-link {
-      padding: 0.625rem;
-    }
-
-    .contact-link.cta span {
-      display: inline;
-    }
+  @media (max-width: 720px) {
+    .panel { padding-block: calc(var(--nav-h) + 16px) 32px; }
+    .hero-figure .big { font-size: 64px; }
+    .card { grid-template-columns: 1fr; }
+    .disc { grid-template-columns: 1fr; }
+    .disc-box { padding: 16px; }
+    .three { grid-template-columns: 1fr; gap: 32px; }
   }
 </style>

@@ -1,5 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" rx="20" fill="#232d4b"/>
-  <text x="50" y="68" font-family="Georgia, serif" font-size="55" font-weight="bold" fill="#ffffff" text-anchor="middle">JH</text>
-  <rect x="20" y="78" width="60" height="4" rx="2" fill="#e57200"/>
+  <rect width="100" height="100" rx="18" fill="#0e1a26"/>
+  <rect x="18" y="62" width="10" height="20" rx="2" fill="#5b86ff"/>
+  <rect x="34" y="50" width="10" height="32" rx="2" fill="#5b86ff"/>
+  <rect x="50" y="36" width="10" height="46" rx="2" fill="#5b86ff"/>
+  <rect x="66" y="18" width="10" height="64" rx="2" fill="#e57200"/>
 </svg>

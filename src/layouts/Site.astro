@@ -1,0 +1,184 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "James Hawley",
+  description = "Computer Science & Economics at the University of Virginia. GPU route optimization at OneRail, three years of HPC at Lockheed Martin, and a school web platform with 600+ daily users.",
+} = Astro.props;
+
+const siteUrl = Astro.site?.toString() ?? "";
+const canonical = siteUrl ? new URL(Astro.url.pathname, siteUrl).toString() : undefined;
+const ogImage = siteUrl ? new URL("/og.png", siteUrl).toString() : "/og.png";
+
+const person = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "James Hawley",
+  url: siteUrl || undefined,
+  email: "mailto:jameshawley@email.virginia.edu",
+  sameAs: ["https://www.linkedin.com/in/james-m-hawley/", "https://github.com/jameshawley29"],
+  alumniOf: { "@type": "CollegeOrUniversity", name: "University of Virginia" },
+  jobTitle: "Computer Science & Economics student",
+  address: { "@type": "PostalAddress", addressLocality: "Orlando", addressRegion: "FL" },
+};
+
+// Panels in order; the dot rail and the nav are built from this list.
+const sections = [
+  { id: "top", label: "James Hawley", hue: "ink" },
+  { id: "onerail", label: "OneRail", hue: "teal" },
+  { id: "lockheed", label: "Lockheed Martin", hue: "purple" },
+  { id: "platform", label: "TPS Time", hue: "orange" },
+  { id: "leadership", label: "Student Council", hue: "magenta" },
+  { id: "tpeg", label: "TPEG", hue: "blue" },
+  { id: "skills", label: "Skills", hue: "ink" },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f0c1f" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Jost:wght@400;500;600;700&display=swap"
+    />
+    <script type="application/ld+json" set:html={JSON.stringify(person)} />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <nav class="topbar" aria-label="Primary">
+      <div class="wrap bar">
+        <a href="#top" class="brand"><span class="brand-full">James Hawley</span><span class="brand-short" aria-hidden="true">JH</span></a>
+        <div class="links" id="nav-links">
+          {sections.slice(1).map((s) => <a href={`#${s.id}`} data-hue={s.hue}>{s.label}</a>)}
+        </div>
+        <div class="actions">
+          <a href="/James_Hawley_Resume.pdf" target="_blank" rel="noopener" class="action">Résumé<span aria-hidden="true"> ↗</span></a>
+          <a href="mailto:jameshawley@email.virginia.edu" class="action strong">Email</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Pavilion dots: one per panel, in that panel's hue -->
+    <nav class="dots" aria-label="Sections">
+      {sections.map((s) => <a href={`#${s.id}`} class:list={["dot", s.hue]} aria-label={s.label}><span class="dot-tip">{s.label}</span></a>)}
+    </nav>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <script>
+      const links = Array.from(document.querySelectorAll<HTMLAnchorElement>("#nav-links a, .dots a"));
+      const ids = Array.from(new Set(links.map((a) => a.getAttribute("href") || "")));
+      const targets = ids.map((h) => document.querySelector<HTMLElement>(h)).filter((el): el is HTMLElement => !!el);
+      if ("IntersectionObserver" in window && targets.length) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (!e.isIntersecting) continue;
+              const id = "#" + e.target.id;
+              links.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === id));
+            }
+          },
+          { rootMargin: "-45% 0px -45% 0px", threshold: 0 }
+        );
+        targets.forEach((t) => io.observe(t));
+      }
+    </script>
+  </body>
+</html>
+
+<style>
+  .skip {
+    position: absolute; left: 8px; top: -48px; padding: 8px 12px;
+    background: var(--ink); color: var(--bg); border-radius: 4px; z-index: 100;
+  }
+  .skip:focus { top: 8px; }
+
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 90;
+    background: color-mix(in srgb, var(--bg) 84%, transparent);
+    backdrop-filter: saturate(140%) blur(12px);
+    -webkit-backdrop-filter: saturate(140%) blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .bar { height: var(--nav-h); display: flex; align-items: center; gap: 24px; }
+  .brand { font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; font-size: 14px; white-space: nowrap; }
+  .brand:hover { text-decoration: none; }
+  .brand-short { display: none; }
+  .links { display: flex; gap: 2px; margin-inline: auto; overflow-x: auto; scrollbar-width: none; }
+  .links::-webkit-scrollbar { display: none; }
+  .links a {
+    font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500;
+    color: var(--muted); padding: 6px 10px; border-radius: 999px; white-space: nowrap;
+  }
+  .links a:hover { color: var(--ink); text-decoration: none; background: var(--bg-2); }
+  .links a.active { color: var(--ink); }
+  .actions { display: flex; gap: 6px; align-items: center; }
+  .action { font-size: 13.5px; font-weight: 500; letter-spacing: 0.04em; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line-2); white-space: nowrap; }
+  .action:hover { text-decoration: none; border-color: var(--ink-2); }
+  .action.strong { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+  .dots {
+    position: fixed; right: 18px; top: 50%; transform: translateY(-50%); z-index: 80;
+    display: grid; gap: 12px;
+  }
+  .dot {
+    position: relative; width: 12px; height: 12px; border-radius: 50%;
+    border: 2px solid var(--line-2); background: transparent; display: block;
+    transition: transform .15s, border-color .15s, background .15s;
+  }
+  .dot.teal { border-color: var(--teal); } .dot.purple { border-color: var(--purple); }
+  .dot.orange { border-color: var(--orange); } .dot.magenta { border-color: var(--magenta); }
+  .dot.blue { border-color: var(--blue); } .dot.ink { border-color: var(--ink-2); }
+  .dot.active { transform: scale(1.35); }
+  .dot.active.teal { background: var(--teal); } .dot.active.purple { background: var(--purple); }
+  .dot.active.orange { background: var(--orange); } .dot.active.magenta { background: var(--magenta); }
+  .dot.active.blue { background: var(--blue); } .dot.active.ink { background: var(--ink-2); }
+  .dot:hover { text-decoration: none; }
+  .dot-tip {
+    position: absolute; right: 22px; top: 50%; transform: translateY(-50%);
+    font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap;
+    background: var(--ink); color: var(--bg); padding: 4px 8px; border-radius: 4px; display: none;
+  }
+  .dot:hover .dot-tip, .dot:focus-visible .dot-tip { display: block; }
+
+  @media (max-width: 900px) { .dots { display: none; } }
+  @media (max-width: 720px) {
+    .bar { gap: 12px; }
+    .links { margin-inline: 0; }
+    .action:not(.strong) { display: none; }
+  }
+  @media (max-width: 520px) {
+    .brand-full { display: none; }
+    .brand-short { display: inline; }
+    .links { -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); padding-right: 16px; }
+    .links a { padding-inline: 7px; font-size: 12px; }
+  }
+</style>
