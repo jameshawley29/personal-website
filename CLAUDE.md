@@ -4,7 +4,7 @@ Guidance for Claude Code when working in this repository.
 
 ## What this is
 
-James Hawley's personal site: a single-page, recruiter-facing visual résumé. CS & Economics at UVA (Class of 2029), OneRail Data Science & AI intern (Summer 2026), Lockheed Martin HPC intern (2023–2025), founder of a school web platform, ESC and Student Council leadership, TPEG Software & Electrical Lead.
+James Hawley's personal site: a single-page, recruiter-facing visual résumé. CS & Economics at UVA (Class of 2029), OneRail Data Science & AI intern (Summer 2026), Lockheed Martin HPC intern (2023–2025), founder of TPS Time (tpstime.com, the Trinity Prep student platform), ESC and Student Council leadership, TPEG Software & Electrical Lead.
 
 The page is tuned for themed-entertainment and large-scale operations employers without naming any company. Keep that framing: real systems, guests, attractions, throughput.
 
@@ -33,7 +33,7 @@ The page is tuned for themed-entertainment and large-scale operations employers 
 | `--bg` / `--ink` | `#ffffff` / `#15122b` | `#0f0c1f` / `#f1efff` |
 | `--teal` (OneRail) | `#0a9aa8` | `#17a3b0` |
 | `--purple` (Lockheed) | `#6a4fc9` | `#8f7cf0` |
-| `--orange` (Trinity Prep, chart emphasis) | `#e57200` | `#dd7418` |
+| `--orange` (TPS Time, chart emphasis) | `#e57200` | `#dd7418` |
 | `--magenta` (Student Council) | `#c9307a` | `#e6508f` |
 | `--blue` (TPEG) | `#2f5fd0` | `#5b86ff` |
 
@@ -43,7 +43,7 @@ Each `.panel.<hue>` sets `--sec` / `--sec-soft`; components use those. Pairs wer
 
 ```
 src/layouts/Site.astro          head, fixed nav, pavilion dot rail, scroll-spy; the `sections` array drives nav and dots
-src/pages/index.astro           seven panels: hero + timeline, OneRail, Lockheed, Trinity Prep, Student Council, TPEG, skills/awards/contact
+src/pages/index.astro           seven panels: hero + timeline, OneRail, Lockheed, TPS Time, Student Council, TPEG, skills/awards/contact
 src/components/Timeline.astro   career strip; edit the `rows` array, positions are computed from dates, each row carries a hue
 src/components/ThroughputChart.astro   data array at top; renders a desktop and a phone SVG from the same data
 src/components/Geodesic.astro   hero sphere, generated at build time

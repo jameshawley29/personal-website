@@ -2,7 +2,7 @@
 
 Single-page visual résumé for James Hawley, built with Astro and deployed on Vercel.
 
-Seven full-screen panels, one per organization, that the scroll snaps to: OneRail (GPU route optimization on NVIDIA cuOpt, shown as the 7.22× figure and the measured throughput chart), Lockheed Martin HPC, the Trinity Prep web platform, Student Council, TPEG, and skills. Charts are drawn to scale from real benchmark numbers. The look borrows from late-century world's-fair futurism: a generated geodesic sphere, geometric type, and one spectrum hue per panel.
+Seven full-screen panels, one per organization, that the scroll snaps to: OneRail (GPU route optimization on NVIDIA cuOpt, shown as the 7.22× figure and the measured throughput chart), Lockheed Martin HPC, TPS Time (tpstime.com), Student Council, TPEG, and skills. Charts are drawn to scale from real benchmark numbers. The look borrows from late-century world's-fair futurism: a generated geodesic sphere, geometric type, and one spectrum hue per panel.
 
 ## Stack
 
