@@ -96,20 +96,23 @@ const sections = [
     <script>
       const links = Array.from(document.querySelectorAll<HTMLAnchorElement>("#nav-links a, .dots a"));
       const ids = Array.from(new Set(links.map((a) => a.getAttribute("href") || "")));
-      const targets = ids.map((h) => document.querySelector<HTMLElement>(h)).filter((el): el is HTMLElement => !!el);
-      if ("IntersectionObserver" in window && targets.length) {
-        const io = new IntersectionObserver(
-          (entries) => {
-            for (const e of entries) {
-              if (!e.isIntersecting) continue;
-              const id = "#" + e.target.id;
-              links.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === id));
-            }
-          },
-          { rootMargin: "-45% 0px -45% 0px", threshold: 0 }
-        );
-        targets.forEach((t) => io.observe(t));
-      }
+      const targets = ids.map((h) => document.querySelector<HTMLElement>(h)).filter((el): el is HTMLElement => !!el)
+        .sort((a, b) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
+      // Scroll-spy from the anchors' document offsets; sticky panels overlap, so intersection is ambiguous.
+      let ticking = false;
+      const spy = () => {
+        ticking = false;
+        const line = window.scrollY + window.innerHeight / 2;
+        let current = targets[0];
+        for (const t of targets) if (t.getBoundingClientRect().top + window.scrollY <= line) current = t;
+        if (!current) return;
+        const id = "#" + current.id;
+        links.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === id));
+      };
+      const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(spy); } };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll);
+      spy();
     </script>
   </body>
 </html>
