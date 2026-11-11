@@ -140,13 +140,17 @@ h1, h2, h3 { font-weight: 600; line-height: 1.05; text-wrap: balance; }
   white-space: nowrap;
 }
 
-/* Panels: one per section, full viewport, stacked sticky so each new panel slides over the last,
-   and snap-aligned so the scroll settles on a panel. */
+/* Snap anchors: a zero-height, non-sticky marker before each panel carries the section id and the
+   snap point. A sticky element must never be its own snap target or link target: once stuck, its
+   position equals the current scroll offset, so scrolling up snaps straight back down and anchor
+   links to earlier panels go nowhere. */
+.snap-anchor { height: 0; scroll-snap-align: start; scroll-snap-stop: normal; }
+
+/* Panels: one per section, full viewport, stacked sticky so each new panel slides over the last. */
 .panel {
   position: static;
   top: 0;
   min-height: 100svh;
-  scroll-snap-align: start;
   background: var(--bg);
   display: flex;
   align-items: center;
